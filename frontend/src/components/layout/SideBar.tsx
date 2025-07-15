@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactLogo from '@assets/react.svg';
+
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
@@ -18,6 +20,8 @@ import SwitchLeftRoundedIcon from '@mui/icons-material/SwitchLeftRounded';
 import ProfileImage from '@assets/images/profile.png';
 
 const SideBar = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="fixed top-0 left-0" style={{width: 'inherit'}}>
             <div className="relative h-[100vh] bg-primary p-4 border-r border-primary overflow-y-scroll pb-20">
@@ -25,8 +29,13 @@ const SideBar = () => {
                     <img src={ReactLogo} alt="React Logo" className="w-12 h-12" />
                     <h1 className="text-xl font-bold text-primary">StudyShare</h1>
                 </div>
-
-                <div className='border-t border-primary mt-8 pt-4'></div>
+                
+                <button className='mt-8 w-full button-primary text-sm font-semibold py-2 px-4 flex items-center justify-center gap-2 shadow-lg shadow-violet-300' style={{borderRadius:'18px'}} onClick={() => {
+                    navigate('/upload');
+                }}>
+                    <span>Upload New</span>
+                </button>
+                <div className='border-t border-primary mt-4 pt-4'></div>
                 <h2 className="mb-2 text-secondary text-sm">Menu</h2>
                 <ul className="space-y-2">
                     <li>

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Import page components
 import UserProfilePage from '@pages/UserProfilePage/UserProfilePage';
+import UploadPage from '@pages/UploadPage/UploadPage';
 
 // Import layout components
 import SideBar from '@components/layout/SideBar';
@@ -16,6 +17,7 @@ function App() {
                 <div className="w-[82vw]">
                     <Routes>
                         <Route path="/user" element={<UserProfilePage />} />
+                        <Route path="/upload" element={<UploadPage />} />
                     </Routes>
                 </div>
 

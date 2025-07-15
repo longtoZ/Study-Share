@@ -79,8 +79,8 @@ const UserProfilePage = () => {
 	}, [])
 
 	return (
-		<div className='p-12 min-h-screen'>
-			<div className='rounded-lg bg-primary overflow-hidden border border-primary'>
+		<div className='p-12 min-h-screen w-full'>
+			<div className='rounded-2xl bg-primary overflow-hidden border border-primary'>
 				<img src={BackgroundImage} alt="" className='w-full h-64 object-cover'/>
 				<div className='px-6'>
 					<div className='p-4 relative'>
@@ -108,7 +108,7 @@ const UserProfilePage = () => {
 				</div>
 			</div>
 
-			<div className='rounded-lg bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
+			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>About</h1>
 				<p className='mt-2 text-justify'>{user?.description}</p>
 
@@ -137,7 +137,7 @@ const UserProfilePage = () => {
 				</div>
 			</div>
 
-			<div className='rounded-lg bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
+			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>My Materials</h1>
 				<p className='mt-2 text-gray-600'>Here are some of the materials I have created:</p>
 				<div className=''>
@@ -171,7 +171,7 @@ const UserProfilePage = () => {
 				</div>
 			</div>
 
-			<div className='rounded-lg bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
+			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>My Lessons</h1>
 				<p className='mt-2 text-gray-600'>Here are some of the lessons I have created:</p>
 				<div className='grid grid-cols-3 gap-4 mt-4'>

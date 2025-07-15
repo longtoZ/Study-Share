@@ -55,6 +55,10 @@ html {
 	border-color: var(--color-zinc-300);
 }
 
+.hover\:border-primary:hover {
+	border-color: var(--color-violet-500);
+}
+
 .icon-primary {
 	color: var(--color-zinc-500);
 }
