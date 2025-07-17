@@ -53,10 +53,10 @@ const AddPage = () => {
 						onDragLeave={handleDragLeave}
 						onDrop={handleDrop}
 						onClick={() => inputRef.current?.click()}
-						className="border-2 border-dashed border-gray-300 rounded-xl p-12 mx-20 max-h-[20rem] text-center hover:border-violet-400 hover:bg-violet-50 transition-all duration-300 cursor-pointer group">
+						className="border-2 border-dashed border-gray-300 rounded-xl p-12 mx-20 max-h-[20rem] text-center hover:border-zinc-400 hover:bg-zinc-50 transition-all duration-300 cursor-pointer group">
 						<div className="flex flex-col items-center space-y-4">
-							<div className="p-4 bg-violet-100 rounded-full group-hover:bg-violet-200 transition-colors duration-300">
-								<CloudUploadOutlinedIcon className="text-violet-600 text-4xl" />
+							<div className="p-4 bg-zinc-100 rounded-full group-hover:bg-zinc-200 transition-colors duration-300">
+								<CloudUploadOutlinedIcon className="text-zinc-600 text-4xl" />
 							</div>
 							
 							<div className="space-y-2">
@@ -116,7 +116,6 @@ const AddPage = () => {
 								// Handle final submission logic here
 								alert('Files submitted successfully!');
 								setFiles([]);
-								setHasAdded(false);
 								if (inputRef.current) inputRef.current.value = '';
 							}}>
 								Submit

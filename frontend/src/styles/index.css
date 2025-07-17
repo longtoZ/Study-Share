@@ -56,7 +56,7 @@ html {
 }
 
 .hover\:border-primary:hover {
-	border-color: var(--color-violet-500);
+	border-color: var(--color-zinc-500);
 }
 
 .icon-primary {
@@ -77,11 +77,11 @@ html {
 }
 
 .hover\:button-transparent:hover {
-	background-color: var(--color-violet-100);
+	background-color: var(--color-zinc-200);
 }
 
 .button-primary {
-	background-color: var(--color-violet-500);
+	background-color: var(--color-zinc-800);
 	color: var(--color-zinc-50);
 	border-radius: var(--radius-lg);
 	font-weight: 600;
@@ -91,13 +91,13 @@ html {
 }
 
 .button-primary:hover {
-	background-color: var(--color-violet-700);
+	background-color: var(--color-zinc-700);
 }
 
 .button-outline {
 	background-color: transparent;
-	border: 1px solid var(--color-violet-500);
-	color: var(--color-violet-500);
+	border: 1px solid var(--color-zinc-500);
+	color: var(--color-zinc-500);
 	border-radius: var(--radius-lg);
 	font-weight: 600;
 	font-size: var(--text-base);
@@ -106,6 +106,6 @@ html {
 }
 
 .button-outline:hover {
-	background-color: var(--color-violet-100);
-	color: var(--color-violet-700);
+	background-color: var(--color-zinc-100);
+	color: var(--color-zinc-700);
 }
