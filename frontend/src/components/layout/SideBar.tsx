@@ -96,18 +96,6 @@ const SideBar = () => {
                     </li>
                 </ul>
             </div>
-            <div className="sticky bottom-0 left-0 w-full p-4 bg-primary border-t border-primary flex items-center border-r border-primary">
-                <div>
-                    <img src={ProfileImage} alt="profile.png" className="w-10 h-10 rounded-[50%] object-cover"/>
-                </div>
-                <div className="ml-2">
-                    <span className="text-sm font-semibold">User Name</span>
-                    <p className="text-xs text-zinc-500">Free Tier</p>
-                </div>
-                <div className="flex items-center ml-auto">
-                    <SwitchLeftRoundedIcon className="icon-primary ml-auto-md cursor-pointer" />
-                </div>
-            </div>
         </div>
     )
 }

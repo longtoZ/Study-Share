@@ -112,7 +112,7 @@ const UserProfilePage = () => {
 				<h1 className='text-header-medium'>About</h1>
 				<p className='mt-2 text-justify'>{user?.description}</p>
 
-				<h1 className='text-header-medium mt-8'>Statistic</h1>
+				<h1 className='text-header-medium mt-8'>Achievement</h1>
 				<div className='grid grid-cols-4 gap-4 mt-4 border border-primary rounded-lg overflow-hidden shadow-sm'>
 					<div className='p-6 text-center transition-all duration-300 hover:bg-gray-50'>
 						<p className='text-4xl font-bold text-primary'>{user?.statistics.totalMaterials}</p>

@@ -8,6 +8,7 @@ import SignupPage from "@pages/SignupPage/SignupPage";
 
 // Import layout components
 import SideBar from '@components/layout/SideBar';
+import TopBar from '@components/layout/TopBar';
 
 const exludePaths = ['/login', '/signup'];
 
@@ -24,6 +25,8 @@ function AppContent() {
             )}
             
             <div className={isExcludedPages ? "w-full" : "w-[82vw]"}>
+                {!isExcludedPages && <TopBar isDarkMode={false} onToggleDarkMode={() => {}} />}
+
                 <Routes>
                     <Route path="/user" element={<UserProfilePage />} />
                     <Route path="/upload" element={<UploadPage />} />

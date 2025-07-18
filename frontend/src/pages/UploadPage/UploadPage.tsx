@@ -113,7 +113,6 @@ const AddPage = () => {
 
 						<div className="mt-6 text-center">
 							<button className="button-primary w-36 text-white px-8 py-3 font-medium transition-colors duration-200" onClick={() => {
-								// Handle final submission logic here
 								alert('Files submitted successfully!');
 								setFiles([]);
 								if (inputRef.current) inputRef.current.value = '';
