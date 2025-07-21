@@ -1,9 +1,15 @@
 import express, { json } from 'express';
-import dbPool from './config/database.js';
+import cors from 'cors';
 import authRoutes from './routes/auth.route.js';
+import materialRoutes from './routes/material.route.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors({
+    origin: process.env.FRONTEND_ORIGIN,
+    credentials: true
+}));
 
 app.use(json());
 
@@ -12,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/material', materialRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

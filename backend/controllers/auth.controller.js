@@ -2,19 +2,24 @@ import UserService from '../services/user.service.js';
 
 class AuthController {
     async signup(req, res) {
-        const { username, password, fullName, email, gender, dateOfBirth, address } = req.body;
+        const { username, password, full_name, email, gender, dateOfBirth, address } = req.body;
 
         const info = {
-            userID: username,
-            passwordHash: password,
-            fullName: fullName,
-            email: email,
+            user_id: username,           
+            email: email,               
+            full_name: full_name,
             gender: gender,
             bio: '',
-            profilePictureURL: '',
-            dateOfBirth: dateOfBirth,
-            address: address
+            profile_picture_url: '',
+            date_of_birth: dateOfBirth,
+            address: address,
+            password_hash: password,
+            created_date: new Date(),
+            last_login: null,
+            is_admin: false
         };
+
+        console.log(info)
 
         try {
             const { user } = await UserService.signupUser(info);

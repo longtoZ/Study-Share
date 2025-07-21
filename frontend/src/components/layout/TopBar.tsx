@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/redux/userSlice';
+
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -11,9 +15,16 @@ interface TopBarProps {
     onToggleDarkMode: () => void;
 }
 
+const ACTION_VIEW_PROFILE = 'view-profile';
+const ACTION_SWITCH_ACCOUNT = 'switch-account';
+const ACTION_LOGOUT = 'logout';
+
 const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleProfileClick = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -21,8 +32,11 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
 
     const handleMenuItemClick = (action: string) => {
         setIsProfileMenuOpen(false);
-        // Handle the action (view profile, switch account, logout)
-        console.log(`Action: ${action}`);
+        
+        if (action == ACTION_LOGOUT) {
+            dispatch(logout());
+            navigate('/login');
+        }
     };
 
     return (
@@ -80,20 +94,20 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
                         {isProfileMenuOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-primary rounded-lg shadow-lg py-1 z-50">
                                 <button
-                                    onClick={() => handleMenuItemClick('view-profile')}
+                                    onClick={() => handleMenuItemClick(ACTION_VIEW_PROFILE)}
                                     className="w-full px-4 py-2 text-left hover:button-transparent flex items-center space-x-2"
                                 >
                                     <span>View Main Profile</span>
                                 </button>
                                 <button
-                                    onClick={() => handleMenuItemClick('switch-account')}
+                                    onClick={() => handleMenuItemClick(ACTION_SWITCH_ACCOUNT)}
                                     className="w-full px-4 py-2 text-left hover:button-transparent flex items-center space-x-2"
                                 >
                                     <span>Switch Account</span>
                                 </button>
                                 <hr className="my-1 border-gray-200 dark:border-gray-600" />
                                 <button
-                                    onClick={() => handleMenuItemClick('logout')}
+                                    onClick={() => handleMenuItemClick(ACTION_LOGOUT)}
                                     className="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100 flex items-center space-x-2"
                                 >
                                     <span>Logout</span>

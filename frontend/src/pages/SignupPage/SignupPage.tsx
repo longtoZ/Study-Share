@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import DropdownList from '@/components/common/DropdownList';
 
+const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT
+
 interface FormData {
     email: string;
     password: string;
     retypePassword: string;
-    fullname: string;
+    full_name: string;
     username: string;
     gender: string;
     dateOfBirth: string;
@@ -28,7 +30,7 @@ const SignupPage: React.FC = () => {
         email: '',
         password: '',
         retypePassword: '',
-        fullname: '',
+        full_name: '',
         username: '',
         gender: '',
         dateOfBirth: '',
@@ -105,9 +107,27 @@ const SignupPage: React.FC = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+
+        try {
+            const response = await fetch(SIGNUP_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Form submittied successfully: ', data);
+            } else {
+                console.error('Form submitted failed', response.statusText);
+            }
+        } catch (e) {
+            console.error('Unexpected error when submitting form: ', e);
+        }
     };
 
     return (
@@ -211,14 +231,14 @@ const SignupPage: React.FC = () => {
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Personal Information</h2>
                                 <div className="mb-4">
-                                    <label htmlFor="fullname" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-2">
                                         Full Name *
                                     </label>
                                     <input
                                         type="text"
-                                        id="fullname"
-                                        name="fullname"
-                                        value={formData.fullname}
+                                        id="full_name"
+                                        name="full_name"
+                                        value={formData.full_name}
                                         onChange={handleInputChange}
                                         required
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"

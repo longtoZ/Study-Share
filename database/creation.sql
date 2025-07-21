@@ -1,7 +1,7 @@
 create table "User" (
-	UserID varchar(255) primary key,
+	user_id varchar(255) primary key,
 	Email varchar(255) unique not null,
-	Fullname varchar(255) not null,
+	full_name varchar(255) not null,
 	Gender varchar(50),
 	Bio text,
 	ProfilePictureURL varchar(500),

@@ -1,14 +1,40 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import { useDispatch } from 'react-redux';
+import { login } from '@redux/userSlice';
+
+const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle login logic here
+        
+        try {
+            const response = await fetch(LOGIN_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Form submitted successfully: ', data);
+
+                dispatch(login({ user_id: data.user.user_id, user_token: data.token }));
+            } else {
+                console.error('Form submitted failed', response.statusText);
+            }
+        } catch (e) {
+            console.error('Unexpected error when submitting form: ', e);
+        }
     };
 
     const handleGoogleSuccess = (credentialResponse: any) => {

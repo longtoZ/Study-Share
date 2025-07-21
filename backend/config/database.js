@@ -1,22 +1,15 @@
-import { Pool } from 'pg';
 import env from 'dotenv';
+import { createClient } from '@supabase/supabase-js';
 
 env.config();
 
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
-});
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceRole = process.env.SUPABASE_ANON_KEY;
 
-pool.on('connect', () => {
-    console.log('Connected to PostgreSQL database.');
-});
+if (!supabaseUrl || !supabaseServiceRole) {
+    console.error('Supabase url or serivce role is missing.');
+}
 
-pool.on('error', (err) => {
-    console.error('Unexpected error on idle client', err);
-});
+const supabase = createClient(supabaseUrl, supabaseServiceRole);
 
-export default pool;
+export default supabase;

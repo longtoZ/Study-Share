@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
@@ -7,22 +10,27 @@ import Upload from "./components/Upload";
 const AddPage = () => {
 	const [files, setFiles] = useState<File[]>([]);
 	const [isDragging, setIsDragging] = useState(false);
+
 	const dropRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const handleDragOver = (event) => {
+	const navigate = useNavigate();
+
+	const user = useSelector((state: any) => state.user);
+
+	const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
 		setIsDragging(true);
 	}
 
-	const handleDragLeave = (event) => {
+	const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
 		setIsDragging(false);
 	}
 
-	const handleDrop = (event) => {
+	const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
 		setIsDragging(false);
@@ -33,10 +41,29 @@ const AddPage = () => {
 		}
 	}
 
-	const handleFileSelect = (event) => {
+	const handleFileSelect = (event: any) => {
 		const selectedFiles = Array.from(event.target.files) as File[];
+		console.log(selectedFiles);
 		setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
 	}
+
+	const handleSubmit = async () => {
+		if (files.length === 0) {
+			alert('Please select files to upload.');
+			return;
+		}
+
+		files.forEach((file) => {
+
+		})
+	}
+	useEffect(() => {
+		console.log(user);
+		if (!user.loggedIn) {
+			console.log('You havent logged in yet!');
+			navigate('/login');
+		}
+	}, []);
 
 	return (
 		<div className="p-12 min-h-screen w-full">

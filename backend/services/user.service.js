@@ -1,56 +1,52 @@
-import User from '../models/User.js';
+import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import jwtConfig from '../config/jwt.js';
 
 class UserService {
     async signupUser(info) {
-        const existingUserID = await User.findByID(info.userID);
-        if (existingUserID) {
-            console.error('User with this userID already exists');
+        const existinguser_id = await User.findByID(info.user_id);
+        if (existinguser_id) {
+            throw new Error('User with this user_id already exists');
         }
 
         const existingEmail = await User.findByEmail(info.email);
         if (existingEmail) {
-            console.error('User with this email already exists');
+            throw new Error('User with this email already exists');
         }
 
         const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(info.passwordHash, saltRounds);
+        const passwordHash = await bcrypt.hash(info.password_hash, saltRounds);
 
-        info.passwordHash = passwordHash;
+        info.password_hash = passwordHash;
         const newUser = await User.create(info);
 
-        // const token = jwt.sign(
-        //     newUser,
-        //     jwtConfig.secret,
-        //     { expiresIn: jwtConfig.expiresIn }
-        // );
-
         const userWithoutPasswordHash = { ... newUser};
-        delete userWithoutPasswordHash.PasswordHash;
+        delete userWithoutPasswordHash.password_hash;
         return { user: userWithoutPasswordHash };
     }
 
     async loginUser(email, password) {
+        console.log('Login attempt with email:', email, password);
         const user = await User.findByEmail(email);
+        console.log('User found:', user);
         if (!user) {
-            throw new Error("Email doesn't exist.");
+            throw new Error("email doesn't exist.");
         }
 
-        const isPasswordCorrect = bcrypt.compare(password, user.PasswordHash);
+        const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
         if (!isPasswordCorrect) {
             throw new Error('Password is not correct.');
         }
 
         const token = jwt.sign(
-            { userID: user.UserID, email: user.Email},
+            { user_id: user.user_id, email: user.email},
             jwtConfig.secret,
             { expiresIn: jwtConfig.expiresIn }
         );
 
         const userWithoutPasswordHash = { ...user };
-        delete userWithoutPasswordHash.PasswordHash;
+        delete userWithoutPasswordHash.password_hash;
         return { user: userWithoutPasswordHash, token };
     }
 }
