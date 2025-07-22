@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.route.js';
 import materialRoutes from './routes/material.route.js';
+import subjectRoutes from './routes/subject.route.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/material', materialRoutes);
+app.use('/api/subject', subjectRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

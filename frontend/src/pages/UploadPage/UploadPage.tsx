@@ -4,12 +4,16 @@ import { useSelector } from 'react-redux';
 
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import type { Subject } from '@/interfaces/table';
 
 import Upload from "./components/Upload";
 
-const AddPage = () => {
+const SUBJECTS_ENDPOINT = import.meta.env.VITE_SUBJECTS_ENDPOINT;
+
+const UploadPage = () => {
 	const [files, setFiles] = useState<File[]>([]);
 	const [isDragging, setIsDragging] = useState(false);
+	const [subjects, setSubjects] = useState<Subject[]>([]);
 
 	const dropRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -17,6 +21,7 @@ const AddPage = () => {
 	const navigate = useNavigate();
 
 	const user = useSelector((state: any) => state.user);
+	const material = useSelector((state: any) => state.material);
 
 	const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
@@ -63,6 +68,23 @@ const AddPage = () => {
 			console.log('You havent logged in yet!');
 			navigate('/login');
 		}
+	}, []);
+
+	// Fetch subjects from backend
+	useEffect(() => {
+		const fetchSubjects = async () => {
+			try {
+				const response = await fetch(SUBJECTS_ENDPOINT);
+				if (!response.ok) throw new Error('Failed to fetch subjects');
+				const data = await response.json();
+				console.log(data);
+				setSubjects(data.subjects || []);
+			} catch (error) {
+				console.error('Error fetching subjects:', error);
+			}
+		};
+
+		fetchSubjects();
 	}, []);
 
 	return (
@@ -134,7 +156,7 @@ const AddPage = () => {
 						</p>
 						<div className="mt-4">
 							{files.map((file, index) => (
-								<Upload title={file.name} type={file.type} size={file.size} key={index} />
+								<Upload name={file.name} type={file.type} size={file.size} key={index} subjects={subjects} />
 							))}
 						</div>
 
@@ -160,4 +182,4 @@ const AddPage = () => {
 	);
 };
 
-export default AddPage;
+export default UploadPage;

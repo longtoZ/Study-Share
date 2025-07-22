@@ -1,46 +1,63 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import DropdownList from '@/components/common/DropdownList';
+import { v4 as uuidv4 } from 'uuid';
+import type { Subject } from '@/interfaces/table';
+import { useDispatch } from 'react-redux';
+import { setMaterial } from '@/redux/materialSlice';
 
-const subjects = [
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Computer Science",
-    "History",
-    "Geography",
-    "English Literature",
-    "Economics",
-    "Psychology"
-]
-
-const Upload = ({ title, type, size }: { title: string, type: string, size: number }) => {
+const Upload = ({ name, type, size, subjects }: { name: string, type: string, size: number, subjects: Subject[] }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [fileData, setFileData] = useState({
+        material_id: `${localStorage.getItem('user_id') || ''}-${uuidv4()}`,
+        name: name,
+        description: '',
+        subject_id: '',
+        file_url: '',
+        size: size,
+        file_type: type,
+        num_page: 0,
+        upload_date: new Date(),
+        download_count: 0,
+        total_rating: 0,
+        rating_count: 0,
+        view_count: 0,
+        is_paid: false,
+        price: 0,
+        user_id: '',
+        lesson_id: ''
+    });
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
     }
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setMaterial(fileData));
+    }, [fileData]);
+
     return (
         <div className='border border-primary rounded-xl p-6 mb-6'>
             <div className='flex w-full justify-between items-center' onClick={toggleExpand}>
-                <h3 className='text-header-small font-semibold'>{title}</h3>
+                <h3 className='text-header-small font-semibold'>{name}</h3>
                 <button className='hover:text-gray-700 transition-colors cursor-pointer'>
                     <ExpandMoreRoundedIcon className='icon-primary' style={{ fontSize:'2rem', transform:`${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'}` }} />
                 </button>
             </div>
             <form className={`space-y-4 mt-4 ${isExpanded ? 'block' : 'hidden'}`}>
                 <div>
-                    <label htmlFor="title" className="block text-sm font-medium mb-2">
-                        Title
+                    <label htmlFor="name" className="block text-sm font-medium mb-2">
+                        Name
                     </label>
                     <input
                         type="text"
-                        id="title"
+                        id="name"
                         className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
-                        placeholder="Enter document title"
-                        value={title.substring(0, title.lastIndexOf('.'))}
+                        placeholder="Enter document name"
+                        value={name.substring(0, name.lastIndexOf('.'))}
+                        onChange={(e) => setFileData({ ...fileData, name: e.target.value })}
                     />
                 </div>
 
@@ -53,6 +70,7 @@ const Upload = ({ title, type, size }: { title: string, type: string, size: numb
                         rows={4}
                         className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
                         placeholder="Enter document description"
+                        onChange={(e) => setFileData({ ...fileData, description: e.target.value })}
                     />
                 </div>
 
@@ -61,10 +79,10 @@ const Upload = ({ title, type, size }: { title: string, type: string, size: numb
                         Subject
                     </label>
                     <DropdownList
-                        options={subjects}
+                        options={subjects.map((subject: any) => subject.name)}
                         placeholder="Select a subject"
                         className="w-full"
-                        onSelect={(option) => console.log(`Selected subject: ${option}`)}
+                        onSelect={(option) => setFileData({ ...fileData, subject_id: subjects.find((subject: any) => subject.name === option)?.subject_id || '' })}
                     />
                 </div>
 
@@ -103,7 +121,7 @@ const Upload = ({ title, type, size }: { title: string, type: string, size: numb
                         id="uploaddate"
                         className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed focus:outline-zinc-400"
                         readOnly
-                        defaultValue={new Date().toISOString().split('T')[0]}
+                        defaultValue={fileData.upload_date.toISOString().split('T')[0]} // Format date to YYYY-MM-DD
                     />
                 </div>
                     

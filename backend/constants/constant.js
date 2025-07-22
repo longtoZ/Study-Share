@@ -1,7 +1,8 @@
 const TABLES = {
-    USER: 'user',
-    MATERIAL: 'material',
-    LESSON: 'lesson',
+    USER: 'User',
+    MATERIAL: 'Material',
+    LESSON: 'Lesson',
+    SUBJECT: 'Subject'
 };
 
 export { TABLES };

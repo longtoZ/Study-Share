@@ -1,4 +1,4 @@
-import MaterialService from "../services/material.service";
+import MaterialService from "../services/material.service.js";
 
 class MaterialController {
     static async upload(req, res) {
