@@ -6,26 +6,26 @@ import type { Subject } from '@/interfaces/table';
 import { useDispatch } from 'react-redux';
 import { setMaterial } from '@/redux/materialSlice';
 
-const Upload = ({ name, type, size, subjects }: { name: string, type: string, size: number, subjects: Subject[] }) => {
+const Upload = ({ file, material_id, subjects }: { file: File, material_id: string, subjects: Subject[] }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [fileData, setFileData] = useState({
-        material_id: `${localStorage.getItem('user_id') || ''}-${uuidv4()}`,
-        name: name,
+        material_id: material_id,
+        name: file.name,
         description: '',
         subject_id: '',
         file_url: '',
-        size: size,
-        file_type: type,
+        size: file.size,
+        file_type: file.type,
         num_page: 0,
-        upload_date: new Date(),
+        upload_date: new Date().toISOString(),
         download_count: 0,
         total_rating: 0,
         rating_count: 0,
         view_count: 0,
         is_paid: false,
         price: 0,
-        user_id: '',
-        lesson_id: ''
+        user_id: `${localStorage.getItem('user_id') || ''}`,
+        lesson_id: '',
     });
 
     const toggleExpand = () => {
@@ -41,7 +41,7 @@ const Upload = ({ name, type, size, subjects }: { name: string, type: string, si
     return (
         <div className='border border-primary rounded-xl p-6 mb-6'>
             <div className='flex w-full justify-between items-center' onClick={toggleExpand}>
-                <h3 className='text-header-small font-semibold'>{name}</h3>
+                <h3 className='text-header-small font-semibold'>{fileData.name}</h3>
                 <button className='hover:text-gray-700 transition-colors cursor-pointer'>
                     <ExpandMoreRoundedIcon className='icon-primary' style={{ fontSize:'2rem', transform:`${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'}` }} />
                 </button>
@@ -56,7 +56,7 @@ const Upload = ({ name, type, size, subjects }: { name: string, type: string, si
                         id="name"
                         className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
                         placeholder="Enter document name"
-                        value={name.substring(0, name.lastIndexOf('.'))}
+                        value={fileData.name.substring(0, fileData.name.lastIndexOf('.'))}
                         onChange={(e) => setFileData({ ...fileData, name: e.target.value })}
                     />
                 </div>
@@ -93,7 +93,7 @@ const Upload = ({ name, type, size, subjects }: { name: string, type: string, si
                     <input
                         type="text"
                         id="filetype"
-                        value={type}
+                        value={fileData.file_type}
                         readOnly
                         className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed focus:outline-zinc-400"
                     />
@@ -106,7 +106,7 @@ const Upload = ({ name, type, size, subjects }: { name: string, type: string, si
                     <input
                         type="text"
                         id="filesize"
-                        value={(size / 1024).toFixed(2) + ' KB'}
+                        value={(fileData.size / 1024).toFixed(2) + ' KB'}
                         readOnly
                         className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed focus:outline-zinc-400"
                     />
@@ -121,7 +121,7 @@ const Upload = ({ name, type, size, subjects }: { name: string, type: string, si
                         id="uploaddate"
                         className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed focus:outline-zinc-400"
                         readOnly
-                        defaultValue={fileData.upload_date.toISOString().split('T')[0]} // Format date to YYYY-MM-DD
+                        defaultValue={fileData.upload_date.split('T')[0]} // Format date to YYYY-MM-DD
                     />
                 </div>
                     

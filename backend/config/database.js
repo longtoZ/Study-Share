@@ -11,5 +11,9 @@ if (!supabaseUrl || !supabaseServiceRole) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseServiceRole);
+const { user, error } = await supabase.auth.getUser();
+if (error || !user) {
+  console.error('User not authenticated');
+}
 
 export default supabase;

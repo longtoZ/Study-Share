@@ -1,5 +1,7 @@
 import supabase from '../config/database.js';
 import { TABLES } from '../constants/constant.js';
+import fs from 'fs';
+import path from 'path';
 
 class Material {
     static async createData(info) {
@@ -37,18 +39,43 @@ class Material {
         }
 
         const bucketName = process.env.SUPABASE_BUCKET;
-        const filePath = `${user_id}-${Date.now()}-${file.name}`;
 
-        const { data, error } = await supabase.storage
-            .from(bucketName)
-            .upload(filePath, file, {
-                upsert: false
-            });
-        
-        if (error) throw error;
+        const fileExtension = path.extname(file.originalname);
+        const storageFileName = `${user_id}-${Date.now()}${fileExtension}`;
+        const filePath = path.join('uploads', storageFileName);
 
-        const publicFileUrl = data;
-        return publicFileUrl;
+        try {
+            const fileBuffer = fs.readFileSync(file.path);
+
+            const { data, error } = await supabase.storage
+                .from(bucketName)
+                .upload(filePath, fileBuffer, {
+                    contentType: file.mimetype,
+                    upsert: false
+                });
+            
+            if (error) {
+                console.error('File upload error:', error);
+            }
+            
+            const { data: publicUrlData } = supabase.storage
+                .from(bucketName)
+                .getPublicUrl(filePath);
+
+            fs.unlinkSync(file.path);
+
+            return {
+                path: data.path,
+                fullPath: data.fullPath,
+                publicUrl: publicUrlData.publicUrl
+            };
+        } catch (uploadError) {
+            console.error('File upload error:', uploadError);
+            if (fs.existsSync(file.path)) {
+                fs.unlinkSync(file.path);
+            }
+            throw uploadError;
+        }
     }
 
     static async findByID(material_id) {
@@ -58,7 +85,7 @@ class Material {
             .eq('material_id', material_id)
             .single();
 
-        if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows returned
+        if (error && error.code !== 'PGRST116') throw error;
         return data;
     }
 }

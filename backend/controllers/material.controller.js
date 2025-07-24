@@ -2,8 +2,10 @@ import MaterialService from "../services/material.service.js";
 
 class MaterialController {
     static async upload(req, res) {
-        const { material_id, name, description, subject_id, file_url, size, file_type, num_page, upload_date, download_count, total_rating, rating_count, view_count, is_paid, price, user_id, lesson_id } = req.body;
+        const body = req.body;
+        const { material_id, name, description, subject_id, file_url, size, file_type, num_page, upload_date, download_count, total_rating, rating_count, view_count, is_paid, price, user_id, lesson_id } = JSON.parse(body.metadata);
         const file = req.file;
+        console.log(body, file);
 
         const info = {
             material_id,

@@ -4,7 +4,7 @@ import type { Material } from '@/interfaces/table';
 const materialSlice = createSlice({
     name: 'material',
     initialState: {
-        materials: [] as Material[] // Initialize with an empty array or fetch initial data
+        materials: [] as Material[],
     },
     reducers: {
         setMaterial: (state, action) => {
@@ -17,10 +17,13 @@ const materialSlice = createSlice({
                 // Add new material
                 state.materials.push(action.payload);
             }
+        },
+        deleteAllMaterials: (state) => {
+            state.materials = [];
         }
     },
 });
 
-export const { setMaterial } = materialSlice.actions;
+export const { setMaterial, deleteAllMaterials } = materialSlice.actions;
 
 export default materialSlice.reducer;
