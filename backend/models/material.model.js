@@ -88,6 +88,89 @@ class Material {
         if (error && error.code !== 'PGRST116') throw error;
         return data;
     }
+
+    static async getMaterialsByUserId(user_id) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('*')
+            .eq('user_id', user_id);
+        
+        if (error && error.code !== 'PGRST116') throw error;
+
+        if (!data || data.length === 0) {
+            return []; // No materials found for the user
+        }
+        
+        return data;
+    }
+
+    static async countMaterial(user_id) {
+        const { count, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('*', { count: 'exact', head: true})
+            .eq('user_id', user_id)
+        
+        if (count === 0) {
+            return 0; // No materials available
+        }
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        return count;
+    }
+
+    static async countLesson(user_id) {
+        const { count, error } = await supabase
+            .from(TABLES.LESSON)
+            .select('*', { count: 'exact', head: true})
+            .eq('user_id', user_id);
+        
+        if (count === 0) {
+            return 0; // No lessons available
+        }
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        return count;
+    }
+
+    static async countDownload(user_id) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('download_count')
+            .eq('user_id', user_id);
+
+        if (!data || data.length === 0) {
+            return 0; // No downloads available
+        }
+        
+        if (error && error.code !== 'PGRST116') throw error;
+
+        const totalDownload = data.reduce((sum, row) => sum + row.download_count, 0);
+        return totalDownload;
+    }
+
+    static async getAverageRating(user_id) {
+        const { ratingData, ratingError } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('rating_count')
+            .eq('user_id', user_id);
+
+        if (!ratingData || ratingData.length === 0) {
+            return 0; // No ratings available
+        }
+        
+        if (ratingError && ratingError.code !== 'PGRST116') throw ratingError;
+        const ratingCount = ratingData.reduce((sum, row) => sum + row.rating_count, 0);
+
+        const { totalRatingData, totalRatingError } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('total_rating')
+            .eq('user_id', user_id);
+        
+        if (totalRatingError && totalRatingError.code !== 'PGRST116') throw totalRatingError;
+        const totalRating = totalRatingData.reduce((sum, row) => sum + row.total_rating, 0);
+
+        return totalRating / (ratingCount || 1);
+    }
 }
 
 export default Material;

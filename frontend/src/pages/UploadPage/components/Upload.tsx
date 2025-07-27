@@ -25,7 +25,7 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
         is_paid: false,
         price: 0,
         user_id: `${localStorage.getItem('user_id') || ''}`,
-        lesson_id: '',
+        lesson_id: null, // Assuming lesson_id can be null
     });
 
     const toggleExpand = () => {

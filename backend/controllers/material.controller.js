@@ -1,11 +1,11 @@
 import MaterialService from "../services/material.service.js";
+import Material from "../models/material.model.js";
 
 class MaterialController {
     static async upload(req, res) {
+        const file = req.file;
         const body = req.body;
         const { material_id, name, description, subject_id, file_url, size, file_type, num_page, upload_date, download_count, total_rating, rating_count, view_count, is_paid, price, user_id, lesson_id } = JSON.parse(body.metadata);
-        const file = req.file;
-        console.log(body, file);
 
         const info = {
             material_id,
@@ -33,6 +33,30 @@ class MaterialController {
         } catch (error) {
             console.error('Upload error:', error);
             res.status(500).json({ message: 'Internal server error during file upload.' });
+        }
+    }
+
+    static async getStatistics(req, res) {
+        const { userId } = req.params;
+
+        try {
+            const statistics = await MaterialService.getStatistics(userId);
+            res.status(200).json({ message: 'Statistics fetched successfully', statistics });
+        } catch (error) {
+            console.error('Error fetching statistics:', error);
+            res.status(500).json({ message: 'Internal server error while fetching statistics.' });
+        }
+    }
+
+    static async getMaterialByUserId(req, res) {
+        const { userId } = req.params;
+
+        try {
+            const materials = await Material.getMaterialsByUserId(userId);
+            res.status(200).json({ message: 'Materials fetched successfully', materials: Array.from(materials) });
+        } catch (error) {
+            console.error('Error fetching materials:', error);
+            res.status(500).json({ message: 'Internal server error while fetching materials.' });
         }
     }
 }

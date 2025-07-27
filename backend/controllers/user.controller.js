@@ -1,6 +1,6 @@
 import UserService from '../services/user.service.js';
 
-class AuthController {
+class UserController {
     async signup(req, res) {
         const { username, password, full_name, email, gender, dateOfBirth, address } = req.body;
 
@@ -44,6 +44,21 @@ class AuthController {
             res.status(500).json({ message: 'Internal server error during login.'});
         }
     }
+
+    async getUserProfile(req, res) {
+        const { userId } = req.params;
+
+        try {
+            const user = await UserService.getUserById(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.status(200).json({ message: 'User profile fetched successfully', user });
+        } catch (error) {
+            console.error('Error fetching user profile:', error);
+            res.status(500).json({ message: 'Internal server error while fetching user profile.' });
+        }
+    }
 }
 
-export default new AuthController();
+export default new UserController();

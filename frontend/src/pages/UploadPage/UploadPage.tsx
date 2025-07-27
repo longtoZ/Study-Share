@@ -122,6 +122,13 @@ const UploadPage = () => {
 			}
 		};
 
+		console.log(user);
+		if (!user.loggedIn) {
+			console.log('You havent logged in yet!');
+			navigate('/login');
+			return;
+		}
+
 		fetchSubjects();
 	}, []);
 

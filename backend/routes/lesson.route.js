@@ -1,0 +1,7 @@
+import { Router } from 'express';
+import LessonController from '../controllers/lesson.controller.js';
+
+const router = Router();
+router.get('/user/:userId', LessonController.getLessonsByUserId);
+
+export default router;

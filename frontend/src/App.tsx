@@ -28,7 +28,7 @@ function AppContent() {
                 {!isExcludedPages && <TopBar isDarkMode={false} onToggleDarkMode={() => {}} />}
 
                 <Routes>
-                    <Route path="/user" element={<UserProfilePage />} />
+                    <Route path="/user/:userId" element={<UserProfilePage />} />
                     <Route path="/upload" element={<UploadPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />

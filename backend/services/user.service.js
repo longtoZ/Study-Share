@@ -49,6 +49,14 @@ class UserService {
         delete userWithoutPasswordHash.password_hash;
         return { user: userWithoutPasswordHash, token };
     }
+
+    async getUserById(userId) {
+        const user = await User.findByID(userId);
+        if (!user) {
+            throw new Error('Failed to fetch user data');
+        }
+        return user;
+    }
 }
 
 export default new UserService();
