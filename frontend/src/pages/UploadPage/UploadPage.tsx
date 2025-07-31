@@ -206,14 +206,14 @@ const UploadPage = () => {
 						</div>
 
 						<div className="mt-6 text-center">
-							<button className="button-primary w-36 text-white px-8 py-3 font-medium transition-colors duration-200" onClick={handleSubmit}>
-								Submit
-							</button>
-							<button className="button-outline ml-4 w-36 text-gray-700 px-8 py-3 font-medium transition-colors duration-200" onClick={() => {
+							<button className="button-outline mr-4 w-36 text-gray-700 px-8 py-3 font-medium transition-colors duration-200" onClick={() => {
 								setFilesData([]);
 								if (inputRef.current) inputRef.current.value = '';
 							}}>
 								Clear
+							</button>
+							<button className="button-primary w-36 text-white px-8 py-3 font-medium transition-colors duration-200" onClick={handleSubmit}>
+								Submit
 							</button>
 						</div>
 					</div>

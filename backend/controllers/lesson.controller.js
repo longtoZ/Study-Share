@@ -12,6 +12,18 @@ class LessonController {
             res.status(500).json({ message: 'Internal server error while fetching lessons.'});
         }
     }
+
+    static async createLesson(req, res) {
+        const lessonData = req.body;
+
+        try {
+            const newLesson = await Lesson.createLesson(lessonData);
+            res.status(201).json({ message: 'Lesson created successfully', lesson: newLesson });
+        } catch (error) {
+            console.log('Error creating lesson:', error);
+            res.status(500).json({ message: 'Internal server error while creating lesson.' });
+        }
+    }
 }
 
 export default LessonController;

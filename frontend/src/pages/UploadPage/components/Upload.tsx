@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import DropdownList from '@/components/common/DropdownList';
-import { v4 as uuidv4 } from 'uuid';
 import type { Subject } from '@/interfaces/table';
 import { useDispatch } from 'react-redux';
 import { setMaterial } from '@/redux/materialSlice';
