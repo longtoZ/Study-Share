@@ -5,4 +5,7 @@ const TABLES = {
     SUBJECT: 'Subject'
 };
 
-export { TABLES };
+const TEMP_FILE_PATH = './temp/files/';
+const TEMP_IMAGE_PATH = './temp/images/';
+
+export { TABLES, TEMP_FILE_PATH, TEMP_IMAGE_PATH };

@@ -14,7 +14,7 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
         subject_id: '',
         file_url: '',
         size: file.size,
-        file_type: file.type,
+        file_type: file.name.substring(file.name.lastIndexOf('.') + 1),
         num_page: 0,
         upload_date: new Date().toISOString(),
         download_count: 0,

@@ -1,5 +1,5 @@
 import supabase from '../config/database.js';
-import { TABLES } from '../constants/constant.js';
+import { TABLES, TEMP_FILE_PATH } from '../constants/constant.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -78,7 +78,7 @@ class Material {
         }
     }
 
-    static async findByID(material_id) {
+    static async getMaterialById(material_id) {
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
             .select('*')
@@ -170,6 +170,23 @@ class Material {
         const totalRating = totalRatingData.reduce((sum, row) => sum + row.total_rating, 0);
 
         return totalRating / (ratingCount || 1);
+    }
+
+    static async downloadMaterial(file_path) {
+        const { data, error } = await supabase
+            .storage
+            .from(TABLES.MATERIAL)
+            .download(file_path);
+        
+        if (error) throw error;
+
+        const fileBuffer = await data.arrayBuffer();
+        const fileName = path.basename(file_path);
+        const tempFilePath = path.join(TEMP_FILE_PATH, fileName);
+
+        fs.writeFileSync(tempFilePath, Buffer.from(fileBuffer));
+
+        return tempFilePath;
     }
 }
 

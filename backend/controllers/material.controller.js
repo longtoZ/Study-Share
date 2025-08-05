@@ -59,6 +59,25 @@ class MaterialController {
             res.status(500).json({ message: 'Internal server error while fetching materials.' });
         }
     }
+
+    static async getMaterialPage(req, res) {
+        const { materialId, page } = req.params;
+
+        try {
+            const materialPath = await MaterialService.getMaterialByID(materialId, page);
+            
+            // Send file as response
+            res.status(200).sendFile(materialPath, { root: '.' }, (err) => {
+                if (err) {
+                    console.error('Error sending file:', err);
+                    res.status(500).json({ message: 'Internal server error while sending file.' });
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching material page:', error);
+            res.status(500).json({ message: 'Internal server error while fetching material page.' });
+        }
+    }
 }
 
 export default MaterialController;
