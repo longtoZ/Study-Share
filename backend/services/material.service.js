@@ -1,13 +1,18 @@
 import Material from '../models/material.model.js';
 import fs from 'fs';
+import path from 'path';
 import { convert } from 'pdf-poppler';
 import { TEMP_IMAGE_PATH } from '../constants/constant.js';
+import PDFUtils from '../utils/pdf.util.js';
 
 class MaterialService {
     static async uploadFile(info, file) {
-        const publicFileUrl = await Material.createFileUrl(info.user_id, file);
+        const fileUrl = await Material.createFileUrl(info.user_id, file);
 
-        info.file_url = publicFileUrl;
+        info.num_page = fileUrl.totalPages; // Set the number of pages from the uploaded PDF
+
+        delete fileUrl.totalPages; // Remove totalPages from fileUrl to avoid redundancy
+        info.file_url = fileUrl;
         const newMaterial = await Material.createData(info);
 
         return { material: newMaterial };
@@ -34,31 +39,49 @@ class MaterialService {
             throw new Error('Material not found');
         }
 
-        const filePath = material.file_url.path;
+        const filePath = JSON.parse(material.file_url).path;
         const tempFilePath = await Material.downloadMaterial(filePath);
+        console.log('Temporary file path:', tempFilePath);
 
         if (!fs.existsSync(tempFilePath)) {
             throw new Error('File not found');
         }
         
+        const out_prefix = path.basename(tempFilePath, path.extname(tempFilePath));
+        const out_dir = path.join(TEMP_IMAGE_PATH, out_prefix);
+
+        // Ensure the output directory exists
+        if (!fs.existsSync(out_dir)) {
+            fs.mkdirSync(out_dir, { recursive: true });
+        }
+
+        const matchedFiles = PDFUtils.checkFileExistsWithRegex(out_dir, `${out_prefix}-.*${page}.png`);
+        
+        // Check if the image already exists
+        if (matchedFiles.length > 0) {
+            const imageFilePath = matchedFiles[0];
+            console.log('Image already exists:', imageFilePath);
+            return imageFilePath;
+        }
+
         const options = {
             format: 'png',
-            out_dir: TEMP_IMAGE_PATH,
-            out_prefix: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.')),
+            out_dir: out_dir,
+            out_prefix: out_prefix,
             page: page,
             scale: 2048,
         }
 
         try {
             const result = await convert(tempFilePath, options);
-
-            if (!await fs.promises.access(result[0])) {
-                throw new Error('Converted file not found');
-            }
-
-            // Return the path of the converted image
-            return result[0];
+            console.log('PDF converted to image:', result);
             
+            // if (!fs.existsSync(imageFilePath)) {
+            //     throw new Error('Converted image not found');
+            // }
+
+            return imageFilePath;
+
         } catch (error) {
             console.error('Error converting PDF to image:', error);
             throw new Error('Failed to convert PDF to image');

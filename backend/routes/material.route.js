@@ -8,6 +8,7 @@ const upload = multer({ dest: 'uploads/'});
 router.post('/upload', upload.single('file'), MaterialController.upload);
 router.get('/statistics/:userId', MaterialController.getStatistics);
 router.get('/user/:userId', MaterialController.getMaterialByUserId);
-router.get('/material/:materialId/page/:page', MaterialController.getMaterialPage);
+router.get('/:materialId', MaterialController.getMaterialById);
+router.get('/:materialId/page/:page', MaterialController.getMaterialPage);
 
 export default router;

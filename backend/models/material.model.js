@@ -1,5 +1,6 @@
 import supabase from '../config/database.js';
 import { TABLES, TEMP_FILE_PATH } from '../constants/constant.js';
+import PDFUtils from '../utils/pdf.util.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -46,6 +47,7 @@ class Material {
 
         try {
             const fileBuffer = fs.readFileSync(file.path);
+            // const totalPages = await PDFUtils.getTotalPages(filePath);
 
             const { data, error } = await supabase.storage
                 .from(bucketName)
@@ -67,7 +69,8 @@ class Material {
             return {
                 path: data.path,
                 fullPath: data.fullPath,
-                publicUrl: publicUrlData.publicUrl
+                publicUrl: publicUrlData.publicUrl,
+                // totalPages: totalPages
             };
         } catch (uploadError) {
             console.error('File upload error:', uploadError);
@@ -173,9 +176,23 @@ class Material {
     }
 
     static async downloadMaterial(file_path) {
+        // Ensure the temporary file path exists
+        if (!fs.existsSync(TEMP_FILE_PATH)) {
+            fs.mkdirSync(TEMP_FILE_PATH, { recursive: true });
+        }
+
+        // Check if the file has already been downloaded
+        const existingFilePath = path.join(TEMP_FILE_PATH, path.basename(file_path));
+        if (fs.existsSync(existingFilePath)) {
+            console.log('File already exists:', existingFilePath);
+            return existingFilePath; // Return the existing file path
+        }
+
+        const bucketName = process.env.SUPABASE_BUCKET;
+
         const { data, error } = await supabase
             .storage
-            .from(TABLES.MATERIAL)
+            .from(bucketName)
             .download(file_path);
         
         if (error) throw error;

@@ -60,6 +60,18 @@ class MaterialController {
         }
     }
 
+    static async getMaterialById(req, res) {
+        const { materialId } = req.params;
+
+        try {
+            const material = await Material.getMaterialById(materialId);
+            res.status(200).json({ message: 'Material fetched successfully', material });
+        } catch (error) {
+            console.error('Error fetching material:', error);
+            res.status(500).json({ message: 'Internal server error while fetching material.' });
+        }
+    }
+
     static async getMaterialPage(req, res) {
         const { materialId, page } = req.params;
 
