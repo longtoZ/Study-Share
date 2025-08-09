@@ -4,7 +4,7 @@ const USER_PROFILE_ENDPOINT = import.meta.env.VITE_USER_PROFILE_ENDPOINT;
 const USER_STATISTICS_ENDPOINT = import.meta.env.VITE_USER_STATISTICS_ENDPOINT;
 const USER_MATERIALS_ENDPOINT = import.meta.env.VITE_USER_MATERIALS_ENDPOINT;
 const USER_LESSONS_ENDPOINT = import.meta.env.VITE_USER_LESSONS_ENDPOINT;
-const SUBJECTS_ENDPOINT = import.meta.env.VITE_SUBJECTS_ENDPOINT;
+const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
 
 const retrieveUserData = async (userId: string): Promise<User> => {
 	try {
@@ -14,17 +14,7 @@ const retrieveUserData = async (userId: string): Promise<User> => {
 		}
 		const data = await response.json();
 		const user = data.user;
-		return {
-			userId: user.user_id,
-			fullName: user.full_name,
-			gender: user.gender,
-			address: user.address,
-			profilePictureUrl: user.profile_picture_url,
-			backgroundImageUrl: user.background_image_url,
-			createdDate: user.created_date,
-			description: user.description,
-			statistics: user.statistics
-		}
+		return user;
 	} catch (error) {
 		console.error('Error fetching user data:', error);
 		throw error;

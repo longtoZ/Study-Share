@@ -25,7 +25,7 @@ interface Material {
 	uploadDate: string,
 	downloadCount: number,
 	rating: number,
-	fileType: string
+	fileType: string,
 }
 
 interface Lesson {

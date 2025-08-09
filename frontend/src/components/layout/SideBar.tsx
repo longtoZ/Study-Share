@@ -30,7 +30,7 @@ const SideBar = () => {
                     <h1 className="text-xl font-bold text-primary">StudyShare</h1>
                 </div>
                 
-                <button className='mt-8 w-full button-primary text-sm font-semibold py-2 px-4 flex items-center justify-center gap-2 shadow-lg shadow-zinc-300' style={{borderRadius:'18px'}} onClick={() => {
+                <button className='mt-8 w-full button-primary text-sm font-semibold py-3 px-4 flex items-center justify-center gap-2 shadow-xl shadow-zinc-300 hover:scale-105' style={{borderRadius:'calc(infinity * 1px)'}} onClick={() => {
                     navigate('/upload');
                 }}>
                     <span>Upload New</span>

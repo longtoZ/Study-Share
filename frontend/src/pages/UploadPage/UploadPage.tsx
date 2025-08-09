@@ -11,7 +11,7 @@ import Upload from "./components/Upload";
 import type { Subject } from '@/interfaces/table';
 import type { Material } from '@/interfaces/table';
 
-const SUBJECTS_ENDPOINT = import.meta.env.VITE_SUBJECTS_ENDPOINT;
+const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
 const UPLOAD_ENDPOINT = import.meta.env.VITE_UPLOAD_ENDPOINT;
 
 interface FileData {

@@ -13,7 +13,14 @@
 
 html {
 	scroll-behavior: smooth;
+}
 
+.scrollbar-hide {
+	overflow: -moz-scrollbars-none;
+	-ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
 }
 
 .bg-primary {
@@ -81,12 +88,12 @@ html {
 }
 
 .button-primary {
-	background-color: var(--color-zinc-800);
+	background: linear-gradient(to right, var(--color-blue-500), var(--color-indigo-600));
 	color: var(--color-zinc-50);
 	border-radius: var(--radius-lg);
 	font-weight: 600;
 	font-size: var(--text-base);
-	transition: background-color 0.2s ease;
+	transition: all 0.3s ease;
 	cursor: pointer;
 }
 

@@ -10,6 +10,17 @@ class Subject {
         if (error) throw error;
         return data;
     }
+
+    static async getById(subject_id) {
+        const { data, error } = await supabase
+            .from(TABLES.SUBJECT)
+            .select('*')
+            .eq('subject_id', subject_id)
+            .single();
+        
+        if (error) throw error;
+        return data;
+    }
 }
 
 export default Subject;
