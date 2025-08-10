@@ -51,6 +51,7 @@ const UserProfilePage = () => {
 
 			try {
 				const subjects = await retrieveAllSubjects();
+				console.log('Subjects:', subjects);
 				const materials = await retrieveMaterials(userId, subjects);
 				const lessons = await retriveLessons(userId);
 				console.log('User Materials:', materials);
@@ -78,9 +79,9 @@ const UserProfilePage = () => {
 						
 						<div className='mt-12 flex justify-between items-center'>
 							<div>
-								<h1 className='text-header-large'>{user?.fullName}</h1>
-								<h2 className='text-subtitle'>{user?.userId}</h2>
-								<p className='mt-4'>Joined on <span className='font-[600]'>{user?.createdDate}</span></p>
+								<h1 className='text-header-large'>{user?.full_name}</h1>
+								<h2 className='text-subtitle'>{user?.user_id}</h2>
+								<p className='mt-4'>Joined on <span className='font-[600]'>{user?.created_date}</span></p>
 								<p className=''>Living in <span className='font-[600]'>{user?.address}</span></p>
 							</div>
 							<div>
@@ -105,22 +106,22 @@ const UserProfilePage = () => {
 				<h1 className='text-header-medium mt-8'>Achievement</h1>
 				<div className='grid grid-cols-4 gap-4 mt-4 border border-primary rounded-lg overflow-hidden shadow-sm'>
 					<div className='p-6 text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.totalMaterials}</p>
+						<p className='text-4xl font-bold text-primary'>{user?.statistics.total_materials}</p>
 						<h2 className='mt-2 text-gray-600'>Study Materials Created</h2>
 						<p className='text-xs mt-1 text-gray-500'>Documents, Notes & Guides</p>
 					</div>
 					<div className='p-6 border-l border-primary text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.totalLessons}</p>
+						<p className='text-4xl font-bold text-primary'>{user?.statistics.total_lessons}</p>
 						<h2 className='mt-2 text-gray-600'>Learning Lessons</h2>
 						<p className='text-xs mt-1 text-gray-500'>Curated Content Collections</p>
 					</div>
 					<div className='p-6 border-l border-primary text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.totalDownloads}</p>
+						<p className='text-4xl font-bold text-primary'>{user?.statistics.total_downloads}</p>
 						<h2 className='mt-2 text-gray-600'>Total Downloads</h2>
 						<p className='text-xs mt-1 text-gray-500'>By Other Students</p>
 					</div>
 					<div className='p-6 border-l border-primary text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.averageRating}</p>
+						<p className='text-4xl font-bold text-primary'>{user?.statistics.average_rating}</p>
 						<h2 className='mt-2 text-gray-600'>Community Ratings</h2>
 						<p className='text-xs mt-1 text-gray-500'>Feedback Received</p>
 					</div>
@@ -134,20 +135,20 @@ const UserProfilePage = () => {
 					{materials.map((_, index) => (
 						<div key={index} className='p-4 my-2 border border-primary rounded-lg cursor-pointer hover:button-transparent'>
 							<h2 className='text-header-medium'>{materials[index]?.name}</h2>
-							<p className='text-subtitle'>{materials[index]?.description}</p>
+							<p className='text-subtitle'>{materials[index]?.description.substring(0, 100)}...</p>
 							<div className='mt-2 flex justify-between items-center'>
 								<div>
 									<span className='text-subtitle-secondary'>Subject: {materials[index]?.subject}</span>
 									<span className='text-subtitle-secondary ml-6'>
 										<FileDownloadOutlinedIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Downloads: {materials[index]?.downloadCount}</span>
+										<span className='relative top-1'>Downloads: {materials[index]?.download_count}</span>
 									</span>
 									<span className='text-subtitle-secondary ml-6'>
 										<StarBorderOutlinedIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
 										<span className='relative top-1'>Rating: {materials[index]?.rating}</span>
 									</span>
 								</div>
-								<span className='text-xs text-gray-400'>Uploaded on: {materials[index]?.uploadDate}</span>
+								<span className='text-xs text-gray-400'>Uploaded on: {materials[index]?.upload_date}</span>
 							</div>
 						</div>
 					))}
@@ -173,11 +174,11 @@ const UserProfilePage = () => {
 								<div>
 									<span className='text-subtitle-secondary'>
 										<ArticleIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Materials: {lessons[index]?.materialCount}</span>
+										<span className='relative top-1'>Materials: {lessons[index]?.material_count}</span>
 									</span>
 									<span className='text-subtitle-secondary ml-6'>
 										<FolderRoundedIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Created on: {lessons[index]?.createdDate}</span>
+										<span className='relative top-1'>Created on: {lessons[index]?.created_date}</span>
 									</span>
 								</div>
 							</div>

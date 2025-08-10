@@ -2,7 +2,8 @@ const TABLES = {
     USER: 'User',
     MATERIAL: 'Material',
     LESSON: 'Lesson',
-    SUBJECT: 'Subject'
+    SUBJECT: 'Subject',
+    COMMENT: 'Comment'
 };
 
 const TEMP_FILE_PATH = './temp/files/';

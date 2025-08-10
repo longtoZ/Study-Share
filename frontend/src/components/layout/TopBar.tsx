@@ -34,6 +34,7 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
         setIsProfileMenuOpen(false);
         
         if (action == ACTION_LOGOUT) {
+            console.log('Logging out...');
             dispatch(logout());
             navigate('/login');
         }

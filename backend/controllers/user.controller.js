@@ -40,8 +40,10 @@ class UserController {
             const { user, token } = await UserService.loginUser(email, password);
             res.status(200).json({ message: 'Logged in successfully', user, token });
         } catch (error) {
-            console.log("Login error:", error);
-            res.status(500).json({ message: 'Internal server error during login.'});
+            if (error.message.includes('Password is not correct')) {
+                return res.status(401).json({ message: error.message });
+            }
+            res.status(500).json({ message: 'Internal server error during login.' });
         }
     }
 

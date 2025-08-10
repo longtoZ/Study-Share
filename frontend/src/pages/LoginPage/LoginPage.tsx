@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { login } from '@redux/userSlice';
@@ -9,11 +10,16 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+    const [emailErrorMessage, setEmailErrorMessage] = useState('');
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setEmailErrorMessage('');
+        setPasswordErrorMessage('');
         
         try {
             const response = await fetch(LOGIN_ENDPOINT, {
@@ -27,9 +33,16 @@ const LoginPage = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Form submitted successfully: ', data);
-
-                dispatch(login({ user_id: data.user.user_id, user_token: data.token }));
+                dispatch(login({ user_id: data.user.user_id, token: data.token }));
+                navigate('/');
             } else {
+                const errorData = await response.json();
+                if (errorData.message.includes('Email is not valid')) {
+                    setEmailErrorMessage(errorData.message);
+                }
+                if (errorData.message.includes('Password is not correct')) {
+                    setPasswordErrorMessage(errorData.message);
+                }
                 console.error('Form submitted failed', response.statusText);
             }
         } catch (e) {
@@ -91,6 +104,9 @@ const LoginPage = () => {
                                 required
                             />
                         </div>
+                        {emailErrorMessage && (
+                            <p className="text-red-500 text-sm">{emailErrorMessage}</p>
+                        )}
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -105,6 +121,9 @@ const LoginPage = () => {
                                 required
                             />
                         </div>
+                        {passwordErrorMessage && (
+                            <p className="text-red-500 text-sm">{passwordErrorMessage}</p>
+                        )}
 
                         {/* Remember Me & Forgot Password */}
                         <div className="flex items-center justify-between">

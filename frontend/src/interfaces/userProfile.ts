@@ -1,40 +1,40 @@
 interface User {
-	userId: string,
-	fullName: string,
+	user_id: string,
+	full_name: string,
 	gender: string,
 	address: string,
-	profilePictureUrl: string,
-	backgroundImageUrl: string,
-	createdDate: string,
+	profile_picture_url: string,
+	background_image_url: string,
+	created_date: string,
 	description: string,
 	statistics: Statistic
 }
 
 interface Statistic {
-	totalMaterials: number
-	totalLessons: number
-	totalDownloads: number
-	averageRating: number
+	total_materials: number
+	total_lessons: number
+	total_downloads: number
+	average_rating: number
 }
 
 interface Material {
-	materialId: string,
+	material_id: string,
 	name: string,
 	description: string,
 	subject: string,
-	uploadDate: string,
-	downloadCount: number,
+	upload_date: string,
+	download_count: number,
 	rating: number,
-	fileType: string,
+	file_type: string,
 }
 
 interface Lesson {
-  lessonId: string,
+  lesson_id: string,
   name: string,
-  description: string
-  createdDate: string
-  materialCount: number
-  isPublic: boolean
+  description: string,
+  created_date: string,
+  material_count: number,
+  is_public: boolean
 }
 
 export type { User, Statistic, Material, Lesson};

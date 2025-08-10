@@ -1,6 +1,5 @@
 import supabase from '../config/database.js';
 import { TABLES, TEMP_FILE_PATH } from '../constants/constant.js';
-import PDFUtils from '../utils/pdf.util.js';
 import fs from 'fs';
 import path from 'path';
 

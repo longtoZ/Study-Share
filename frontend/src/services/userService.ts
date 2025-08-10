@@ -30,10 +30,10 @@ const calculateStatistics = async (userId: string): Promise<Statistic> => {
 		const data = await response.json();
 		const statistics = data.statistics;
 		return {
-			totalMaterials: statistics.total_materials,
-			totalLessons: statistics.total_lessons,
-			totalDownloads: statistics.total_downloads,
-			averageRating: statistics.average_rating
+			total_materials: statistics.total_materials,
+			total_lessons: statistics.total_lessons,
+			total_downloads: statistics.total_downloads,
+			average_rating: statistics.average_rating
 		}
 	} catch (error) {
 		console.error('Error fetching user statistics:', error);
@@ -55,7 +55,7 @@ const retrieveAllSubjects = async (): Promise<string[]> => {
 	}
 }
 
-const retrieveMaterials = async (userId: string, subjects: string[]): Promise<Material[]> => {
+const retrieveMaterials = async (userId: string, subjects: any[]): Promise<Material[]> => {
 	try {
 		const response = await fetch(`${USER_MATERIALS_ENDPOINT}/${userId}`);
 		if (!response.ok) {
@@ -63,14 +63,14 @@ const retrieveMaterials = async (userId: string, subjects: string[]): Promise<Ma
 		}
 		const data = await response.json();
 		return data.materials.map((material: any) => ({
-			materialId: material.material_id,
+			material_id: material.material_id,
 			name: material.name,
 			description: material.description,
-			subject: subjects[material.subject_id] || 'Other',
-			uploadDate: material.upload_date,
-			downloadCount: material.download_count,
+			subject: subjects.find((subject) => subject.subject_id === material.subject_id)?.name || 'Unknown',
+			upload_date: material.upload_date,
+			download_count: material.download_count,
 			rating: material.total_rating / (material.rating_count || 1), // Avoid division by zero
-			fileType: material.file_type
+			file_type: material.file_type
 		}));
 	} catch (error) {
 		console.error('Error fetching user materials:', error);
@@ -86,12 +86,12 @@ const retriveLessons = async (userId: string): Promise<Lesson[]> => {
 		}
 		const data = await response.json();
 		return data.lessons.map((lesson: any) => ({
-			lessonId: lesson.lesson_id,
+			lesson_id: lesson.lesson_id,
 			name: lesson.name,
 			description: lesson.description,
-			createdDate: lesson.created_date,
-			materialCount: lesson.material_count,
-			isPublic: lesson.is_public
+			created_date: lesson.created_date,
+			material_count: lesson.material_count,
+			is_public: lesson.is_public
 		}));
 	} catch (error) {
 		console.error('Error fetching user lessons:', error);

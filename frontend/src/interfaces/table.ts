@@ -24,4 +24,16 @@ interface Material {
     lesson_id: string;
 }
 
-export type { Subject, Material };
+interface User {
+    user_id: string;
+    email: string;
+    full_name: string;
+    gender: string;
+    bio: string;
+    profile_picture_url: string;
+    background_image_url: string;
+    date_of_birth: Date;
+    address: string;
+}
+
+export type { Subject, Material, User };
