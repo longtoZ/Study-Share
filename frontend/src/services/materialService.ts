@@ -11,7 +11,6 @@ const getMaterial = async (materialId: string) => {
         }
 
         const data = await response.json();
-        console.log('Material data:', data);
         return data.material;
     } catch (error) {
         console.error('Error fetching material:', error);

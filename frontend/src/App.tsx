@@ -8,6 +8,7 @@ import SignupPage from "@pages/SignupPage/SignupPage";
 import MyLessonsPage from "@pages/MyLessonsPage/MyLessonsPage";
 import CreateLessonPage from "@pages/CreateLessonPage/CreateLessonPage";
 import MaterialViewPage from "@/pages/MaterialViewPage/MaterialViewPage";
+import LessonViewPage from "@pages/LessonViewPage/LessonViewPage";
 
 // Import layout components
 import SideBar from '@components/layout/SideBar';
@@ -38,6 +39,7 @@ function AppContent() {
                     <Route path="/user/:userId/lessons" element={<MyLessonsPage/>}/>
                     <Route path="/create-lesson" element={<CreateLessonPage/>}/>
                     <Route path="/material/:materialId" element={<MaterialViewPage />} />
+                    <Route path="/lesson/:lessonId" element={<LessonViewPage />} />
                 </Routes>
             </div>
         </div>

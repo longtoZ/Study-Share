@@ -3,9 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getMaterial } from "@services/materialService";
 import { retrieveUserData } from "@/services/userService";
 import { getSubject } from "@/services/subjectService";
-import { createComment, getComments } from '@services/commentService';
+import { createComment, getComments, voteComment } from '@services/commentService';
+import { useSelector } from "react-redux";
 
 import MetadataCard from "./components/MetadataCard";
+import AddLessonCard from "./components/AddLessonCard";
 
 import {
     FileDownloadOutlined as FileDownloadOutlinedIcon,
@@ -47,9 +49,14 @@ const MaterialViewPage = () => {
     const [userRating, setUserRating] = useState(0); // For user's own rating
     const [hoverRating, setHoverRating] = useState(0); // For hover effect
     const [imageWidth, setImageWidth] = useState(0);
-	const [commentSort, setCommentSort] = useState<string>("newest");
+	const [commentOrder, setCommentOrder] = useState<string>("newest");
 	const [commentContent, setCommentContent] = useState<string>("");
 	const [allCommentsData, setAllCommentsData] = useState<any[]>([]);
+    const [upvoteChoice, setUpvoteChoice] = useState<boolean>(false);
+    const [downvoteChoice, setDownvoteChoice] = useState<boolean>(false);
+    const [voteTypeChoice, setVoteTypeChoice] = useState<string>("");
+
+    const userState = useSelector((state: any) => state.user);
 
     const { materialId } = useParams();
     const scrollViewRef = useRef<HTMLDivElement>(null);
@@ -122,16 +129,17 @@ const MaterialViewPage = () => {
                 setUser(userData);
             }
 
-			const comments = await getComments(materialId);
-			console.log("Comments retrieved:", comments);
+			const comments = await getComments(materialId, commentOrder);
 			
 			for (const element of comments) {
 				const userOfComment = await retrieveUserData(element.user_id);
 				if (userOfComment) {
-					setAllCommentsData((prevComments) => [
-						...prevComments,
-						{ comment: element, user: userOfComment },
-					]);
+					setAllCommentsData((prevComments) => {
+                        if (!prevComments.some((c) => c.comment.comment_id === element.comment_id)) {
+                            return [...prevComments, { comment: element, user: userOfComment }];
+                        }
+                        return prevComments;
+                    });
 				}
 			}
         };
@@ -219,6 +227,7 @@ const MaterialViewPage = () => {
             setImageWidth(newWidth);
         }
     };
+
     const handleZoomOut = () => {
         if (scrollViewRef.current) {
             const newWidth = imageWidth * 0.8;
@@ -226,6 +235,19 @@ const MaterialViewPage = () => {
             setImageWidth(newWidth);
         }
     };
+
+    const handleVotingComment = async (commentId: string, vote: 'upvote' | 'downvote') => {
+        if (!userState.loggedIn) {
+            alert("Please log in to vote on comments.");
+            return;
+        }
+
+        if (voteTypeChoice) {
+            console.log(voteTypeChoice);
+            await voteComment(commentId, vote, voteTypeChoice);
+        }
+
+    }
 
     return (
         <div className="bg-gray-100 min-h-screen font-sans p-4 md:p-8 lg:p-12">
@@ -277,10 +299,7 @@ const MaterialViewPage = () => {
                                 <FileDownloadOutlinedIcon className="-mt-[1px]" />
                                 Download
                             </button>
-                            <button className="flex items-center gap-2 text-gray-700 bg-gray-100 hover:bg-gray-200 py-3 px-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-md w-full sm:w-auto justify-center">
-                                <BookmarkBorderOutlinedIcon />
-                                Add to Lesson
-                            </button>
+                            <AddLessonCard user_id={user?.user_id} material_id={material?.material_id} />
                             <button className="flex items-center gap-2 text-gray-700 bg-gray-100 hover:bg-gray-200 py-3 px-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-md w-full sm:w-auto justify-center">
                                 <ShareOutlinedIcon />
                                 Share
@@ -500,23 +519,23 @@ const MaterialViewPage = () => {
 							<div className="flex justify-evenly p-1 bg-zinc-100 rounded-2xl">
 								<button
 									className={`px-4 py-2 rounded-2xl cursor-pointer ${
-										commentSort === "newest"
+										commentOrder === "newest"
 											? "bg-white"
 											: "text-zinc-800"
 									}`}
-									onClick={() => setCommentSort("newest")}
+									onClick={() => setCommentOrder("newest")}
 								>
 									Newest
 								</button>
 								<button
 									className={`px-4 py-2 rounded-2xl cursor-pointer ${
-										commentSort === "oldest"
+										commentOrder === "popular"
 											? "bg-white"
 											: "text-zinc-800"
 									}`}
-									onClick={() => setCommentSort("oldest")}
+									onClick={() => setCommentOrder("popular")}
 								>
-									Oldest
+									Popular
 								</button>
 							</div>
 						</div>
@@ -575,11 +594,42 @@ const MaterialViewPage = () => {
 											</div>
 											<p className="mt-2 text-sm text-zinc-600">{commentData.comment.content}</p>
 											<div className="flex gap-4 mt-2">
-												<button className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200">
+												<button 
+                                                    className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200" 
+                                                    onClick={() => {
+                                                        if (upvoteChoice) {
+                                                            setVoteTypeChoice('cancel_up');
+                                                            setUpvoteChoice(false);
+                                                        } else {
+                                                            setVoteTypeChoice('up');
+                                                            setUpvoteChoice(true);
+
+                                                            if (downvoteChoice) {
+                                                                setVoteTypeChoice('cancel_down');
+                                                                setDownvoteChoice(false);
+                                                            }
+                                                        }
+                                                        handleVotingComment(commentData.comment.comment_id, 'upvote');
+                                                    }}
+                                                >
 													<ThumbUpAltOutlinedIcon fontSize="small" />
 													<span>{commentData.comment.upvote}</span>
 												</button>
-												<button className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200">
+												<button className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200" onClick={() => {
+                                                    if (downvoteChoice) {
+                                                        setVoteTypeChoice('cancel_down');
+                                                        setDownvoteChoice(false);
+                                                    } else {
+                                                        setVoteTypeChoice('down');
+                                                        setDownvoteChoice(true);
+
+                                                        if (upvoteChoice) {
+                                                            setVoteTypeChoice('cancel_up');
+                                                            setUpvoteChoice(false);
+                                                        }
+                                                    }
+                                                    handleVotingComment(commentData.comment.comment_id, 'downvote');
+                                                }}>
 													<ThumbDownAltOutlinedIcon fontSize="small" />
 													<span>{commentData.comment.downvote}</span>
 												</button>

@@ -11,6 +11,9 @@ import ArticleIcon from '@mui/icons-material/Article';
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 
+import LessonsGrid from '@/components/layout/LessonsGrid';
+import MaterialsGrid from '@/components/layout/MaterialsGrid';
+
 import type { User, Material, Lesson } from '@interfaces/userProfile';
 import { retrieveAllSubjects, retrieveMaterials, retrieveUserData, retriveLessons, calculateStatistics} from '@services/userService';
 
@@ -53,7 +56,7 @@ const UserProfilePage = () => {
 				const subjects = await retrieveAllSubjects();
 				console.log('Subjects:', subjects);
 				const materials = await retrieveMaterials(userId, subjects);
-				const lessons = await retriveLessons(userId);
+				const lessons = await retriveLessons(userId, 'newest');
 				console.log('User Materials:', materials);
 				console.log('User Lessons:', lessons);
 
@@ -131,28 +134,7 @@ const UserProfilePage = () => {
 			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>My Materials</h1>
 				<p className='mt-2 text-gray-600'>Here are some of the materials I have created:</p>
-				<div className=''>
-					{materials.map((_, index) => (
-						<div key={index} className='p-4 my-2 border border-primary rounded-lg cursor-pointer hover:button-transparent'>
-							<h2 className='text-header-medium'>{materials[index]?.name}</h2>
-							<p className='text-subtitle'>{materials[index]?.description.substring(0, 100)}...</p>
-							<div className='mt-2 flex justify-between items-center'>
-								<div>
-									<span className='text-subtitle-secondary'>Subject: {materials[index]?.subject}</span>
-									<span className='text-subtitle-secondary ml-6'>
-										<FileDownloadOutlinedIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Downloads: {materials[index]?.download_count}</span>
-									</span>
-									<span className='text-subtitle-secondary ml-6'>
-										<StarBorderOutlinedIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Rating: {materials[index]?.rating}</span>
-									</span>
-								</div>
-								<span className='text-xs text-gray-400'>Uploaded on: {materials[index]?.upload_date}</span>
-							</div>
-						</div>
-					))}
-				</div>
+				<MaterialsGrid materials={materials} />
 
 				<div>
 					<button className='button-outline w-full px-6 py-2 rounded-md mt-10 flex items-center justify-center'>
@@ -165,29 +147,10 @@ const UserProfilePage = () => {
 			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>My Lessons</h1>
 				<p className='mt-2 text-gray-600'>Here are some of the lessons I have created:</p>
-				<div className='grid grid-cols-3 gap-4 mt-4'>
-					{lessons.map((_, index) => (
-						<div key={index} className='p-4 my-2 border border-primary rounded-lg cursor-pointer hover:button-transparent'>
-							<h2 className='text-header-medium'>{lessons[index]?.name}</h2>
-							<p className='text-subtitle'>{lessons[index]?.description}</p>
-							<div className='mt-2 flex justify-between items-center'>
-								<div>
-									<span className='text-subtitle-secondary'>
-										<ArticleIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Materials: {lessons[index]?.material_count}</span>
-									</span>
-									<span className='text-subtitle-secondary ml-6'>
-										<FolderRoundedIcon className='inline-block mr-1' style={{fontSize: '1.2rem'}}/>
-										<span className='relative top-1'>Created on: {lessons[index]?.created_date}</span>
-									</span>
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
-				
+				<LessonsGrid lessons={lessons}/>
+
 				<div>
-					<button className='button-outline w-full px-6 py-2 rounded-md mt-10 flex items-center justify-center'>
+					<button className='button-outline w-full px-6 py-2 rounded-md mt-10 flex items-center justify-center' onClick={() => {navigate(`/user/${userId}/lessons`)}}>
 						Show More
 						<ArrowForwardIosOutlinedIcon className='ml-1' style={{fontSize: '1.2rem'}}/>
 					</button>

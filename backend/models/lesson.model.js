@@ -2,17 +2,14 @@ import supabase from '../config/database.js';
 import { TABLES } from '../constants/constant.js';
 
 class Lesson {
-    static async getLessonsByUserId(user_id) {
+    static async getLessonsByUserId(user_id, order) {
         const { data, error } = await supabase
             .from(TABLES.LESSON)
             .select('*')
-            .eq('user_id', user_id);
-        
-        if (error && error.code !== 'PGRST116') throw error;
+            .eq('user_id', user_id)
+            .order('created_date', { ascending: order === 'oldest' });
 
-        if (!data || data.length === 0) {
-            return [];
-        }
+        if (error && error.code !== 'PGRST116') throw error;
         
         return data;
     }
@@ -40,6 +37,49 @@ class Lesson {
             throw new Error('Failed to create lesson');
         }
         return data;
+    }
+
+    static async getAllMaterialsByLessonId(lesson_id) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('*')
+            .eq('lesson_id', lesson_id);
+
+        if (error) throw error;
+
+        return data;
+    }
+
+    static async addMaterialToLesson(lesson_id, material_id) {
+        const { data: materialData, error: materialError } = await supabase
+            .from(TABLES.MATERIAL)
+            .update({ lesson_id })
+            .eq('material_id', material_id)
+            .select('*')
+            .single();
+
+        if (materialError) throw materialError;
+
+        const { data: currentLessonData, error: lessonError } = await supabase
+            .from(TABLES.LESSON)
+            .select('*')
+            .eq('lesson_id', lesson_id)
+            .single();
+
+        if (lessonError) throw lessonError;
+
+        const newMaterialCount = currentLessonData.material_count + 1;
+
+        const { data: updatedLessonData, error: updateError } = await supabase
+            .from(TABLES.LESSON)
+            .update({ material_count: newMaterialCount })
+            .eq('lesson_id', lesson_id)
+            .select('*')
+            .single();
+
+        if (updateError) throw updateError;
+
+        return { materialData, lessonData: updatedLessonData };
     }
 }
 

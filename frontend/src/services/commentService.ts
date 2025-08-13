@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CREATE_COMMENT_ENDPOINT = import.meta.env.VITE_CREATE_COMMENT_ENDPOINT;
 const GET_COMMENTS_ENDPOINT = import.meta.env.VITE_GET_COMMENTS_ENDPOINT;
+const VOTE_COMMENT_ENDPOINT = import.meta.env.VITE_VOTE_COMMENT_ENDPOINT;
 
 const createComment = async (commentContent: string, materialId: string | undefined) => {
     if (!commentContent || !materialId) return;
@@ -38,11 +39,11 @@ const createComment = async (commentContent: string, materialId: string | undefi
     }
 };
 
-const getComments = async (materialId: string) => {
+const getComments = async (materialId: string, order: string) => {
     if (!materialId) return;
 
     try {
-        const response = await fetch(GET_COMMENTS_ENDPOINT.replace("material-id", materialId), {
+        const response = await fetch(`${GET_COMMENTS_ENDPOINT.replace("material-id", materialId)}?order=${order}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +53,7 @@ const getComments = async (materialId: string) => {
         if (response.ok) {
             const comments = await response.json();
             console.log("Comments retrieved successfully:", comments);
-            return comments;
+            return comments.comments;
         } else {
             console.error("Error retrieving comments:", response.statusText);
         }
@@ -61,4 +62,30 @@ const getComments = async (materialId: string) => {
     }
 };
 
-export { createComment, getComments };
+const voteComment = async (commentId: string, vote: 'upvote' | 'downvote', type: string) => {
+    if (!commentId || !vote || !type) return;
+
+    try {
+        const response = await fetch(VOTE_COMMENT_ENDPOINT.replace("comment-id", commentId), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                vote,
+                type
+            }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log("Comment voted successfully:", result);
+        } else {
+            console.error("Error voting comment:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error voting comment:", error);
+    }
+};
+
+export { createComment, getComments, voteComment };
