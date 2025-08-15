@@ -6,7 +6,7 @@ const USER_MATERIALS_ENDPOINT = import.meta.env.VITE_USER_MATERIALS_ENDPOINT;
 const USER_LESSONS_ENDPOINT = import.meta.env.VITE_USER_LESSONS_ENDPOINT;
 const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
 
-const retrieveUserData = async (userId: string): Promise<User> => {
+const retrieveUserData = async (userId: string): Promise<any> => {
 	try {
 		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`);
 		if (!response.ok) {
@@ -99,4 +99,22 @@ const retriveLessons = async (userId: string, lessonOrder: "newest" | "oldest"):
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retriveLessons, calculateStatistics};
+const updateUserProfile = async (userId: string, updates: any): Promise<any> => {
+	try {
+		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`, {
+			method: 'PUT',
+			body: updates
+		});
+		if (!response.ok) {
+			throw new Error('Failed to update user profile');
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error updating user profile:', error);
+		throw error;
+	}
+}
+
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retriveLessons, calculateStatistics, updateUserProfile };

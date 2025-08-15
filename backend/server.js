@@ -1,6 +1,6 @@
 import express, { json } from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth.route.js';
+import authRoutes from './routes/user.route.js';
 import materialRoutes from './routes/material.route.js';
 import subjectRoutes from './routes/subject.route.js';
 import lessonRoutes from './routes/lesson.route.js';

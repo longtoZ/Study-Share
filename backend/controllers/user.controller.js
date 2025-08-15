@@ -61,6 +61,24 @@ class UserController {
             res.status(500).json({ message: 'Internal server error while fetching user profile.' });
         }
     }
+
+    async updateUserProfile(req, res) {
+        const { userId } = req.params;
+        const profilePictureFile = req.files.length > 0 ? req.files.profile_picture_file[0] : null;
+        const backgroundImageFile = req.files.length > 0 ? req.files.background_image_file[0] : null;
+
+        try {
+            await UserService.updateUserInfo(userId, {
+                metadata: JSON.parse(req.body.metadata),
+                profilePictureFile,
+                backgroundImageFile
+            });
+            res.status(200).json({ message: 'User profile updated successfully' });
+        } catch (error) {
+            console.error('Error updating user profile:', error);
+            res.status(500).json({ message: 'Internal server error while updating user profile.' });
+        }
+    }
 }
 
 export default new UserController();

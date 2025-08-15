@@ -9,6 +9,7 @@ import MyLessonsPage from "@pages/MyLessonsPage/MyLessonsPage";
 import CreateLessonPage from "@pages/CreateLessonPage/CreateLessonPage";
 import MaterialViewPage from "@/pages/MaterialViewPage/MaterialViewPage";
 import LessonViewPage from "@pages/LessonViewPage/LessonViewPage";
+import AccountSettingPage from "@pages/AccountSettingPage/AccountSettingPage";
 
 // Import layout components
 import SideBar from '@components/layout/SideBar';
@@ -40,6 +41,7 @@ function AppContent() {
                     <Route path="/create-lesson" element={<CreateLessonPage/>}/>
                     <Route path="/material/:materialId" element={<MaterialViewPage />} />
                     <Route path="/lesson/:lessonId" element={<LessonViewPage />} />
+                    <Route path="/account-settings" element={<AccountSettingPage />} />
                 </Routes>
             </div>
         </div>

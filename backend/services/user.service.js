@@ -2,6 +2,7 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import jwtConfig from '../config/jwt.js';
+import supabase from '../config/database.js';
 
 class UserService {
     async signupUser(info) {
@@ -56,6 +57,20 @@ class UserService {
             throw new Error('Failed to fetch user data');
         }
         return user;
+    }
+
+    async updateUserInfo(user_id, updates) {
+        const user = await User.findByID(user_id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const metadata = updates.metadata;
+        const profilePictureFile = updates.profilePictureFile;
+        const backgroundImageFile = updates.backgroundImageFile;
+
+        await User.updateImage(metadata, profilePictureFile, backgroundImageFile);
+        await User.updateInfo(user_id, metadata);
     }
 }
 

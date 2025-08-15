@@ -24,7 +24,7 @@ const SideBar = () => {
 
     return (
         <div className="fixed top-0 left-0" style={{width: 'inherit'}}>
-            <div className="relative h-[100vh] bg-primary p-4 border-r border-primary overflow-y-scroll pb-20">
+            <div className="relative h-[100vh] bg-primary p-4 overflow-y-scroll pb-20 scrollbar-hide">
                 <div className="flex items-center gap-2">
                     <img src={ReactLogo} alt="React Logo" className="w-12 h-12" />
                     <h1 className="text-xl font-bold text-primary">StudyShare</h1>
@@ -72,7 +72,7 @@ const SideBar = () => {
                         </div>
                         <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
                             <ArticleOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
-                            <span className="leading-[1.5]">My Documents</span>
+                            <span className="leading-[1.5]">My Materials</span>
                         </div>
                         <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
                             <FolderCopyOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>

@@ -41,7 +41,7 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
     };
 
     return (
-        <div className="w-full bg-[#e7e3e475] backdrop-blur-md sticky top-0 px-12 py-3 z-50">
+        <div className="w-full bg-primary sticky top-0 px-12 py-3 z-50 h-18">
             <div className="flex items-center justify-between max-w-7xl mx-auto">
                 <div className="flex-1 max-w-md">
                     <div className="relative">
@@ -51,7 +51,7 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 rounded-xl focus:outline-none bg-primary"
+                            className="w-full pl-10 pr-4 py-2 rounded-xl focus:outline-none bg-secondary"
                         />
                     </div>
                 </div>

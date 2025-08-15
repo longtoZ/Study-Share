@@ -6,7 +6,7 @@ interface User {
 	profile_picture_url: string,
 	background_image_url: string,
 	created_date: string,
-	description: string,
+	bio: string,
 	statistics: Statistic
 }
 

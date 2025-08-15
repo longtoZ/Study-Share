@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import ProfileImage from '@assets/images/profile.png'
-import BackgroundImage from '@assets/images/background.jpg'
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
@@ -73,18 +71,18 @@ const UserProfilePage = () => {
 	}, [userId]);
 
 	return (
-		<div className='p-12 min-h-screen w-full'>
+		<div className='p-12 min-h-screen w-full rounded-2xl'>
 			<div className='rounded-2xl bg-primary overflow-hidden border border-primary'>
-				<img src={BackgroundImage} alt="" className='w-full h-64 object-cover'/>
+				<img src={user?.background_image_url} alt="" className='w-full h-64 object-cover'/>
 				<div className='px-6'>
 					<div className='p-4 relative'>
-						<img src={ProfileImage} alt="Profile" className='absolute w-48 h-48 object-cover rounded-full border-6 border-white -top-36 left-6'/>
+						<img src={user?.profile_picture_url} alt="Profile" className='absolute w-48 h-48 object-cover rounded-full border-6 border-white -top-36 left-6'/>
 						
 						<div className='mt-12 flex justify-between items-center'>
 							<div>
 								<h1 className='text-header-large'>{user?.full_name}</h1>
 								<h2 className='text-subtitle'>{user?.user_id}</h2>
-								<p className='mt-4'>Joined on <span className='font-[600]'>{user?.created_date}</span></p>
+								<p className='mt-4'>Joined on <span className='font-[600]'>{user?.created_date ? new Date(user.created_date).toLocaleDateString() : 'N/A'}</span></p>
 								<p className=''>Living in <span className='font-[600]'>{user?.address}</span></p>
 							</div>
 							<div>
@@ -104,7 +102,7 @@ const UserProfilePage = () => {
 
 			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>About</h1>
-				<p className='mt-2 text-justify'>{user?.description}</p>
+				<p className='mt-2 text-justify'>{user?.bio}</p>
 
 				<h1 className='text-header-medium mt-8'>Achievement</h1>
 				<div className='grid grid-cols-4 gap-4 mt-4 border border-primary rounded-lg overflow-hidden shadow-sm'>
