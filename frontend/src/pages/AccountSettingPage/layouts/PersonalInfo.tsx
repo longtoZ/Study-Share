@@ -3,7 +3,7 @@ import { retrieveUserData } from '@/services/userService';
 import type { User } from '@/interfaces/table';
 import { updateUserProfile } from '@/services/userService';
 
-import ImageUpload from './ImageUpload';
+import ImageUpload from '../components/ImageUpload';
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 

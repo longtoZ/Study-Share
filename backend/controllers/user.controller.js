@@ -61,7 +61,7 @@ class UserController {
             res.status(500).json({ message: 'Internal server error while fetching user profile.' });
         }
     }
-
+    
     async updateUserProfile(req, res) {
         const { userId } = req.params;
         const profilePictureFile = req.files.length > 0 ? req.files.profile_picture_file[0] : null;
@@ -79,6 +79,7 @@ class UserController {
             res.status(500).json({ message: 'Internal server error while updating user profile.' });
         }
     }
+
 }
 
 export default new UserController();

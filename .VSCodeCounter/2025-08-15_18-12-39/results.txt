@@ -1,0 +1,151 @@
+Date : 2025-08-15 18:12:39
+Directory : c:\Users\VICTUS\Documents\Better Studocu\StudyShare
+Total : 77 files,  10986 codes, 58 comments, 661 blanks, all 11705 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          6 |      6,677 |          5 |         11 |      6,693 |
+| TypeScript JSX     |         24 |      2,642 |         31 |        308 |      2,981 |
+| JavaScript         |         26 |      1,032 |         17 |        243 |      1,292 |
+| TypeScript         |         13 |        424 |          5 |         55 |        484 |
+| PostCSS            |          1 |         96 |          0 |         22 |        118 |
+| Markdown           |          1 |         58 |          0 |         12 |         70 |
+| MS SQL             |          1 |         18 |          0 |          2 |         20 |
+| Properties         |          1 |         17 |          0 |          6 |         23 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| JSON with Comments |          1 |          7 |          0 |          1 |          8 |
+| XML                |          2 |          2 |          0 |          0 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                  | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                     |         77 |     10,986 |         58 |        661 |     11,705 |
+| backend                                                                                                               |         27 |      2,723 |         17 |        243 |      2,983 |
+| backend (Files)                                                                                                       |          3 |      1,738 |          0 |          8 |      1,746 |
+| backend\config                                                                                                        |          2 |         21 |          0 |          8 |         29 |
+| backend\constants                                                                                                     |          1 |         10 |          0 |          2 |         12 |
+| backend\controllers                                                                                                   |          5 |        267 |          1 |         44 |        312 |
+| backend\middleware                                                                                                    |          1 |         23 |          0 |          7 |         30 |
+| backend\models                                                                                                        |          5 |        434 |          9 |        111 |        554 |
+| backend\routes                                                                                                        |          5 |         46 |          0 |         17 |         63 |
+| backend\services                                                                                                      |          3 |        130 |          5 |         36 |        171 |
+| backend\utils                                                                                                         |          2 |         54 |          2 |         10 |         66 |
+| database                                                                                                              |          1 |         18 |          0 |          2 |         20 |
+| frontend                                                                                                              |         49 |      8,245 |         41 |        416 |      8,702 |
+| frontend (Files)                                                                                                      |         11 |      5,117 |          7 |         34 |      5,158 |
+| frontend\public                                                                                                       |          1 |          1 |          0 |          0 |          1 |
+| frontend\src                                                                                                          |         37 |      3,127 |         34 |        382 |      3,543 |
+| frontend\src (Files)                                                                                                  |          3 |         64 |          3 |         12 |         79 |
+| frontend\src\assets                                                                                                   |          1 |          1 |          0 |          0 |          1 |
+| frontend\src\components                                                                                               |          7 |        392 |          4 |         51 |        447 |
+| frontend\src\components\common                                                                                        |          3 |        118 |          0 |         17 |        135 |
+| frontend\src\components\layout                                                                                        |          4 |        274 |          4 |         34 |        312 |
+| frontend\src\interfaces                                                                                               |          2 |         72 |          0 |          8 |         80 |
+| frontend\src\pages                                                                                                    |         15 |      2,186 |         25 |        246 |      2,457 |
+| frontend\src\pages\AccountSettingPage                                                                                 |          3 |        353 |          2 |         32 |        387 |
+| frontend\src\pages\AccountSettingPage (Files)                                                                         |          1 |         91 |          2 |          5 |         98 |
+| frontend\src\pages\AccountSettingPage\components                                                                      |          2 |        262 |          0 |         27 |        289 |
+| frontend\src\pages\CreateLessonPage                                                                                   |          1 |        115 |          0 |         12 |        127 |
+| frontend\src\pages\LessonViewPage                                                                                     |          1 |         66 |          0 |         13 |         79 |
+| frontend\src\pages\LoginPage                                                                                          |          1 |        145 |          9 |         17 |        171 |
+| frontend\src\pages\MaterialViewPage                                                                                   |          3 |        687 |         13 |         69 |        769 |
+| frontend\src\pages\MaterialViewPage (Files)                                                                           |          1 |        583 |         13 |         56 |        652 |
+| frontend\src\pages\MaterialViewPage\components                                                                        |          2 |        104 |          0 |         13 |        117 |
+| frontend\src\pages\MyLessonsPage                                                                                      |          1 |         67 |          0 |         13 |         80 |
+| frontend\src\pages\SignupPage                                                                                         |          1 |        297 |          0 |         26 |        323 |
+| frontend\src\pages\UploadPage                                                                                         |          3 |        315 |          1 |         44 |        360 |
+| frontend\src\pages\UploadPage (Files)                                                                                 |          1 |        195 |          1 |         31 |        227 |
+| frontend\src\pages\UploadPage\components                                                                              |          2 |        120 |          0 |         13 |        133 |
+| frontend\src\pages\UserProfilePage                                                                                    |          1 |        141 |          0 |         20 |        161 |
+| frontend\src\redux                                                                                                    |          3 |         61 |          2 |         10 |         73 |
+| frontend\src\services                                                                                                 |          5 |        255 |          0 |         33 |        288 |
+| frontend\src\styles                                                                                                   |          1 |         96 |          0 |         22 |        118 |
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                              | language           | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\config\database.js                                        | JavaScript         |         14 |          0 |          5 |         19 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\config\jwt.js                                             | JavaScript         |          7 |          0 |          3 |         10 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\constants\constant.js                                     | JavaScript         |         10 |          0 |          2 |         12 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\comment.controller.js                         | JavaScript         |         40 |          0 |          8 |         48 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\lesson.controller.js                          | JavaScript         |         46 |          0 |          9 |         55 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\material.controller.js                        | JavaScript         |         81 |          1 |         13 |         95 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\subject.controller.js                         | JavaScript         |         27 |          0 |          3 |         30 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\user.controller.js                            | JavaScript         |         73 |          0 |         11 |         84 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\middleware\auth.middleware.js                             | JavaScript         |         23 |          0 |          7 |         30 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\comment.model.js                                   | JavaScript         |         65 |          2 |         18 |         85 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\lesson.model.js                                    | JavaScript         |         68 |          0 |         18 |         86 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\material.model.js                                  | JavaScript         |        163 |          4 |         42 |        209 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\subject.model.js                                   | JavaScript         |         21 |          0 |          5 |         26 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\user.model.js                                      | JavaScript         |        117 |          3 |         28 |        148 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\package-lock.json                                         | JSON               |      1,689 |          0 |          1 |      1,690 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\package.json                                              | JSON               |         24 |          0 |          1 |         25 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\comment.route.js                                   | JavaScript         |          8 |          0 |          4 |         12 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\lesson.route.js                                    | JavaScript         |          8 |          0 |          2 |         10 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\material.route.js                                  | JavaScript         |         11 |          0 |          4 |         15 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\subject.route.js                                   | JavaScript         |          6 |          0 |          3 |          9 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\user.route.js                                      | JavaScript         |         13 |          0 |          4 |         17 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\server.js                                                 | JavaScript         |         25 |          0 |          6 |         31 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\services\material.service.js                              | JavaScript         |         67 |          5 |         21 |         93 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\services\subject.service.js                               | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\services\user.service.js                                  | JavaScript         |         63 |          0 |         14 |         77 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\utils\pdf.util.js                                         | JavaScript         |         39 |          2 |          7 |         48 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\utils\validation.js                                       | JavaScript         |         15 |          0 |          3 |         18 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\database\creation.sql                                             | MS SQL             |         18 |          0 |          2 |         20 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\.env                                                     | Properties         |         17 |          0 |          6 |         23 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\README.md                                                | Markdown           |         58 |          0 |         12 |         70 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\eslint.config.js                                         | JavaScript         |         22 |          0 |          2 |         24 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\index.html                                               | HTML               |         13 |          0 |          1 |         14 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\package-lock.json                                        | JSON               |      4,866 |          0 |          1 |      4,867 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\package.json                                             | JSON               |         43 |          0 |          1 |         44 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\public\vite.svg                                          | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\App.tsx                                              | TypeScript JSX     |         48 |          2 |          9 |         59 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\assets\react.svg                                     | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\common\DropdownList.tsx                   | TypeScript JSX     |         82 |          0 |          9 |         91 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\common\DropdownListRetrieve.tsx           | TypeScript JSX     |         15 |          0 |          5 |         20 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\common\SearchBar.tsx                      | TypeScript JSX     |         21 |          0 |          3 |         24 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\LessonsGrid.tsx                    | TypeScript JSX     |         33 |          0 |          3 |         36 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\MaterialsGrid.tsx                  | TypeScript JSX     |         36 |          0 |          4 |         40 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\SideBar.tsx                        | TypeScript JSX     |         92 |          0 |         11 |        103 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\TopBar.tsx                         | TypeScript JSX     |        113 |          4 |         16 |        133 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\interfaces\table.ts                                  | TypeScript         |         36 |          0 |          4 |         40 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\interfaces\userProfile.ts                            | TypeScript         |         36 |          0 |          4 |         40 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\main.tsx                                             | TypeScript JSX     |         16 |          0 |          2 |         18 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\AccountSettingPage\AccountSettingPage.tsx      | TypeScript JSX     |         91 |          2 |          5 |         98 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\AccountSettingPage\components\ImageUpload.tsx  | TypeScript JSX     |         31 |          0 |          7 |         38 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\AccountSettingPage\components\PersonalInfo.tsx | TypeScript JSX     |        231 |          0 |         20 |        251 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\CreateLessonPage\CreateLessonPage.tsx          | TypeScript JSX     |        115 |          0 |         12 |        127 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\LessonViewPage\LessonViewPage.tsx              | TypeScript JSX     |         66 |          0 |         13 |         79 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\LoginPage\LoginPage.tsx                        | TypeScript JSX     |        145 |          9 |         17 |        171 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MaterialViewPage\MaterialViewPage.tsx          | TypeScript JSX     |        583 |         13 |         56 |        652 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MaterialViewPage\components\AddLessonCard.tsx  | TypeScript JSX     |         87 |          0 |         11 |         98 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MaterialViewPage\components\MetadataCard.tsx   | TypeScript JSX     |         17 |          0 |          2 |         19 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MyLessonsPage\MyLessonsPage.tsx                | TypeScript JSX     |         67 |          0 |         13 |         80 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\SignupPage\SignupPage.tsx                      | TypeScript JSX     |        297 |          0 |         26 |        323 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UploadPage\UploadPage.tsx                      | TypeScript JSX     |        195 |          1 |         31 |        227 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UploadPage\components\Form.tsx                 | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UploadPage\components\Upload.tsx               | TypeScript JSX     |        120 |          0 |         12 |        132 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UserProfilePage\UserProfilePage.tsx            | TypeScript JSX     |        141 |          0 |         20 |        161 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\redux\materialSlice.ts                               | TypeScript         |         24 |          2 |          4 |         30 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\redux\store.ts                                       | TypeScript         |          9 |          0 |          1 |         10 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\redux\userSlice.ts                                   | TypeScript         |         28 |          0 |          5 |         33 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\commentService.ts                           | TypeScript         |         78 |          0 |         13 |         91 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\lessonService.ts                            | TypeScript         |         33 |          0 |          3 |         36 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\materialService.ts                          | TypeScript         |         17 |          0 |          5 |         22 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\subjectService.ts                           | TypeScript         |         16 |          0 |          3 |         19 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\userService.ts                              | TypeScript         |        111 |          0 |          9 |        120 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\styles\index.css                                     | PostCSS            |         96 |          0 |         22 |        118 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\vite-env.d.ts                                        | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tailwind.config.ts                                       | TypeScript         |         14 |          1 |          1 |         16 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tsconfig.app.json                                        | JSON               |         34 |          3 |          4 |         41 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tsconfig.json                                            | JSON with Comments |          7 |          0 |          1 |          8 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tsconfig.node.json                                       | JSON               |         21 |          2 |          3 |         26 |
+| c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\vite.config.ts                                           | TypeScript         |         22 |          1 |          2 |         25 |
+| Total                                                                                                                 |                    |     10,986 |         58 |        661 |     11,705 |
++-----------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

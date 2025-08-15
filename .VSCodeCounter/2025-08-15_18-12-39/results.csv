@@ -1,0 +1,79 @@
+"filename", "language", "JSON", "JSON with Comments", "TypeScript", "JavaScript", "MS SQL", "PostCSS", "TypeScript JSX", "XML", "Markdown", "HTML", "Properties", "comment", "blank", "total"
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\config\database.js", "JavaScript", 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 5, 19
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\config\jwt.js", "JavaScript", 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 3, 10
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\constants\constant.js", "JavaScript", 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 2, 12
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\comment.controller.js", "JavaScript", 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 8, 48
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\lesson.controller.js", "JavaScript", 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 9, 55
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\material.controller.js", "JavaScript", 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 1, 13, 95
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\subject.controller.js", "JavaScript", 0, 0, 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 3, 30
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\controllers\user.controller.js", "JavaScript", 0, 0, 0, 73, 0, 0, 0, 0, 0, 0, 0, 0, 11, 84
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\middleware\auth.middleware.js", "JavaScript", 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 7, 30
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\comment.model.js", "JavaScript", 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 2, 18, 85
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\lesson.model.js", "JavaScript", 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 18, 86
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\material.model.js", "JavaScript", 0, 0, 0, 163, 0, 0, 0, 0, 0, 0, 0, 4, 42, 209
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\subject.model.js", "JavaScript", 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 5, 26
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\models\user.model.js", "JavaScript", 0, 0, 0, 117, 0, 0, 0, 0, 0, 0, 0, 3, 28, 148
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\package-lock.json", "JSON", 1689, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1690
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\package.json", "JSON", 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 25
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\comment.route.js", "JavaScript", 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 4, 12
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\lesson.route.js", "JavaScript", 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\material.route.js", "JavaScript", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 4, 15
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\subject.route.js", "JavaScript", 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 3, 9
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\routes\user.route.js", "JavaScript", 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 4, 17
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\server.js", "JavaScript", 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 6, 31
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\services\material.service.js", "JavaScript", 0, 0, 0, 67, 0, 0, 0, 0, 0, 0, 0, 5, 21, 93
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\services\subject.service.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\services\user.service.js", "JavaScript", 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 14, 77
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\utils\pdf.util.js", "JavaScript", 0, 0, 0, 39, 0, 0, 0, 0, 0, 0, 0, 2, 7, 48
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\backend\utils\validation.js", "JavaScript", 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 3, 18
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\database\creation.sql", "MS SQL", 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 0, 0, 2, 20
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\.env", "Properties", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 6, 23
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 0, 58, 0, 0, 0, 12, 70
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\eslint.config.js", "JavaScript", 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 2, 24
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\index.html", "HTML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\package-lock.json", "JSON", 4866, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4867
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\package.json", "JSON", 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 44
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\public\vite.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\App.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 48, 0, 0, 0, 0, 2, 9, 59
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\assets\react.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\common\DropdownList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 82, 0, 0, 0, 0, 0, 9, 91
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\common\DropdownListRetrieve.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 5, 20
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\common\SearchBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 3, 24
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\LessonsGrid.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 0, 3, 36
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\MaterialsGrid.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, 0, 0, 4, 40
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\SideBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 92, 0, 0, 0, 0, 0, 11, 103
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\components\layout\TopBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 113, 0, 0, 0, 0, 4, 16, 133
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\interfaces\table.ts", "TypeScript", 0, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 40
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\interfaces\userProfile.ts", "TypeScript", 0, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 40
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\main.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 2, 18
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\AccountSettingPage\AccountSettingPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 2, 5, 98
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\AccountSettingPage\components\ImageUpload.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 7, 38
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\AccountSettingPage\components\PersonalInfo.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 231, 0, 0, 0, 0, 0, 20, 251
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\CreateLessonPage\CreateLessonPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 115, 0, 0, 0, 0, 0, 12, 127
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\LessonViewPage\LessonViewPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 13, 79
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\LoginPage\LoginPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 145, 0, 0, 0, 0, 9, 17, 171
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MaterialViewPage\MaterialViewPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 583, 0, 0, 0, 0, 13, 56, 652
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MaterialViewPage\components\AddLessonCard.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 87, 0, 0, 0, 0, 0, 11, 98
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MaterialViewPage\components\MetadataCard.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 2, 19
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\MyLessonsPage\MyLessonsPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 13, 80
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\SignupPage\SignupPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 297, 0, 0, 0, 0, 0, 26, 323
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UploadPage\UploadPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 195, 0, 0, 0, 0, 1, 31, 227
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UploadPage\components\Form.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UploadPage\components\Upload.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 120, 0, 0, 0, 0, 0, 12, 132
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\pages\UserProfilePage\UserProfilePage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 141, 0, 0, 0, 0, 0, 20, 161
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\redux\materialSlice.ts", "TypeScript", 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 30
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\redux\store.ts", "TypeScript", 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\redux\userSlice.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 33
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\commentService.ts", "TypeScript", 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 91
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\lessonService.ts", "TypeScript", 0, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 36
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\materialService.ts", "TypeScript", 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 22
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\subjectService.ts", "TypeScript", 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 19
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\services\userService.ts", "TypeScript", 0, 0, 111, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 120
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\styles\index.css", "PostCSS", 0, 0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 0, 22, 118
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\src\vite-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tailwind.config.ts", "TypeScript", 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 16
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tsconfig.app.json", "JSON", 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 41
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tsconfig.json", "JSON with Comments", 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\tsconfig.node.json", "JSON", 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 26
+"c:\Users\VICTUS\Documents\Better Studocu\StudyShare\frontend\vite.config.ts", "TypeScript", 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 25
+"Total", "-", 6677, 7, 424, 1032, 18, 96, 2642, 2, 58, 13, 17, 58, 661, 11705

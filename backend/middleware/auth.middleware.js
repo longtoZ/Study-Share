@@ -9,9 +9,10 @@ function authMiddleware(req, res, next) {
     }
 
     const token = authHeader.split(' ')[1];
+    console.log(token);
 
     try {
-        const decoded = jwt.verify(token, jwt.secret);
+        const decoded = jwt.verify(token, jwtConfig.secret);
 
         req.user = decoded;
 
@@ -28,3 +29,5 @@ function authMiddleware(req, res, next) {
         res.status(500).json({ message: 'Server error during token verification.' });
     }
 }
+
+export { authMiddleware };

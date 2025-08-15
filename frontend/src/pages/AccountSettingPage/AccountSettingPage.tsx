@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
-import PersonalInfo from './components/PersonalInfo';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PersonalInfo from './layouts/PersonalInfo';
+
+import { verifyUser } from '@services/authService';
 
 const AccountSettingPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('personal');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkUserVerification = async () => {
+            try {
+                const user = await verifyUser();
+                console.log('User verification successful:', user);
+            } catch (error) {
+                console.error('User verification failed:', error);
+                navigate('/login');
+            }
+        };
+        checkUserVerification();
+    }, []);
 
     const renderContent = () => {
         switch (activeTab) {
