@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 
+import type { Subject } from '@interfaces/table';
+
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
@@ -18,7 +20,7 @@ import { retrieveAllSubjects, retrieveMaterials, retrieveUserData, retriveLesson
 const UserProfilePage = () => {
 	const { userId } = useParams();
 	const [user, setUser] = useState<User | null>(null);
-	const [subjects, setSubjects] = useState<string[]>([]);
+	const [subjects, setSubjects] = useState<Subject[]>([]);
 	const [materials, setMaterials] = useState<Material[]>([]);
 	const [lessons, setLessons] = useState<Lesson[]>([]);
 

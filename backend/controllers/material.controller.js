@@ -90,6 +90,19 @@ class MaterialController {
             res.status(500).json({ message: 'Internal server error while fetching material page.' });
         }
     }
+
+    static async updateMaterial(req, res) {
+        const { materialId } = req.params;
+        const updatedData = req.body;
+
+        try {
+            const material = await Material.updateMaterial(materialId, updatedData);
+            res.status(200).json({ message: 'Material updated successfully', material });
+        } catch (error) {
+            console.error('Error updating material:', error);
+            res.status(500).json({ message: 'Internal server error while updating material.' });
+        }
+    }
 }
 
 export default MaterialController;

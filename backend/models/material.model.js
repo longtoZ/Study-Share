@@ -204,6 +204,16 @@ class Material {
 
         return tempFilePath;
     }
+
+    static async updateMaterial(material_id, updatedData) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .update(updatedData)
+            .eq('material_id', material_id);
+
+        if (error) throw error;
+        return data;
+    }
 }
 
 export default Material;

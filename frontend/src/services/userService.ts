@@ -1,4 +1,5 @@
 import type { User, Statistic, Material, Lesson} from '@interfaces/userProfile'
+import type { Subject } from '@interfaces/table';
 
 const USER_PROFILE_ENDPOINT = import.meta.env.VITE_USER_PROFILE_ENDPOINT;
 const USER_STATISTICS_ENDPOINT = import.meta.env.VITE_USER_STATISTICS_ENDPOINT;
@@ -41,7 +42,7 @@ const calculateStatistics = async (userId: string): Promise<Statistic> => {
 	}
 }
 
-const retrieveAllSubjects = async (): Promise<string[]> => {
+const retrieveAllSubjects = async (): Promise<Subject[]> => {
 	try {
 		const response = await fetch(SUBJECTS_ENDPOINT);
 		if (!response.ok) {

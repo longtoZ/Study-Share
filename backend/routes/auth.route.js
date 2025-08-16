@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import AuthController from '../controllers/auth.controller.js';
-import { authMiddleware } from '../middleware/auth.middleware.js';
+import AuthMiddleware from '../middleware/auth.middleware.js';
 
 const router = Router();
 
-router.get('/verify', authMiddleware, AuthController.verifyUser);
+router.get('/verify', AuthMiddleware.verifyUser, AuthController.verifyUser);
 
 export default router;

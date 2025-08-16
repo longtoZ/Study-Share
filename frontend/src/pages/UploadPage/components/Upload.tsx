@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
-import DropdownList from '@/components/common/DropdownList';
-import type { Subject } from '@/interfaces/table';
+import DropdownList from '@components/common/DropdownList';
+import type { Subject } from '@interfaces/table';
 import { useDispatch } from 'react-redux';
-import { setMaterial } from '@/redux/materialSlice';
+import { setMaterial } from '@redux/materialSlice';
 
 const Upload = ({ file, material_id, subjects }: { file: File, material_id: string, subjects: Subject[] }) => {
     const [isExpanded, setIsExpanded] = useState(false);

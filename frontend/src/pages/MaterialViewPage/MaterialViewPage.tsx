@@ -5,6 +5,7 @@ import { retrieveUserData } from "@/services/userService";
 import { getSubject } from "@/services/subjectService";
 import { createComment, getComments, voteComment } from '@services/commentService';
 import { useSelector } from "react-redux";
+import { verifyUser } from '@services/authService';
 
 import MetadataCard from "./components/MetadataCard";
 import AddLessonCard from "./components/AddLessonCard";
@@ -28,6 +29,7 @@ import {
 	SendOutlined as SendOutlinedIcon,
 	ThumbUpAltOutlined as ThumbUpAltOutlinedIcon,
 	ThumbDownAltOutlined as ThumbDownAltOutlinedIcon,
+    SettingsOutlined as SettingsOutlinedIcon
 } from "@mui/icons-material";
 
 const GET_MATERIAL_PAGE_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_PAGE_ENDPOINT;
@@ -55,11 +57,13 @@ const MaterialViewPage = () => {
     const [upvoteChoice, setUpvoteChoice] = useState<boolean>(false);
     const [downvoteChoice, setDownvoteChoice] = useState<boolean>(false);
     const [voteTypeChoice, setVoteTypeChoice] = useState<string>("");
+    const [isAuthor, setIsAuthor] = useState<boolean>(false);
 
     const userState = useSelector((state: any) => state.user);
 
     const { materialId } = useParams();
     const scrollViewRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
 
     const getImagePage = async (pageNumber: number) => {
         const imageUrl = GET_MATERIAL_PAGE_ENDPOINT.replace(
@@ -142,6 +146,13 @@ const MaterialViewPage = () => {
                     });
 				}
 			}
+
+            try {
+                await verifyUser();
+                setIsAuthor(true);
+            } catch (error) {
+                console.error("Error verifying user:", error);
+            }
         };
 
         fetchData();
@@ -251,6 +262,16 @@ const MaterialViewPage = () => {
 
     return (
         <div className="bg-gray-100 min-h-screen font-sans p-4 md:p-8 lg:p-12">
+            {isAuthor && (
+                <div className="mb-6 flex justify-end">
+                    <button 
+                        className="flex items-center gap-2 rounded-xl shadow-lg bg-white py-3 px-4 cursor-pointer hover:bg-zinc-100"
+                        onClick={() => navigate(`/material/${material?.material_id}/edit`)}>
+                        <SettingsOutlinedIcon/>
+                        <h3>Edit Material</h3>
+                    </button>
+                </div>
+            )}
             <div className="flex flex-col gap-8 max-w-7xl mx-auto">
                 {/* Header Section: Title, User Info, and CTA */}
                 <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10 lg:p-12">
