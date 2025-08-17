@@ -50,6 +50,31 @@ class LessonController {
             res.status(500).json({ message: 'Internal server error while adding material to lesson.' });
         }
     }
+
+    static async getLessonById(req, res) {
+        const { lessonId } = req.params;
+
+        try {
+            const lesson = await Lesson.getLessonById(lessonId);
+            res.status(200).json({ message: 'Lesson fetched successfully', lesson });
+        } catch (error) {
+            console.error('Error fetching lesson:', error);
+            res.status(500).json({ message: 'Internal server error while fetching lesson.' });
+        }
+    }
+
+    static async updateLesson(req, res) {
+        const { lessonId } = req.params;
+        const updatedData = req.body;
+
+        try {
+            const lesson = await Lesson.updateLesson(lessonId, updatedData);
+            res.status(200).json({ message: 'Lesson updated successfully', lesson });
+        } catch (error) {
+            console.error('Error updating lesson:', error);
+            res.status(500).json({ message: 'Internal server error while updating lesson.' });
+        }
+    }
 }
 
 export default LessonController;

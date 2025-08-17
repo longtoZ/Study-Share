@@ -81,6 +81,37 @@ class Lesson {
 
         return { materialData, lessonData: updatedLessonData };
     }
+
+    static async getLessonById(lesson_id) {
+        const { data, error } = await supabase
+            .from(TABLES.LESSON)
+            .select('*')
+            .eq('lesson_id', lesson_id)
+            .single();
+
+        if (error) throw error;
+
+        return data;
+    }
+
+    static async updateLesson(lesson_id, updatedData) {
+        // Only allow specific fields to be updated
+        const allowed = ['name', 'description', 'is_public'];
+        const payload = Object.fromEntries(
+            Object.entries(updatedData).filter(([k]) => allowed.includes(k))
+        );
+
+        const { data, error } = await supabase
+            .from(TABLES.LESSON)
+            .update(payload)
+            .eq('lesson_id', lesson_id)
+            .select('*')
+            .single();
+
+        if (error) throw error;
+
+        return data;
+    }
 }
 
 export default Lesson;

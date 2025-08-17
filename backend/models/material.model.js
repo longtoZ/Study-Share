@@ -91,12 +91,13 @@ class Material {
         return data;
     }
 
-    static async getMaterialsByUserId(user_id) {
+    static async getMaterialsByUserId(user_id, order) {
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
             .select('*')
-            .eq('user_id', user_id);
-        
+            .eq('user_id', user_id)
+            .order('upload_date', { ascending: order === 'oldest' });
+
         if (error && error.code !== 'PGRST116') throw error;
 
         if (!data || data.length === 0) {
@@ -206,9 +207,14 @@ class Material {
     }
 
     static async updateMaterial(material_id, updatedData) {
+        const allowed = ['name', 'description', 'subject_id', 'lesson_id'];
+        const payload = Object.fromEntries(
+            Object.entries(updatedData).filter(([k]) => allowed.includes(k))
+        );
+
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
-            .update(updatedData)
+            .update(payload)
             .eq('material_id', material_id);
 
         if (error) throw error;

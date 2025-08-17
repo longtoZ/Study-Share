@@ -10,7 +10,6 @@ class AuthMiddleware {
         }
 
         const token = authHeader.split(' ')[1];
-        console.log(token);
 
         try {
             const decoded = jwt.verify(token, jwtConfig.secret);

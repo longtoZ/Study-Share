@@ -55,7 +55,7 @@ const UserProfilePage = () => {
 			try {
 				const subjects = await retrieveAllSubjects();
 				console.log('Subjects:', subjects);
-				const materials = await retrieveMaterials(userId, subjects);
+				const materials = await retrieveMaterials(userId, subjects, 'newest');
 				const lessons = await retriveLessons(userId, 'newest');
 				console.log('User Materials:', materials);
 				console.log('User Lessons:', lessons);
@@ -137,7 +137,7 @@ const UserProfilePage = () => {
 				<MaterialsGrid materials={materials} />
 
 				<div>
-					<button className='button-outline w-full px-6 py-2 rounded-md mt-10 flex items-center justify-center'>
+					<button className='button-outline w-full px-6 py-2 rounded-md mt-10 flex items-center justify-center' onClick={() => {navigate(`/user/${userId}/materials`)}}>
 						Show More
 						<ArrowForwardIosOutlinedIcon className='ml-1' style={{fontSize: '1.2rem'}}/>
 					</button>

@@ -56,9 +56,9 @@ const retrieveAllSubjects = async (): Promise<Subject[]> => {
 	}
 }
 
-const retrieveMaterials = async (userId: string, subjects: any[]): Promise<Material[]> => {
+const retrieveMaterials = async (userId: string, subjects: Subject[], materialOrder: "newest" | "oldest"): Promise<Material[]> => {
 	try {
-		const response = await fetch(`${USER_MATERIALS_ENDPOINT}/${userId}`);
+		const response = await fetch(`${USER_MATERIALS_ENDPOINT}/${userId}?order=${materialOrder}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch user materials');
 		}

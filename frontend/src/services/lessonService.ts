@@ -1,5 +1,6 @@
 const ALL_MATERIALS_LESSON_ENDPOINT = import.meta.env.VITE_ALL_MATERIALS_LESSON_ENDPOINT;
 const ADD_MATERIAL_LESSON_ENDPOINT = import.meta.env.VITE_ADD_MATERIAL_LESSON_ENDPOINT;
+const GET_LESSON_ENDPOINT = import.meta.env.VITE_GET_LESSON_ENDPOINT;
 
 const retrieveAllMaterials = async (lessonId: string) => {
     try {
@@ -34,3 +35,46 @@ const addMaterialToLesson = async (lessonId: string, materialId: string) => {
 }
 
 export { retrieveAllMaterials, addMaterialToLesson };
+ 
+// New: get and update a single lesson
+const getLesson = async (lessonId: string) => {
+    console.log('Fetching lesson with ID:', lessonId);
+    const url = GET_LESSON_ENDPOINT.replace('lesson-id', lessonId);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch lesson');
+        }
+        const data = await response.json();
+        return data.lesson;
+    } catch (error) {
+        console.error('Error fetching lesson:', error);
+    }
+    return null;
+}
+
+const updateLesson = async (lessonId: string, updatedData: any) => {
+    console.log('Updating lesson with ID:', lessonId);
+    const url = GET_LESSON_ENDPOINT.replace('lesson-id', lessonId);
+    const token = localStorage.getItem('user_token') || '';
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedData),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to update lesson');
+        }
+        const data = await response.json();
+        return data.lesson;
+    } catch (error) {
+        console.error('Error updating lesson:', error);
+    }
+    return null;
+}
+
+export { getLesson, updateLesson };
