@@ -104,6 +104,19 @@ class MaterialController {
             res.status(500).json({ message: 'Internal server error while updating material.' });
         }
     }
+
+    static async searchMaterial(req, res) {
+        const { query } = req.query;
+        const { filters } = req.body;
+
+        try {
+            const materials = await MaterialService.searchMaterial(query, filters);
+            res.status(200).json({ message: 'Search results fetched successfully', materials });
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+            res.status(500).json({ message: 'Internal server error while fetching search results.' });
+        }
+    }
 }
 
 export default MaterialController;

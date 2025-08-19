@@ -1,4 +1,5 @@
 import Lesson from "../models/lesson.model.js";
+import LessonService from "../services/lesson.service.js";
 
 class LessonController {
     static async getLessonsByUserId(req, res) {
@@ -73,6 +74,19 @@ class LessonController {
         } catch (error) {
             console.error('Error updating lesson:', error);
             res.status(500).json({ message: 'Internal server error while updating lesson.' });
+        }
+    }
+
+    static async searchLesson(req, res) {
+        const { query } = req.query;
+        const { filters } = req.body;
+
+        try {
+            const lessons = await LessonService.searchLesson(query, filters);
+            res.status(200).json({ message: 'Lessons fetched successfully', lessons });
+        } catch (error) {
+            console.error('Error fetching lessons:', error);
+            res.status(500).json({ message: 'Internal server error while fetching lessons.' });
         }
     }
 }

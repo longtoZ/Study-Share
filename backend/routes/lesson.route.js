@@ -9,5 +9,6 @@ router.get('/:lessonId/all-materials', LessonController.getAllMaterialsByLessonI
 router.post('/:lessonId/add-material', LessonController.addMaterialToLesson);
 router.get('/:lessonId', LessonController.getLessonById);
 router.put('/:lessonId', AuthMiddleware.verifyUser, LessonController.updateLesson);
+router.post('/search', LessonController.searchLesson);
 
 export default router;

@@ -1,4 +1,5 @@
 const GET_MATERIAL_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_ENDPOINT;
+const SEARCH_MATERIAL_ENDPOINT = import.meta.env.VITE_SEARCH_MATERIAL_ENDPOINT;
 
 const getMaterial = async (materialId: string) => {
     console.log('Fetching material with ID:', materialId);
@@ -46,4 +47,28 @@ const updateMaterial = async (materialId: string, updatedData: any) => {
     return null;
 };
 
-export { getMaterial, updateMaterial };
+const searchMaterial = async (query: string, filters: any) => {
+    console.log('Searching materials with query:', query, 'and filters:', filters);
+
+    try {
+        const response = await fetch(`${SEARCH_MATERIAL_ENDPOINT}?query=${encodeURIComponent(query)}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filters })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to search materials');
+        }
+
+        const data = await response.json();
+        return data.materials;
+    } catch (error) {
+        console.error('Error searching materials:', error);
+    }
+
+    return [];
+}
+
+export { getMaterial, updateMaterial, searchMaterial };

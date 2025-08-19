@@ -1,0 +1,302 @@
+import React, { useState, useEffect } from 'react';
+import MaterialsGrid from '@components/layout/MaterialsGrid';
+import LessonsGrid from '@components/layout/LessonsGrid';
+
+import type { Subject } from '@/interfaces/table';
+import type { Material, Lesson } from '@/interfaces/userProfile';
+
+import { retrieveAllSubjects } from '@/services/userService';
+import { retriveLessons } from '@/services/userService';
+import { searchMaterial } from '@/services/materialService';
+import { searchLesson } from '@/services/lessonService';
+
+import DropdownList from '@components/common/DropdownList';
+
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import SortOutlinedIcon from '@mui/icons-material/SortOutlined';
+
+type TabKey = 'materials' | 'lessons';
+type MaterialSort = 'upload_date' | 'download_count' | 'view_count' | 'rating_count';
+type LessonSort = 'created_date' | 'material_count';
+
+interface MaterialFilters {
+    from?: string;
+    to?: string;
+    author?: string;
+    subject_id?: string;
+    lesson_id?: string;
+    sort_by: MaterialSort;
+    order: 'asc' | 'desc';
+}
+
+interface LessonFilters {
+    from?: string;
+    to?: string;
+    author?: string;
+    sort_by: LessonSort;
+    order: 'asc' | 'desc';
+}
+
+const SearchPage: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<TabKey>('materials');
+    const [queryInput, setQueryInput] = useState('');
+    const [query, setQuery] = useState('');
+    const [showFilters, setShowFilters] = useState(true);
+    const [subjects, setSubjects] = useState<Subject[]>([]);
+    const [lessons, setLessons] = useState<Lesson[]>([]);
+
+    const [retrievedMaterials, setRetrievedMaterials] = useState<Material[]>([]);
+    const [retrievedLessons, setRetrievedLessons] = useState<Lesson[]>([]);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+    const materialSortOptions = [
+        {id: 'upload_date', name: 'Date created'},
+        {id: 'download_count', name: 'Downloads count'},
+        {id: 'view_count', name: 'Views count'},
+        {id: 'rating_count', name: 'Rating'},
+    ];
+
+    const lessonSortOptions = [
+        {id: 'created_date', name: 'Date created'},
+        {id: 'material_count', name: 'Material count'},
+    ];
+
+    const orderOptions = [
+        {id: 'asc', name: 'Ascending'},
+        {id: 'desc', name: 'Descending'},
+    ];
+
+    const userId = localStorage.getItem('user_id') || '';
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const subjects = await retrieveAllSubjects();
+            const lessons = await retriveLessons(userId, 'newest');
+            setSubjects(subjects);
+            setLessons(lessons);
+        }
+
+        fetchData();
+    }, []);
+
+    const [materialFilters, setMaterialFilters] = useState<MaterialFilters>({
+        from: new Date(0).toISOString().split('T')[0], // Default to epoch start
+        to: new Date().toISOString().split('T')[0], // Default to today
+        subject_id: '',
+        lesson_id: '',
+        sort_by: 'upload_date',
+        order: 'desc',
+    });
+
+    const [lessonFilters, setLessonFilters] = useState<LessonFilters>({
+        from: new Date(0).toISOString().split('T')[0], // Default to epoch start
+        to: new Date().toISOString().split('T')[0], // Default to today
+        sort_by: 'created_date',
+        order: 'desc',
+    });
+
+    const onSubmitSearch = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
+
+        setQuery(queryInput.trim());
+
+        const materials = await searchMaterial(query, materialFilters);
+        const lessons = await searchLesson(query, lessonFilters);
+        setRetrievedMaterials(materials);
+        setRetrievedLessons(lessons);
+    };
+
+    const onLessonSelect = (lesson: any) => {
+        setLessonFilters((f) => ({ ...f, lesson_id: lesson.id }));
+    };
+
+    const onSubjectSelect = (subject: any) => {
+        setMaterialFilters((f) => ({ ...f, subject_id: subject.id }));
+    };
+
+    const onSortSelect = (sort: any) => {
+        setMaterialFilters((f) => ({ ...f, sort_by: sort.id }));
+    };
+
+    const onOrderSelect = (order: any) => 
+        setMaterialFilters((f) => ({ ...f, order: order.id }));
+
+    return (
+        <>
+            <div className="flex flex-col gap-4 p-6 m-12 mb-6 bg-primary rounded-xl">
+                {/* Search bar */}
+                <form
+                    onSubmit={onSubmitSearch}
+                    className="flex items-center gap-2 border border-zinc-300 rounded-xl p-2"
+                >
+                    <SearchOutlinedIcon />
+                    <input
+                        aria-label="Search"
+                        type="text"
+                        value={queryInput}
+                        onChange={(e) => setQueryInput(e.target.value)}
+                        placeholder="Search materials or lessons..."
+                        className="flex-1 bg-transparent border-0 outline-none text-sm py-1.5 px-1"
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') onSubmitSearch();
+                        }}
+                    />
+                    <button
+                        type="button"
+                        aria-label="Toggle filters"
+                        onClick={() => setShowFilters((s) => !s)}
+                        className="inline-flex items-center gap-1.5 text-gray-700 hover:text-gray-900 p-1.5 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500"
+                        title="Filters"
+                    >
+                        <TuneOutlinedIcon />
+                    </button>
+                    <button
+                        type="submit"
+                        aria-label="Search"
+                        className="button-primary px-4 py-2 w-28"
+                        title="Search"
+                        onClick={onSubmitSearch}
+                    >
+                        Search
+                    </button>
+                </form>
+
+                {/* Tabs */}
+                <div className="flex gap-2 border-b border-gray-200">
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('materials')}
+                        className={`px-3 py-2 cursor-pointer font-semibold bg-transparent focus:outline-none border-b-[3px] ${
+                            activeTab === 'materials'
+                                ? 'border-blue-600 text-blue-600'
+                                : 'border-transparent text-gray-600'
+                        }`}
+                    >
+                        Material
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('lessons')}
+                        className={`px-3 py-2 cursor-pointer font-semibold bg-transparent focus:outline-none border-b-[3px] ${
+                            activeTab === 'lessons'
+                                ? 'border-blue-600 text-blue-600'
+                                : 'border-transparent text-gray-600'
+                        }`}
+                    >
+                        Lesson
+                    </button>
+                </div>
+
+                {/* Filters */}
+                {showFilters && (
+                    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 border border-zinc-300 rounded-lg p-3">
+                        {/* Date range */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                From
+                            </label>
+                            <input
+                                type="date"
+                                value={activeTab === 'materials' ? (materialFilters.from || '') : (lessonFilters.from || '')}
+                                onChange={(e) =>
+                                    activeTab === 'materials'
+                                        ? setMaterialFilters((f) => ({ ...f, from: e.target.value }))
+                                        : setLessonFilters((f) => ({ ...f, from: e.target.value }))
+                                }
+                                className="p-2 rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                To
+                            </label>
+                            <input
+                                type="date"
+                                value={activeTab === 'materials' ? (materialFilters.to || '') : (lessonFilters.to || '')}
+                                onChange={(e) =>
+                                    activeTab === 'materials'
+                                        ? setMaterialFilters((f) => ({ ...f, to: e.target.value }))
+                                        : setLessonFilters((f) => ({ ...f, to: e.target.value }))
+                                }
+                                className="p-2 rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                Author
+                            </label>
+                            <input
+                                type="text"
+                                value={activeTab === 'materials' ? (materialFilters.author || '') : (lessonFilters.author || '')}
+                                placeholder='Author id...'
+                                onChange={(e) =>
+                                    activeTab === 'materials'
+                                        ? setMaterialFilters((f) => ({ ...f, author: e.target.value }))
+                                        : setLessonFilters((f) => ({ ...f, author: e.target.value }))
+                                }
+                                className="p-2 rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
+                        {/* Material-only filters */}
+                        {activeTab === 'materials' && (
+                            <>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                        Subject
+                                    </label>
+                                    <DropdownList options={subjects.map(subject => ({ id: subject.subject_id, name: subject.name }))} onSelect={onSubjectSelect} />
+                                </div>
+
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                        In lesson
+                                    </label>
+                                    <DropdownList options={lessons.map(lesson => ({ id: lesson.lesson_id, name: lesson.name }))} onSelect={onLessonSelect}/>
+                                </div>
+
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                        Sort by
+                                    </label>
+                                    <DropdownList options={materialSortOptions} onSelect={onSortSelect} />
+                                </div>
+                            </>
+                        )}
+
+                        {/* Lesson-only filters */}
+                        {activeTab === 'lessons' && (
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                    Sort by
+                                </label>
+                                <DropdownList options={lessonSortOptions} onSelect={onSortSelect} />
+                            </div>
+                        )}
+
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-xs text-gray-600 flex items-center gap-1.5">
+                                Order
+                            </label>
+                            <DropdownList options={orderOptions} onSelect={onOrderSelect} />
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <div className="flex flex-col gap-4 p-6 m-12 mt-4 rounded-xl bg-primary">
+                {activeTab === 'materials' ? (
+                    // Pass filters and query downstream; 'as any' preserves compatibility with unknown prop types.
+                    <MaterialsGrid materials={retrievedMaterials} />
+                ) : (
+                    <LessonsGrid lessons={retrievedLessons} />
+                )}
+            </div>
+        </>
+    );
+};
+
+export default SearchPage;

@@ -12,5 +12,6 @@ router.get('/user/:userId', MaterialController.getMaterialByUserId);
 router.get('/:materialId', MaterialController.getMaterialById);
 router.get('/:materialId/page/:page', MaterialController.getMaterialPage);
 router.put('/:materialId', AuthMiddleware.verifyUser, MaterialController.updateMaterial);
+router.post('/search', MaterialController.searchMaterial);
 
 export default router;

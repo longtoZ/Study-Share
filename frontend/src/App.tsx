@@ -13,6 +13,7 @@ import AccountSettingPage from "@pages/AccountSettingPage/AccountSettingPage";
 import MaterialEditPage from "@pages/MaterialEditPage/MaterialEditPage";
 import LessonEditPage from "@pages/LessonEditPage/LessonEditPage";
 import MyMaterialsPage from "@pages/MyMaterialsPage/MyMaterialsPage";
+import SearchPage from "@pages/SearchPage/SearchPage";
 
 // Import layout components
 import SideBar from '@components/layout/SideBar';
@@ -48,6 +49,7 @@ function AppContent() {
                     <Route path="/material/:materialId/edit" element={<MaterialEditPage />} />
                     <Route path="/lesson/:lessonId/edit" element={<LessonEditPage />} />
                     <Route path="/user/:userId/materials" element={<MyMaterialsPage />} />
+                    <Route path="/search" element={<SearchPage />} />
                 </Routes>
             </div>
         </div>

@@ -220,6 +220,26 @@ class Material {
         if (error) throw error;
         return data;
     }
+
+    static async searchMaterial(query, filters) {
+        const { from, to, author: user_id, subject_id, lesson_id, sort_by, order } = filters;
+
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('*')
+            .ilike('name', `%${query}%`)
+            .gte('upload_date', from)
+            .lte('upload_date', to)
+            .eq('user_id', user_id)
+            .eq('subject_id', subject_id)
+            .eq('lesson_id', lesson_id)
+            .order(sort_by, { ascending: order === 'asc' });
+        
+        console.log('Search Material Data:', data);
+
+        if (error) throw error;
+        return data;
+    }
 }
 
 export default Material;

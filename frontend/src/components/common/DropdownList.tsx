@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
+interface Option {
+    id: string;
+    name: string;
+}
+
 interface DropdownListProps {
-    options: string[];
+    options: Option[];
     placeholder?: string;
     onSelect: (value: string) => void;
     className?: string;
@@ -22,7 +27,7 @@ const DropdownList = ({
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const filteredOptions = options.filter(option =>
-        option.toLowerCase().includes(searchTerm.toLowerCase())
+        option.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     useEffect(() => {
@@ -36,11 +41,11 @@ const DropdownList = ({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSelect = (option: string) => {
-        setSelectedValue(option);
+    const handleSelect = (option: Option) => {
+        setSelectedValue(option.name);
         setSearchTerm('');
         setIsOpen(false);
-        onSelect(option);
+        onSelect(option.id);
     };
 
     return (
@@ -69,13 +74,13 @@ const DropdownList = ({
                     /> }
                     <div className="max-h-60 overflow-y-auto">
                         {filteredOptions.length > 0 ? (
-                            filteredOptions.map((option, index) => (
+                            filteredOptions.map(option => (
                                 <div
-                                    key={index}
+                                    key={option.id}
                                     className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
                                     onClick={() => handleSelect(option)}
                                 >
-                                    {option}
+                                    {option.name}
                                 </div>
                             ))
                         ) : (

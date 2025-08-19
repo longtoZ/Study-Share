@@ -88,6 +88,22 @@ class MaterialService {
         }
     }
 
+    static async searchMaterial(query, filters) {
+        const { from, to, user_id, subject_id, lesson_id, sort_by, order } = filters
+        const adjustedQuery = {
+            from,
+            to,
+            user_id: user_id === '' ? '*' : user_id,
+            subject_id: subject_id === '' ? '*' : subject_id,
+            lesson_id: lesson_id === '' ? '*' : lesson_id,
+            sort_by,
+            order
+        }
+
+        const results = await Material.searchMaterial(query, adjustedQuery);
+        return results;
+    }
+
 }
 
 export default MaterialService;

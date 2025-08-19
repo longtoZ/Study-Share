@@ -112,6 +112,25 @@ class Lesson {
 
         return data;
     }
+
+    static async searchLesson(query, filters) {
+        const { from, to, author: user_id, sort_by, order } = filters;
+
+        const { data, error } = await supabase
+            .from(TABLES.LESSON)
+            .select('*')
+            .ilike('name', `%${query}%`)
+            .gte('created_date', from)
+            .lte('created_date', to)
+            .eq('user_id', user_id)
+            .order(sort_by, { ascending: order === 'asc' });
+
+        console.log('Search Lesson Data:', data);
+
+        if (error) throw error;
+
+        return data;
+    }
 }
 
 export default Lesson;

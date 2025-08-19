@@ -1,6 +1,7 @@
 const ALL_MATERIALS_LESSON_ENDPOINT = import.meta.env.VITE_ALL_MATERIALS_LESSON_ENDPOINT;
 const ADD_MATERIAL_LESSON_ENDPOINT = import.meta.env.VITE_ADD_MATERIAL_LESSON_ENDPOINT;
 const GET_LESSON_ENDPOINT = import.meta.env.VITE_GET_LESSON_ENDPOINT;
+const SEARCH_LESSON_ENDPOINT = import.meta.env.VITE_SEARCH_LESSON_ENDPOINT;
 
 const retrieveAllMaterials = async (lessonId: string) => {
     try {
@@ -77,4 +78,28 @@ const updateLesson = async (lessonId: string, updatedData: any) => {
     return null;
 }
 
-export { getLesson, updateLesson };
+const searchLesson = async (query: string, filters: any) => {
+    console.log('Searching lessons with query:', query, 'and filters:', filters);
+
+    try {
+        const response = await fetch(`${SEARCH_LESSON_ENDPOINT}?query=${encodeURIComponent(query)}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filters })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to search lessons');
+        }
+
+        const data = await response.json();
+        return data.lessons;
+    } catch (error) {
+        console.error('Error searching lessons:', error);
+    }
+
+    return [];
+}
+
+export { getLesson, updateLesson, searchLesson };
