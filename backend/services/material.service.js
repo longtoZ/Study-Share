@@ -89,13 +89,13 @@ class MaterialService {
     }
 
     static async searchMaterial(query, filters) {
-        const { from, to, user_id, subject_id, lesson_id, sort_by, order } = filters
+        const { from, to, author, subject_id, lesson_id, sort_by, order } = filters
         const adjustedQuery = {
             from,
             to,
-            user_id: user_id === '' ? '*' : user_id,
-            subject_id: subject_id === '' ? '*' : subject_id,
-            lesson_id: lesson_id === '' ? '*' : lesson_id,
+            author: author === '' ? undefined : author,
+            subject_id: subject_id === '' ? undefined : subject_id,
+            lesson_id: lesson_id === '' ? undefined : lesson_id,
             sort_by,
             order
         }

@@ -223,18 +223,23 @@ class Material {
 
     static async searchMaterial(query, filters) {
         const { from, to, author: user_id, subject_id, lesson_id, sort_by, order } = filters;
+        console.log('Search Query:', query);
+        console.log('Search Filters:', filters);
 
-        const { data, error } = await supabase
+        const databaseQuery = supabase
             .from(TABLES.MATERIAL)
             .select('*')
             .ilike('name', `%${query}%`)
             .gte('upload_date', from)
             .lte('upload_date', to)
-            .eq('user_id', user_id)
-            .eq('subject_id', subject_id)
-            .eq('lesson_id', lesson_id)
+
+        if (user_id) databaseQuery.eq('user_id', user_id);
+        if (subject_id) databaseQuery.eq('subject_id', subject_id);
+        if (lesson_id) databaseQuery.eq('lesson_id', lesson_id);
+
+        const { data, error } = await databaseQuery
             .order(sort_by, { ascending: order === 'asc' });
-        
+
         console.log('Search Material Data:', data);
 
         if (error) throw error;

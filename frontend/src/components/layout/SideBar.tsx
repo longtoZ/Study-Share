@@ -15,10 +15,6 @@ import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
-import SwitchLeftRoundedIcon from '@mui/icons-material/SwitchLeftRounded';
-
-import ProfileImage from '@assets/images/profile.png';
-
 const SideBar = () => {
     const navigate = useNavigate();
 
@@ -43,7 +39,7 @@ const SideBar = () => {
                             <HomeOutlinedIcon className="icon-primary" style={{fontSize: '1.4rem'}}/>
                             <span className="leading-[1.5]">Home</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2" onClick={() => navigate('/search')}>
                             <SearchIcon className="icon-primary" style={{fontSize: '1.4rem'}}/>
                             <span className="leading-[1.5]">Search</span>
                         </div>
@@ -89,7 +85,7 @@ const SideBar = () => {
                             <ShoppingCartCheckoutOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">Purchased Materials</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2" onClick={() => navigate('/account-settings')}>
                             <SettingsOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">Settings</span>
                         </div>

@@ -115,14 +115,18 @@ class Lesson {
 
     static async searchLesson(query, filters) {
         const { from, to, author: user_id, sort_by, order } = filters;
+        console.log('Search Filters:', filters);
 
-        const { data, error } = await supabase
+        const databaseQuery = supabase
             .from(TABLES.LESSON)
             .select('*')
             .ilike('name', `%${query}%`)
             .gte('created_date', from)
             .lte('created_date', to)
-            .eq('user_id', user_id)
+
+        if (user_id) databaseQuery.eq('user_id', user_id);
+
+        const { data, error } = await databaseQuery
             .order(sort_by, { ascending: order === 'asc' });
 
         console.log('Search Lesson Data:', data);

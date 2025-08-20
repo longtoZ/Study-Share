@@ -14,11 +14,11 @@ import DropdownList from '@components/common/DropdownList';
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import SortOutlinedIcon from '@mui/icons-material/SortOutlined';
 
 type TabKey = 'materials' | 'lessons';
 type MaterialSort = 'upload_date' | 'download_count' | 'view_count' | 'rating_count';
 type LessonSort = 'created_date' | 'material_count';
+type OrderSort = 'asc' | 'desc';
 
 interface MaterialFilters {
     from?: string;
@@ -27,7 +27,7 @@ interface MaterialFilters {
     subject_id?: string;
     lesson_id?: string;
     sort_by: MaterialSort;
-    order: 'asc' | 'desc';
+    order: OrderSort;
 }
 
 interface LessonFilters {
@@ -35,13 +35,12 @@ interface LessonFilters {
     to?: string;
     author?: string;
     sort_by: LessonSort;
-    order: 'asc' | 'desc';
+    order: OrderSort;
 }
 
 const SearchPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<TabKey>('materials');
     const [queryInput, setQueryInput] = useState('');
-    const [query, setQuery] = useState('');
     const [showFilters, setShowFilters] = useState(true);
     const [subjects, setSubjects] = useState<Subject[]>([]);
     const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -73,6 +72,9 @@ const SearchPage: React.FC = () => {
         const fetchData = async () => {
             const subjects = await retrieveAllSubjects();
             const lessons = await retriveLessons(userId, 'newest');
+
+            subjects.push({ subject_id: '', name: 'All Subjects', description: '' });
+            lessons.push({ lesson_id: '', name: 'All Lessons', description: '', created_date: '', material_count: 0, is_public: false });
             setSubjects(subjects);
             setLessons(lessons);
         }
@@ -85,6 +87,7 @@ const SearchPage: React.FC = () => {
         to: new Date().toISOString().split('T')[0], // Default to today
         subject_id: '',
         lesson_id: '',
+        author: '',
         sort_by: 'upload_date',
         order: 'desc',
     });
@@ -92,6 +95,7 @@ const SearchPage: React.FC = () => {
     const [lessonFilters, setLessonFilters] = useState<LessonFilters>({
         from: new Date(0).toISOString().split('T')[0], // Default to epoch start
         to: new Date().toISOString().split('T')[0], // Default to today
+        author: '',
         sort_by: 'created_date',
         order: 'desc',
     });
@@ -99,28 +103,19 @@ const SearchPage: React.FC = () => {
     const onSubmitSearch = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
 
-        setQuery(queryInput.trim());
+        if (queryInput === '') {
+            alert('Please enter a search query');
+            return;
+        }
 
-        const materials = await searchMaterial(query, materialFilters);
-        const lessons = await searchLesson(query, lessonFilters);
+        setRetrievedMaterials([]);
+        setRetrievedLessons([]);
+
+        const materials = await searchMaterial(queryInput, materialFilters);
+        const lessons = await searchLesson(queryInput, lessonFilters);
         setRetrievedMaterials(materials);
         setRetrievedLessons(lessons);
     };
-
-    const onLessonSelect = (lesson: any) => {
-        setLessonFilters((f) => ({ ...f, lesson_id: lesson.id }));
-    };
-
-    const onSubjectSelect = (subject: any) => {
-        setMaterialFilters((f) => ({ ...f, subject_id: subject.id }));
-    };
-
-    const onSortSelect = (sort: any) => {
-        setMaterialFilters((f) => ({ ...f, sort_by: sort.id }));
-    };
-
-    const onOrderSelect = (order: any) => 
-        setMaterialFilters((f) => ({ ...f, order: order.id }));
 
     return (
         <>
@@ -135,7 +130,7 @@ const SearchPage: React.FC = () => {
                         aria-label="Search"
                         type="text"
                         value={queryInput}
-                        onChange={(e) => setQueryInput(e.target.value)}
+                        onChange={(e) => setQueryInput(e.target.value.trim())}
                         placeholder="Search materials or lessons..."
                         className="flex-1 bg-transparent border-0 outline-none text-sm py-1.5 px-1"
                         onKeyDown={(e) => {
@@ -248,21 +243,27 @@ const SearchPage: React.FC = () => {
                                     <label className="text-xs text-gray-600 flex items-center gap-1.5">
                                         Subject
                                     </label>
-                                    <DropdownList options={subjects.map(subject => ({ id: subject.subject_id, name: subject.name }))} onSelect={onSubjectSelect} />
+                                    <DropdownList options={subjects.map(subject => ({ id: subject.subject_id, name: subject.name }))} onSelect={(value) => {
+                                        setMaterialFilters((f) => ({ ...f, subject_id: value }));
+                                    }} />
                                 </div>
 
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-xs text-gray-600 flex items-center gap-1.5">
                                         In lesson
                                     </label>
-                                    <DropdownList options={lessons.map(lesson => ({ id: lesson.lesson_id, name: lesson.name }))} onSelect={onLessonSelect}/>
+                                    <DropdownList options={lessons.map(lesson => ({ id: lesson.lesson_id, name: lesson.name }))} onSelect={(value) => {
+                                        setMaterialFilters((f) => ({ ...f, lesson_id: value }));
+                                    }} />
                                 </div>
 
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-xs text-gray-600 flex items-center gap-1.5">
                                         Sort by
                                     </label>
-                                    <DropdownList options={materialSortOptions} onSelect={onSortSelect} />
+                                    <DropdownList options={materialSortOptions} onSelect={(value) => {
+                                        setMaterialFilters((f) => ({ ...f, sort_by: value as MaterialSort }));
+                                    }} />
                                 </div>
                             </>
                         )}
@@ -273,7 +274,9 @@ const SearchPage: React.FC = () => {
                                 <label className="text-xs text-gray-600 flex items-center gap-1.5">
                                     Sort by
                                 </label>
-                                <DropdownList options={lessonSortOptions} onSelect={onSortSelect} />
+                                <DropdownList options={lessonSortOptions} onSelect={(value) => {
+                                    setLessonFilters((f) => ({ ...f, sort_by: value as LessonSort }));
+                                }} />
                             </div>
                         )}
 
@@ -281,15 +284,21 @@ const SearchPage: React.FC = () => {
                             <label className="text-xs text-gray-600 flex items-center gap-1.5">
                                 Order
                             </label>
-                            <DropdownList options={orderOptions} onSelect={onOrderSelect} />
+                            <DropdownList options={orderOptions} onSelect={(value) => {
+                                if (activeTab === 'materials') {
+                                    setMaterialFilters((f) => ({ ...f, order: value as OrderSort }));
+                                } else {
+                                    setLessonFilters((f) => ({ ...f, order: value as OrderSort }));
+                                }
+                            }} />
                         </div>
                     </div>
                 )}
             </div>
 
             <div className="flex flex-col gap-4 p-6 m-12 mt-4 rounded-xl bg-primary">
+                <h1 className="text-xl font-semibold">{activeTab === 'materials' ? 'Materials' : 'Lessons'}</h1>
                 {activeTab === 'materials' ? (
-                    // Pass filters and query downstream; 'as any' preserves compatibility with unknown prop types.
                     <MaterialsGrid materials={retrievedMaterials} />
                 ) : (
                     <LessonsGrid lessons={retrievedLessons} />
