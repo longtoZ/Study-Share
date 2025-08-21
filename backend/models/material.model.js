@@ -1,5 +1,5 @@
 import supabase from '../config/database.js';
-import { TABLES, TEMP_FILE_PATH } from '../constants/constant.js';
+import { TABLES, TEMP_FILE_PATH, MAX_STAR_LEVEL } from '../constants/constant.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -77,6 +77,21 @@ class Material {
                 fs.unlinkSync(file.path);
             }
             throw uploadError;
+        }
+    }
+
+    static async createMaterialRating(material_id) {
+        for (let i = 1; i <= MAX_STAR_LEVEL; i++) {
+            const { data, error } = await supabase
+                .from(TABLES.RATING)
+                .insert([{
+                    material_id: material_id,
+                    star_level: i,
+                    count: 0,
+                }]);
+            if (error) throw error;
+
+            console.log(`Created rating for material ${material_id} with star level ${i}`);
         }
     }
 

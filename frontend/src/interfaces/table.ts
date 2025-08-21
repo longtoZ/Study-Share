@@ -36,4 +36,11 @@ interface User {
     address: string;
 }
 
-export type { Subject, Material, User };
+interface Rating {
+    user_id: string;
+    material_id: string;
+    star_level: number;
+    rated_date: Date;
+}
+
+export type { Subject, Material, User, Rating };

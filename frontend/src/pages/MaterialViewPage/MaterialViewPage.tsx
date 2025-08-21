@@ -9,6 +9,7 @@ import { verifyUser } from '@services/authService';
 
 import MetadataCard from "./components/MetadataCard";
 import AddLessonCard from "./components/AddLessonCard";
+import RatingCard from "./components/RatingCard";
 
 import {
     FileDownloadOutlined as FileDownloadOutlinedIcon,
@@ -510,26 +511,8 @@ const MaterialViewPage = () => {
                         )}
                     </div>
 
-                    {/* (Metadata Grid and Interactive Rating) */}
-                    <div className="w-full flex-none flex flex-col">
-                        {/* Interactive User Rating Card */}
-                        <div className="bg-white rounded-3xl shadow-xl p-6 text-center">
-                            <h3 className="text-lg font-bold text-gray-800 mb-2">
-                                Rate this document
-                            </h3>
-                            <p className="text-sm text-gray-500 mb-4">
-                                Your feedback helps others!
-                            </p>
-                            <div className="flex justify-center">
-                                {renderInteractiveStars()}
-                            </div>
-                            <p className="text-sm text-gray-500 mt-2">
-                                {userRating > 0
-                                    ? `You rated this ${userRating} stars!`
-                                    : "Click to rate"}
-                            </p>
-                        </div>
-                    </div>
+                    {/* Rating Card */}
+                    <RatingCard materialId={materialId} />
 
 					{/* Comment Section */}
 					<div className="bg-white rounded-3xl p-6 shadow-xl">

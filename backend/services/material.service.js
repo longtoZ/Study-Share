@@ -15,6 +15,9 @@ class MaterialService {
         info.file_url = fileUrl;
         const newMaterial = await Material.createData(info);
 
+        // Create initial ratings for the new material
+        await Material.createMaterialRating(info.material_id);
+
         return { material: newMaterial };
     }
 
