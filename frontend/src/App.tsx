@@ -14,6 +14,7 @@ import MaterialEditPage from "@pages/MaterialEditPage/MaterialEditPage";
 import LessonEditPage from "@pages/LessonEditPage/LessonEditPage";
 import MyMaterialsPage from "@pages/MyMaterialsPage/MyMaterialsPage";
 import SearchPage from "@pages/SearchPage/SearchPage";
+import HistoryPage from "@pages/HistoryPage/HistoryPage";
 
 // Import layout components
 import SideBar from '@components/layout/SideBar';
@@ -50,6 +51,7 @@ function AppContent() {
                     <Route path="/lesson/:lessonId/edit" element={<LessonEditPage />} />
                     <Route path="/user/:userId/materials" element={<MyMaterialsPage />} />
                     <Route path="/search" element={<SearchPage />} />
+                    <Route path="/history" element={<HistoryPage />} />
                 </Routes>
             </div>
         </div>

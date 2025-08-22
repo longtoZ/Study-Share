@@ -4,8 +4,12 @@ import { getMaterial } from "@services/materialService";
 import { retrieveUserData } from "@/services/userService";
 import { getSubject } from "@/services/subjectService";
 import { createComment, getComments, voteComment } from '@services/commentService';
+import { addEntry } from "@/services/historyService";
 import { useSelector } from "react-redux";
 import { verifyUser } from '@services/authService';
+import { v4 as uuidv4 } from 'uuid';
+
+import type { History } from "@/interfaces/table";
 
 import MetadataCard from "./components/MetadataCard";
 import AddLessonCard from "./components/AddLessonCard";
@@ -63,6 +67,7 @@ const MaterialViewPage = () => {
     const userState = useSelector((state: any) => state.user);
 
     const { materialId } = useParams();
+    const userId = localStorage.getItem('user_id') || '';
     const scrollViewRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
 
@@ -154,6 +159,17 @@ const MaterialViewPage = () => {
             } catch (error) {
                 console.error("Error verifying user:", error);
             }
+
+            const historyEntry: History = {
+                history_id: `${userId}-${uuidv4()}`,
+                user_id: userId,
+                material_id: materialData.material_id,
+                lesson_id: null,
+                type: 'materials',
+                viewed_date: new Date(),
+            };
+
+            await addEntry(historyEntry);
         };
 
         fetchData();

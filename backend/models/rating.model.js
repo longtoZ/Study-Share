@@ -42,7 +42,17 @@ class Rating {
             .select('*')
             .eq('material_id', material_id);
 
-        console.log('Fetched material rating:', data);
+        if (error) throw error;
+        return data;
+    }
+
+    static async checkUserRating(material_id, user_id) {
+        const { data, error } = await supabase
+            .from(TABLES.RATING_LOG)
+            .select('*')
+            .eq('material_id', material_id)
+            .eq('user_id', user_id)
+            .single();
 
         if (error) throw error;
         return data;

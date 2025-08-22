@@ -22,8 +22,20 @@ class RatingController {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-
     }
+
+    static async checkUserRating(req, res) {
+        const { material_id } = req.params;
+        const user_id = req.query['user-id'];
+
+        try {
+            const hasRated = await RatingService.checkUserRating(material_id, user_id);
+            res.status(200).json({ message: "User rating check completed", hasRated });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 export default RatingController;

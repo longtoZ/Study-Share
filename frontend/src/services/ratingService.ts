@@ -2,6 +2,7 @@ import type { Rating } from "@/interfaces/table";
 
 const RATE_MATERIAL_ENDPOINT = import.meta.env.VITE_RATE_MATERIAL_ENDPOINT;
 const GET_MATERIAL_RATING_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_RATING_ENDPOINT;
+const CHECK_USER_RATING_ENDPOINT = import.meta.env.VITE_CHECK_USER_RATING_ENDPOINT;
 
 const rateMaterial = async (ratingData: Rating) => {
     try {
@@ -45,4 +46,25 @@ const getMaterialRating = async (materialId: string) => {
     }
 };
 
-export { rateMaterial, getMaterialRating };
+const checkUserRating = async (materialId: string, userId: string) => {
+    try {
+        const response = await fetch(`${CHECK_USER_RATING_ENDPOINT.replace('material-id', materialId)}?user-id=${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to check user rating');
+        }
+
+        const data = await response.json();
+        return data.hasRated;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export { rateMaterial, getMaterialRating, checkUserRating };

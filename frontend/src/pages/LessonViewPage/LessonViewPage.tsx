@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { Material } from '@/interfaces/userProfile';
+import type { History } from '@/interfaces/table';
 
 import { retrieveAllMaterials } from '@/services/lessonService';
 import { verifyUser } from '@services/authService';
+import { addEntry } from '@/services/historyService';
+import { v4 as uuidv4 } from 'uuid';
 
 import SearchBar from '@/components/common/SearchBar';
 
@@ -19,6 +22,8 @@ const LessonViewPage = () => {
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
 
     const navigate = useNavigate();
+
+    const userId = localStorage.getItem('user_id') || '';
 
     useEffect(() => {
         const retrieveData = async () => {
@@ -37,6 +42,17 @@ const LessonViewPage = () => {
             } catch (error) {
                 console.error("Error verifying user:", error);
             }
+
+            const historyEntry: History = {
+                history_id: `${userId}-${uuidv4()}`,
+                user_id: userId,
+                material_id: null,
+                lesson_id: lessonId,
+                type: 'lessons',
+                viewed_date: new Date(),
+            };
+
+            await addEntry(historyEntry);
         }
 
         retrieveData();

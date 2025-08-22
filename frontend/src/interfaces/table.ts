@@ -43,4 +43,13 @@ interface Rating {
     rated_date: Date;
 }
 
-export type { Subject, Material, User, Rating };
+interface History {
+    history_id: string;
+    user_id: string;
+    material_id: string | null;
+    lesson_id: string | null;
+    type: string;
+    viewed_date: Date;
+}
+
+export type { Subject, Material, User, Rating, History };

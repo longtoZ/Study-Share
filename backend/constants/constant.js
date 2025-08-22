@@ -5,7 +5,8 @@ const TABLES = {
     SUBJECT: 'Subject',
     COMMENT: 'Comment',
     RATING: 'Rating',
-    RATING_LOG: 'RatingLog'
+    RATING_LOG: 'RatingLog',
+    HISTORY: 'History'
 };
 
 const TEMP_FILE_PATH = './temp/files/';

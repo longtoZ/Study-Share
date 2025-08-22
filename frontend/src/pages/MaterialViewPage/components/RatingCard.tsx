@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { rateMaterial, getMaterialRating } from '@/services/ratingService';
+import { useEffect, useState } from 'react';
+import { rateMaterial, getMaterialRating, checkUserRating } from '@/services/ratingService';
 
 import type { Rating } from '@/interfaces/table';
 
@@ -17,6 +17,7 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
     const [totalRatings, setTotalRatings] = useState(0);
     const [averageRating, setAverageRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
+    const [hasRated, setHasRated] = useState(false);
 
     useEffect(() => {
         if (!materialId) return;
@@ -35,10 +36,13 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
                 const averageRating = totalRatings > 0
                     ? Object.entries(ratingData).reduce((sum, [star, count]) => sum + (parseInt(star) * count), 0) / totalRatings
                     : 0;
+                
+                const hasRated = await checkUserRating(materialId, localStorage.getItem('user_id') || '');
 
                 setRatingData(ratingData);
                 setTotalRatings(totalRatings);
                 setAverageRating(averageRating);
+                setHasRated(hasRated);
             } catch (error) {
                 console.error('Error fetching material rating:', error);
             }
@@ -108,7 +112,7 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-3xl shadow-xl p-6">
             <div className="flex gap-8">
                 {/* Left side - Average Rating */}
                 <div className="flex flex-col items-center justify-center min-w-[200px]">
@@ -147,7 +151,7 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
                     </div>
 
                     {/* User Rating Section */}
-                    {1 && (
+                    {!hasRated && (
                         <div className="border-t pt-4">
                             <h4 className="text-md font-medium mb-3">Rate this material</h4>
                             <div className="flex gap-1">
