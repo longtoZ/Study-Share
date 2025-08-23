@@ -29,12 +29,12 @@ function AppContent() {
     return (
         <div className="bg-secondary text-primary flex">
             {!isExcludedPages && (
-                <div className="w-[18vw]">
+                <div className="w-[18vw] relative">
                     <SideBar />
                 </div>
             )}
             
-            <div className={isExcludedPages ? "w-full" : "w-[82vw]"}>
+            <div className={isExcludedPages ? "w-full" : "w-[80vw] ml-4"}>
                 {!isExcludedPages && <TopBar isDarkMode={false} onToggleDarkMode={() => {}} />}
 
                 <Routes>

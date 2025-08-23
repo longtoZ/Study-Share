@@ -19,8 +19,8 @@ const SideBar = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="fixed top-0 left-0" style={{width: 'inherit'}}>
-            <div className="relative h-[100vh] bg-primary p-4 overflow-y-scroll pb-20 scrollbar-hide">
+        <div className="fixed top-4 left-4" style={{width: 'inherit'}}>
+            <div className="relative h-[95vh] bg-primary p-4 overflow-y-scroll pb-20 scrollbar-hide rounded-2xl shadow-lg">
                 <div className="flex items-center gap-2">
                     <img src={ReactLogo} alt="React Logo" className="w-12 h-12" />
                     <h1 className="text-xl font-bold text-primary">StudyShare</h1>
@@ -35,19 +35,19 @@ const SideBar = () => {
                 <h2 className="mb-2 text-secondary text-sm">Menu</h2>
                 <ul className="space-y-2">
                     <li>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <HomeOutlinedIcon className="icon-primary" style={{fontSize: '1.4rem'}}/>
                             <span className="leading-[1.5]">Home</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2" onClick={() => navigate('/search')}>
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2" onClick={() => navigate('/search')}>
                             <SearchIcon className="icon-primary" style={{fontSize: '1.4rem'}}/>
                             <span className="leading-[1.5]">Search</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <AutoAwesomeOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">AI Chat</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <LeaderboardOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">Leaderboard</span>
                         </div>
@@ -58,19 +58,19 @@ const SideBar = () => {
                 <h2 className="mb-2 text-secondary text-sm">Library</h2>
                 <ul className="space-y-2">
                     <li>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <RestoreOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">Recently Viewed</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <BookmarkAddOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">My Bookmarks</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <ArticleOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">My Materials</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <FolderCopyOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">My Lessons</span>
                         </div>
@@ -81,11 +81,11 @@ const SideBar = () => {
                 <h2 className="mb-2 text-secondary text-sm">Account</h2>
                 <ul className="space-y-2">
                     <li>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2">
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2">
                             <ShoppingCartCheckoutOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">Purchased Materials</span>
                         </div>
-                        <div className="p-2 hover:button-transparent transition-all ease-in-out duration-200 rounded-md cursor-pointer flex gap-2" onClick={() => navigate('/account-settings')}>
+                        <div className="p-2 hover:bg-indigo-100 hover:text-indigo-600 hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer flex gap-2" onClick={() => navigate('/account-settings')}>
                             <SettingsOutlinedIcon className="icon-primary" style={{fontSize: '1.3rem'}}/>
                             <span className="leading-[1.5]">Settings</span>
                         </div>

@@ -88,7 +88,7 @@ html {
 }
 
 .button-primary {
-	background: linear-gradient(to right, var(--color-blue-500), var(--color-indigo-600));
+	background: linear-gradient(to right, var(--color-blue-500), var(--color-violet-600));
 	color: var(--color-zinc-50);
 	border-radius: var(--radius-lg);
 	font-weight: 600;
