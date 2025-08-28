@@ -7,17 +7,22 @@ import PDFUtils from '../utils/pdf.util.js';
 
 class MaterialService {
     static async uploadFile(info, file) {
+        // Create material main file
         const fileUrl = await Material.createFileUrl(info.user_id, file);
 
         info.num_page = fileUrl.totalPages; // Set the number of pages from the uploaded PDF
 
-        delete fileUrl.totalPages; // Remove totalPages from fileUrl to avoid redundancy
+        delete fileUrl.totalPages;
         info.file_url = fileUrl;
-        const newMaterial = await Material.createData(info);
+        const newMaterial = await Material.createMaterialData(info);
 
+        // Create material pages
+        const filePagesUrl = await Material.createFilePagesUrl(info.material_id, file, info.file_type);
+        await Material.createMaterialPagesData(info.material_id, filePagesUrl);
+        
         // Create initial ratings for the new material
         await Material.createMaterialRating(info.material_id);
-
+        
         return { material: newMaterial };
     }
 

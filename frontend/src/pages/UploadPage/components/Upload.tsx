@@ -78,10 +78,10 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                         Subject
                     </label>
                     <DropdownList
-                        options={subjects.map((subject: any) => subject.name)}
+                        options={subjects.map((subject: any) => ({id: subject.subject_id, name: subject.name}))}
                         placeholder="Select a subject"
                         className="w-full"
-                        onSelect={(option) => setFileData({ ...fileData, subject_id: subjects.find((subject: any) => subject.name === option)?.subject_id || '' })}
+                        onSelect={(option) => setFileData({ ...fileData, subject_id: option })}
                     />
                 </div>
 

@@ -27,7 +27,7 @@ const DropdownList = ({
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const filteredOptions = options.filter(option =>
-        option.name.toLowerCase().includes(searchTerm.toLowerCase())
+        option.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     useEffect(() => {

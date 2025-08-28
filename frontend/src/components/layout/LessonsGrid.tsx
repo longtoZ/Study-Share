@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import type { Lesson } from '@/interfaces/userProfile';
 
 import ArticleIcon from '@mui/icons-material/Article';
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
 
 const LessonsGrid = ({ lessons }: { lessons: Lesson[]}) => {
     const navigate = useNavigate();

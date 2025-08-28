@@ -1,10 +1,10 @@
 import supabase from '../config/database.js';
-import { TABLES, TEMP_FILE_PATH, MAX_STAR_LEVEL } from '../constants/constant.js';
+import { TABLES, TEMP_FILE_PATH, MAX_STAR_LEVEL, PDF_TO_WEBP_URL, DOCX_TO_WEBP_URL } from '../constants/constant.js';
 import fs from 'fs';
 import path from 'path';
 
 class Material {
-    static async createData(info) {
+    static async createMaterialData(info) {
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
             .insert([{
@@ -63,8 +63,6 @@ class Material {
                 .from(bucketName)
                 .getPublicUrl(filePath);
 
-            fs.unlinkSync(file.path);
-
             return {
                 path: data.path,
                 fullPath: data.fullPath,
@@ -78,6 +76,48 @@ class Material {
             }
             throw uploadError;
         }
+    }
+
+    static async createFilePagesUrl(storageFilename, file, fileType) {
+        const fileBuffer = fs.readFileSync(file.path);
+
+        const formData = new FormData();
+        const blob = new Blob([fileBuffer], { type: file.mimetype });
+        formData.append('file', blob, file.originalname);
+        formData.append('storage_filename', storageFilename);
+
+        try {
+            const response = await fetch(fileType === 'pdf' ? PDF_TO_WEBP_URL : DOCX_TO_WEBP_URL, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                console.error('Failed to convert file to WebP');
+            }
+
+            const data = await response.json();
+            console.log(data)
+            return data.public_links;
+        } catch (error) {
+            console.error('Error converting PDF to WebP:', error);
+            throw error;
+        } finally {
+            fs.unlinkSync(file.path);
+        }
+    }
+
+    static async createMaterialPagesData(material_id, public_links) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL_PAGE)
+            .insert(public_links.map((link) => ({
+                material_id: material_id,
+                page: link.page,
+                url: link.url,
+            })));
+
+        if (error) throw error;
+        return data;
     }
 
     static async createMaterialRating(material_id) {

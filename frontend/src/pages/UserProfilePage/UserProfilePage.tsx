@@ -5,10 +5,6 @@ import type { Subject } from '@interfaces/table';
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import ArticleIcon from '@mui/icons-material/Article';
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 
 import LessonsGrid from '@/components/layout/LessonsGrid';

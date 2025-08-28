@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, request, jsonify
 from .services import file_converter
 from werkzeug.utils import secure_filename
+from .services.supabase_client import upload_and_get_link
 
 # Create a Blueprint for the routes. A blueprint is a way to organize a group
 # of related views and other functions.
@@ -22,13 +23,13 @@ def convert_pdf_to_webp():
     """
     API endpoint to convert a PDF file to WebP images.
     """
-
-    print(request.files)
     # Check if the post request has the file part
     if 'file' not in request.files:
         return jsonify({'error': 'No file part in the request'}), 400
 
     file = request.files['file']
+    storage_filename = request.form.get('storage_filename', None)
+    print(file, storage_filename)
 
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
@@ -38,7 +39,7 @@ def convert_pdf_to_webp():
     # Check if the file is a PDF and save it securely
     if file and allowed_file(file.filename):
         # Secure the filename to prevent directory traversal attacks
-        filename = secure_filename(file.filename)
+        filename = secure_filename(storage_filename)
         upload_folder = 'uploads'
         os.makedirs(upload_folder, exist_ok=True)
         pdf_path = os.path.join(upload_folder, filename)
@@ -49,16 +50,35 @@ def convert_pdf_to_webp():
 
         try:
             # Call the file conversion service
-            output_dir_webp = 'output_webp'
-            file_converter.pdf_to_webp(pdf_path, output_dir_webp, quality)
-            return jsonify({'message': 'PDF converted to WebP successfully'}), 200
+            output_dir_webp = os.path.join('output_webp', filename)
+            prefix = filename
+            file_converter.pdf_to_webp(pdf_path, output_dir_webp, prefix, quality)
+
+            public_links = []
+            files_list = os.listdir(output_dir_webp)
+
+            for i in range(len(files_list)):
+                webp_filename = files_list[i]
+                webp_path = os.path.join(output_dir_webp, webp_filename)
+                webp_path = webp_path.replace("\\", "/")
+                print(f'Uploading {webp_path}')
+                public_link = upload_and_get_link(webp_path)
+                public_links.append({
+                    'page': i + 1,
+                    'url': public_link
+                })
+
+            return jsonify({'message': 'PDF converted to WebP successfully', 'public_links': public_links}), 200
         except Exception as e:
             # Handle any errors during conversion
             return jsonify({'error': f'Conversion failed: {str(e)}'}), 500
-        # finally:
+        finally:
             # Clean up the uploaded file
-            # os.remove(pdf_path)
-            # You might want to handle cleanup of converted files as well
+            os.remove(pdf_path)
+
+            for file in os.listdir(output_dir_webp):
+                os.remove(os.path.join(output_dir_webp, file))
+            os.rmdir(output_dir_webp)
 
     return jsonify({'error': 'File type not allowed'}), 400
 
@@ -72,6 +92,7 @@ def convert_docx_to_webp():
         return jsonify({'error': 'No file part in the request'}), 400
 
     file = request.files['file']
+    storage_filename = request.form.get('storage_filename', None)
 
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
@@ -81,29 +102,54 @@ def convert_docx_to_webp():
     # Check if the file is a DOCX and save it securely
     if file and allowed_file(file.filename):
         # Secure the filename to prevent directory traversal attacks
-        filename = secure_filename(file.filename)
+        filename = secure_filename(storage_filename)
         upload_folder = 'uploads'
         os.makedirs(upload_folder, exist_ok=True)
         docx_path = os.path.join(upload_folder, filename)
-        file.save(docx_path)
+
+        # Save the uploaded DOCX file with the correct extension
+        file.save(docx_path + '.docx')
 
         try:
             # Call the file conversion service
             output_dir_pdf = 'output_pdf'
-            file_converter.docx_to_pdf(docx_path, output_dir_pdf)
-            pdf_filename = os.path.join(output_dir_pdf, "output.pdf")
+            output_pdf_filename = f"{filename}.pdf"
+            file_converter.docx_to_pdf(docx_path, output_dir_pdf, output_pdf_filename)
+            pdf_filename = os.path.join(output_dir_pdf, output_pdf_filename)
 
             # Convert PDF to WebP
-            output_dir_webp = 'output_webp'
+            output_dir_webp = os.path.join('output_webp', filename)
+            prefix = filename
             os.makedirs(output_dir_webp, exist_ok=True)
-            file_converter.pdf_to_webp(pdf_filename, output_dir_webp)
-            return jsonify({'message': 'DOCX converted to WebP successfully'}), 200
+            file_converter.pdf_to_webp(pdf_filename, output_dir_webp, prefix)
+            
+            public_links = []
+            files_list = os.listdir(output_dir_webp)
+
+            for i in range(len(files_list)):
+                webp_filename = files_list[i]
+                webp_path = os.path.join(output_dir_webp, webp_filename)
+                webp_path = webp_path.replace("\\", "/")
+                print(f'Uploading {webp_path}')
+                public_link = upload_and_get_link(webp_path)
+                public_links.append({
+                    'page': i + 1,
+                    'url': public_link
+                })
+
+            return jsonify({'message': 'DOCX converted to WebP successfully', 'public_links': public_links}), 200
         except Exception as e:
             # Handle any errors during conversion
             return jsonify({'error': f'Conversion failed: {str(e)}'}), 500
-        # finally:
+        finally:
             # Clean up the uploaded file
-            # os.remove(docx_path)
-            # You might want to handle cleanup of converted files as well
+            os.remove(docx_path + '.docx')
+
+            # Clean up the converted files
+            os.remove(os.path.join(output_dir_pdf, output_pdf_filename))
+
+            for file in os.listdir(output_dir_webp):
+                os.remove(os.path.join(output_dir_webp, file))
+            os.rmdir(output_dir_webp)
 
     return jsonify({'error': 'File type not allowed'}), 400
