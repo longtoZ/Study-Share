@@ -98,7 +98,10 @@ class Material {
 
             const data = await response.json();
             console.log(data)
-            return data.public_links;
+            return {
+                filePagesUrl: data.public_links,
+                totalPages: data.public_links[data.public_links.length - 1].page
+            };
         } catch (error) {
             console.error('Error converting PDF to WebP:', error);
             throw error;
@@ -230,35 +233,16 @@ class Material {
         return totalRating / (ratingCount || 1);
     }
 
-    static async downloadMaterial(file_path) {
-        // Ensure the temporary file path exists
-        if (!fs.existsSync(TEMP_FILE_PATH)) {
-            fs.mkdirSync(TEMP_FILE_PATH, { recursive: true });
-        }
-
-        // Check if the file has already been downloaded
-        const existingFilePath = path.join(TEMP_FILE_PATH, path.basename(file_path));
-        if (fs.existsSync(existingFilePath)) {
-            console.log('File already exists:', existingFilePath);
-            return existingFilePath; // Return the existing file path
-        }
-
-        const bucketName = process.env.SUPABASE_BUCKET;
-
+    static async getMaterialPage(material_id, page) {
         const { data, error } = await supabase
-            .storage
-            .from(bucketName)
-            .download(file_path);
-        
-        if (error) throw error;
+            .from(TABLES.MATERIAL_PAGE)
+            .select('*')
+            .eq('material_id', material_id)
+            .eq('page', page)
+            .single();
 
-        const fileBuffer = await data.arrayBuffer();
-        const fileName = path.basename(file_path);
-        const tempFilePath = path.join(TEMP_FILE_PATH, fileName);
-
-        fs.writeFileSync(tempFilePath, Buffer.from(fileBuffer));
-
-        return tempFilePath;
+        if (error && error.code !== 'PGRST116') throw error;
+        return data;
     }
 
     static async updateMaterial(material_id, updatedData) {

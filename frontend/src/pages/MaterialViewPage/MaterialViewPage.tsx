@@ -3,11 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getMaterial } from "@services/materialService";
 import { retrieveUserData } from "@/services/userService";
 import { getSubject } from "@/services/subjectService";
-import { createComment, getComments, voteComment } from '@services/commentService';
 import { addEntry } from "@/services/historyService";
 import { useSelector } from "react-redux";
 import { verifyUser } from '@services/authService';
 import { v4 as uuidv4 } from 'uuid';
+
+import { createComment, getComments, voteComment } from '@services/commentService';
+import { makePayment } from "@/services/paymentService";
 
 import type { History } from "@/interfaces/table";
 
@@ -19,7 +21,6 @@ import {
     FileDownloadOutlined as FileDownloadOutlinedIcon,
     Star as StarIcon,
     ShareOutlined as ShareOutlinedIcon,
-    BookmarkBorderOutlined as BookmarkBorderOutlinedIcon,
     SchoolOutlined as SchoolOutlinedIcon,
     DescriptionOutlined as DescriptionOutlinedIcon,
     CloudDownloadOutlined as CloudDownloadOutlinedIcon,
@@ -29,8 +30,6 @@ import {
     AttachMoneyOutlined as AttachMoneyOutlinedIcon,
     ZoomInOutlined as ZoomInOutlinedIcon,
     ZoomOutOutlined as ZoomOutOutlinedIcon,
-	TrendingUpOutlined as TrendingUpOutlinedIcon,
-	CalendarMonthOutlined as CalendarMonthOutlinedIcon,
 	SendOutlined as SendOutlinedIcon,
 	ThumbUpAltOutlined as ThumbUpAltOutlinedIcon,
 	ThumbDownAltOutlined as ThumbDownAltOutlinedIcon,
@@ -76,21 +75,13 @@ const MaterialViewPage = () => {
             "material-id",
             materialId
         ).replace("page-number", pageNumber.toString());
+        console.log(`Fetching page ${pageNumber} from ${imageUrl}`);
 
         try {
-            const response = await fetch(imageUrl);
-            if (!response.ok) {
-                throw new Error("Failed to fetch material page");
-            }
-
-            const blob = await response.blob();
-            const imageObjectURL = URL.createObjectURL(blob);
-            console.log(imageObjectURL);
-
             setImagePages((prevImages) => {
                 const newImagePage: IImagePage = {
                     pageNumber: pageNumber,
-                    imageUrl: imageObjectURL,
+                    imageUrl: imageUrl,
                 };
 
                 if (
@@ -331,7 +322,11 @@ const MaterialViewPage = () => {
                                 className="flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl
                          bg-gradient-to-r from-blue-500 to-indigo-600 focus:outline-none focus:ring-4 focus:ring-blue-300 w-full sm:w-auto justify-center"
                                 onClick={() =>
-                                    window.open(material?.file_url, "_blank")
+                                    makePayment({
+                                        productName: material.name,
+                                        amount: material.price,
+                                        sellerAccountId: 'cus_SxOM7q7G1twyz4'
+                                    })
                                 }
                             >
                                 <FileDownloadOutlinedIcon className="-mt-[1px]" />

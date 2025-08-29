@@ -1,5 +1,6 @@
 import MaterialService from "../services/material.service.js";
 import Material from "../models/material.model.js";
+import crypto from "crypto";
 
 class MaterialController {
     static async upload(req, res) {
@@ -77,15 +78,21 @@ class MaterialController {
         const { materialId, page } = req.params;
 
         try {
-            const materialPath = await MaterialService.getMaterialByID(materialId, page);
-            
-            // Send file as response
-            res.status(200).sendFile(materialPath, { root: '.' }, (err) => {
-                if (err) {
-                    console.error('Error sending file:', err);
-                    res.status(500).json({ message: 'Internal server error while sending file.' });
-                }
+            const { contentType, imgBuffer } = await MaterialService.getMaterialPage(materialId, page);
+
+            const etag = crypto.createHash("md5").update(imgBuffer).digest("hex");
+
+            res.set({
+                "Cache-Control": "public, max-age=86400", // 1 day
+                "ETag": etag,
+                "Content-Type": contentType,
             });
+
+            if (req.headers["if-none-match"] === etag) {
+                return res.status(304).end();
+            }
+
+            res.send(imgBuffer);
         } catch (error) {
             console.error('Error fetching material page:', error);
             res.status(500).json({ message: 'Internal server error while fetching material page.' });

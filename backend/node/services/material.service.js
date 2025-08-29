@@ -14,10 +14,12 @@ class MaterialService {
 
         delete fileUrl.totalPages;
         info.file_url = fileUrl;
-        const newMaterial = await Material.createMaterialData(info);
 
         // Create material pages
-        const filePagesUrl = await Material.createFilePagesUrl(info.material_id, file, info.file_type);
+        const { filePagesUrl, totalPages } = await Material.createFilePagesUrl(info.material_id, file, info.file_type);
+        info.num_page = totalPages;
+
+        const newMaterial = await Material.createMaterialData(info);
         await Material.createMaterialPagesData(info.material_id, filePagesUrl);
         
         // Create initial ratings for the new material
@@ -40,60 +42,23 @@ class MaterialService {
         };
     }
 
-    static async getMaterialByID(material_id, page) {
-        const material = await Material.getMaterialById(material_id);
+    static async getMaterialPage(material_id, page) {
+        const materialPage = await Material.getMaterialPage(material_id, page);
 
-        if (!material) {
-            throw new Error('Material not found');
+        if (!materialPage) {
+            throw new Error('Material page not found');
         }
 
-        const filePath = JSON.parse(material.file_url).path;
-        const tempFilePath = await Material.downloadMaterial(filePath);
-        console.log('Temporary file path:', tempFilePath);
-
-        if (!fs.existsSync(tempFilePath)) {
-            throw new Error('File not found');
+        const response = await fetch(materialPage.url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch material page');
         }
-        
-        const out_prefix = path.basename(tempFilePath, path.extname(tempFilePath));
-        const out_dir = path.join(TEMP_IMAGE_PATH, out_prefix);
+        const buffer = await response.arrayBuffer();
 
-        // Ensure the output directory exists
-        if (!fs.existsSync(out_dir)) {
-            fs.mkdirSync(out_dir, { recursive: true });
-        }
-
-        const matchedFiles = PDFUtils.checkFileExistsWithRegex(out_dir, `${out_prefix}-.*${page}.png`);
-        
-        // Check if the image already exists
-        if (matchedFiles.length > 0) {
-            const imageFilePath = matchedFiles[0];
-            console.log('Image already exists:', imageFilePath);
-            return imageFilePath;
-        }
-
-        const options = {
-            format: 'png',
-            out_dir: out_dir,
-            out_prefix: out_prefix,
-            page: page,
-            scale: 2048,
-        }
-
-        try {
-            const result = await convert(tempFilePath, options);
-            console.log('PDF converted to image:', result);
-            
-            // if (!fs.existsSync(imageFilePath)) {
-            //     throw new Error('Converted image not found');
-            // }
-
-            return imageFilePath;
-
-        } catch (error) {
-            console.error('Error converting PDF to image:', error);
-            throw new Error('Failed to convert PDF to image');
-        }
+        return {
+            contentType: response.headers.get("content-type"),
+            imgBuffer: Buffer.from(buffer)
+        };
     }
 
     static async searchMaterial(query, filters) {
