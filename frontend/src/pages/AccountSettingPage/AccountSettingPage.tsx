@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PersonalInfo from './layouts/PersonalInfo';
+import ConnectStripe from './layouts/ConnectStripe';
 
 import { verifyUser } from '@services/authService';
 
@@ -24,14 +25,9 @@ const AccountSettingPage: React.FC = () => {
     const renderContent = () => {
         switch (activeTab) {
             case 'personal':
-                return ( <PersonalInfo/>);
-            case 'password':
-                return (
-                    <div className="bg-white p-6 rounded-lg shadow-sm">
-                        <h2 className="text-2xl font-semibold mb-6">Change Password</h2>
-                        <p className="text-gray-500">Password change functionality coming soon...</p>
-                    </div>
-                );
+                return ( <PersonalInfo/> );
+            case 'stripe':
+                return ( <ConnectStripe/> );
             case 'billing':
                 return (
                     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -70,14 +66,14 @@ const AccountSettingPage: React.FC = () => {
                                 Personal Information
                             </button>
                             <button
-                                onClick={() => setActiveTab('password')}
+                                onClick={() => setActiveTab('stripe')}
                                 className={`w-full text-left px-4 py-2 rounded-xl transition-colors ${
-                                    activeTab === 'password'
+                                    activeTab === 'stripe'
                                         ? 'bg-blue-100 text-blue-700'
                                         : 'text-gray-700 hover:bg-gray-100'
                                 }`}
                             >
-                                Change Password
+                                Stripe
                             </button>
                             <button
                                 onClick={() => setActiveTab('billing')}

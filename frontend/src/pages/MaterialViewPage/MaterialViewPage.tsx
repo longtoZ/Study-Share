@@ -325,7 +325,7 @@ const MaterialViewPage = () => {
                                     makePayment({
                                         productName: material.name,
                                         amount: material.price,
-                                        sellerAccountId: 'cus_SxOM7q7G1twyz4'
+                                        sellerAccountId: 'acct_1S1eYEA6pEuNGo54'
                                     })
                                 }
                             >
