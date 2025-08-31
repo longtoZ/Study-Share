@@ -10,6 +10,7 @@ router.post('/upload', upload.single('file'), MaterialController.upload);
 router.get('/statistics/:userId', MaterialController.getStatistics);
 router.get('/user/:userId', MaterialController.getMaterialByUserId);
 router.get('/:materialId', MaterialController.getMaterialById);
+router.get('/url/:materialId', MaterialController.getMaterialUrlById);
 router.get('/:materialId/page/:page', MaterialController.getMaterialPage);
 router.put('/:materialId', AuthMiddleware.verifyUser, MaterialController.updateMaterial);
 router.post('/search', MaterialController.searchMaterial);

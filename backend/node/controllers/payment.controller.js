@@ -1,8 +1,6 @@
-import Stripe from "stripe";
 import PaymentService from "../services/payment.service.js";
 import Payment from "../models/payment.model.js";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+import stripe from "../config/stripe.js";
 
 class PaymentController {
     static async createConnectedAccount(req, res) {
@@ -38,9 +36,10 @@ class PaymentController {
 
     static async paymentSuccess(req, res) {
         const { session_id } = req.query;
+
         try {
-            const paymentRecord = await PaymentService.savePaymentDetails(session_id);
-            res.json(paymentRecord);
+            const fileUrl = await PaymentService.savePaymentDetails(session_id);
+            res.redirect(fileUrl);
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: err.message });

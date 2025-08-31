@@ -34,6 +34,7 @@ interface User {
     background_image_url: string;
     date_of_birth: Date;
     address: string;
+    stripe_account_id: string | null;
 }
 
 interface Rating {

@@ -146,7 +146,21 @@ class Material {
             .single();
 
         if (error && error.code !== 'PGRST116') throw error;
+
+        delete data.file_url; // Remove file_url for security reasons
         return data;
+    }
+
+    static async getMaterialUrlById(material_id) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .select('file_url')
+            .eq('material_id', material_id)
+            .single();
+
+        if (error && error.code !== 'PGRST116') throw error;
+
+        return decodeURIComponent(JSON.parse(data.file_url).publicUrl);
     }
 
     static async getMaterialsByUserId(user_id, order) {

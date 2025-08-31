@@ -74,6 +74,21 @@ class MaterialController {
         }
     }
 
+    static async getMaterialUrlById(req, res) {
+        const { materialId } = req.params;
+
+        try {
+            const fileUrl = await Material.getMaterialUrlById(materialId);
+            if (!fileUrl) {
+                return res.status(404).json({ message: 'Material URL not found' });
+            }
+            res.status(200).json({ message: 'Material URL fetched successfully', fileUrl });
+        } catch (error) {
+            console.error('Error fetching material URL:', error);
+            res.status(500).json({ message: 'Internal server error while fetching material URL.' });
+        }
+    }
+
     static async getMaterialPage(req, res) {
         const { materialId, page } = req.params;
 

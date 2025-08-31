@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DropdownList from '@/components/common/DropdownList';
 
 const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT
@@ -24,7 +25,22 @@ const SignupPage: React.FC = () => {
     const passwordValidRef = useRef<HTMLParagraphElement>(null);
     const retypePasswordValidRef = useRef<HTMLParagraphElement>(null);
 
-    const genderOptions = ['Male', 'Female', 'Prefer not to say'];
+    const navigate = useNavigate();
+
+    const genderOptions = [
+        {
+            id: 'male',
+            name: 'Male'
+        },
+        {
+            id: 'female',
+            name: 'Female'
+        },
+        {
+            id: 'prefer_not_to_say',
+            name: 'Prefer not to say'
+        }
+    ];
 
     const [formData, setFormData] = useState<FormData>({
         email: '',
@@ -122,6 +138,7 @@ const SignupPage: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Form submittied successfully: ', data);
+                navigate('/login');
             } else {
                 console.error('Form submitted failed', response.statusText);
             }

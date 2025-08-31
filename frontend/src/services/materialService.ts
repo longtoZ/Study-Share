@@ -1,5 +1,6 @@
 const GET_MATERIAL_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_ENDPOINT;
 const SEARCH_MATERIAL_ENDPOINT = import.meta.env.VITE_SEARCH_MATERIAL_ENDPOINT;
+const DOWNLOAD_MATERIAL_ENDPOINT = import.meta.env.VITE_DOWNLOAD_MATERIAL_ENDPOINT;
 
 const getMaterial = async (materialId: string) => {
     console.log('Fetching material with ID:', materialId);
@@ -71,4 +72,23 @@ const searchMaterial = async (query: string, filters: any) => {
     return [];
 }
 
-export { getMaterial, updateMaterial, searchMaterial };
+const getMaterialUrl = async (materialId: string) => {
+    console.log('Fetching material URL with ID:', materialId);
+    const getMaterialUrl = DOWNLOAD_MATERIAL_ENDPOINT.replace('material-id', materialId);
+
+    try {
+        const response = await fetch(getMaterialUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch material URL');
+        }
+
+        const data = await response.json();
+        return data.fileUrl;
+    } catch (error) {
+        console.error('Error fetching material URL:', error);
+    }
+
+    return null;
+}
+
+export { getMaterial, updateMaterial, searchMaterial, getMaterialUrl };

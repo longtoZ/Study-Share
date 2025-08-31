@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { createComment, getComments, voteComment } from '@services/commentService';
 import { makePayment } from "@/services/paymentService";
+import { getMaterialUrl } from "@services/materialService";
 
 import type { History } from "@/interfaces/table";
 
@@ -33,7 +34,8 @@ import {
 	SendOutlined as SendOutlinedIcon,
 	ThumbUpAltOutlined as ThumbUpAltOutlinedIcon,
 	ThumbDownAltOutlined as ThumbDownAltOutlinedIcon,
-    SettingsOutlined as SettingsOutlinedIcon
+    SettingsOutlined as SettingsOutlinedIcon,
+    MonetizationOnOutlined as MonetizationOnOutlinedIcon
 } from "@mui/icons-material";
 
 const GET_MATERIAL_PAGE_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_PAGE_ENDPOINT;
@@ -62,6 +64,7 @@ const MaterialViewPage = () => {
     const [downvoteChoice, setDownvoteChoice] = useState<boolean>(false);
     const [voteTypeChoice, setVoteTypeChoice] = useState<string>("");
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
+    const [isMaterialPaid, setIsMaterialPaid] = useState<boolean>(false);
 
     const userState = useSelector((state: any) => state.user);
 
@@ -117,6 +120,7 @@ const MaterialViewPage = () => {
                 setAvgRating(
                     materialData.total_rating / materialData.rating_count || 0
                 );
+                setIsMaterialPaid(!!materialData.price);
             }
 
             const subjectData = await getSubject(materialData.subject_id);
@@ -268,6 +272,36 @@ const MaterialViewPage = () => {
 
     }
 
+    const downloadMaterial = async () => {
+        if (!material) {
+            console.error("No material loaded");
+            return;
+        }
+
+        try {
+            const fileUrl = await getMaterialUrl(material.material_id);
+            
+            // Fetch the file as a blob
+            const response = await fetch(fileUrl);
+            const blob = await response.blob();
+            
+            // Create a blob URL
+            const blobUrl = window.URL.createObjectURL(blob);
+            
+            const anchor = document.createElement('a');
+            anchor.href = blobUrl;
+            anchor.download = material.name;
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+            
+            // Clean up the blob URL
+            window.URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error("Error downloading material:", error);
+        }
+    }
+
     return (
         <div className="bg-gray-100 min-h-screen font-sans p-4 md:p-8 lg:p-12">
             {isAuthor && (
@@ -319,18 +353,36 @@ const MaterialViewPage = () => {
 
                         <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
                             <button
-                                className="flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl
-                         bg-gradient-to-r from-blue-500 to-indigo-600 focus:outline-none focus:ring-4 focus:ring-blue-300 w-full sm:w-auto justify-center"
-                                onClick={() =>
-                                    makePayment({
-                                        productName: material.name,
-                                        amount: material.price,
-                                        sellerAccountId: 'acct_1S1eYEA6pEuNGo54'
-                                    })
+                                className={`flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl
+                         bg-gradient-to-r ${isMaterialPaid && userId !== user?.user_id ? 'from-lime-500 to-green-600' : 'from-blue-500 to-indigo-600'} focus:outline-none focus:ring-4 ${isMaterialPaid && userId !== user?.user_id ? 'focus:ring-green-300' : 'focus:ring-blue-300'} w-full sm:w-auto justify-center cursor-pointer`}
+                                onClick={() => {
+                                        if (isMaterialPaid && userId !== user?.user_id) {
+                                            if (!user.stripe_account_id) {
+                                                alert('Please connect your Stripe account first.');
+                                                return;
+                                            }
+
+                                            makePayment({
+                                                material_id: material.material_id,
+                                                name: material.name,
+                                                buyer_id: userId,
+                                                seller_id: user.user_id,
+                                                seller_stripe_account_id: user.stripe_account_id,
+                                                amount: material.price,
+                                                currency: "usd",
+                                            });
+                                        } else {
+                                            downloadMaterial();
+                                        }
+                                    }
                                 }
                             >
-                                <FileDownloadOutlinedIcon className="-mt-[1px]" />
-                                Download
+                                { isMaterialPaid && userId !== user?.user_id ? (
+                                    <MonetizationOnOutlinedIcon className="-mt-[1px]" />
+                                ) : (
+                                    <FileDownloadOutlinedIcon className="-mt-[1px]" />
+                                )}
+                                {isMaterialPaid && userId !== user?.user_id ? 'Buy' : 'Download'}
                             </button>
                             <AddLessonCard user_id={user?.user_id} material_id={material?.material_id} />
                             <button className="flex items-center gap-2 text-gray-700 bg-gray-100 hover:bg-gray-200 py-3 px-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-md w-full sm:w-auto justify-center">
@@ -506,7 +558,7 @@ const MaterialViewPage = () => {
                                                 ? `$${material.price}`
                                                 : "Free"
                                         }
-                                        isPaid={!!material?.price}
+                                        isPaid={isMaterialPaid}
                                     />
                                 </div>
 

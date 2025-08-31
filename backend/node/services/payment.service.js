@@ -1,8 +1,10 @@
 import Payment from "../models/payment.model.js";
+import stripe from "../config/stripe.js";
+import Material from "../models/material.model.js";
 
 class PaymentService {
     static async redirectToCheckout(info) {
-        const { material_id, name, buyer_id, seller_id, amount, currency } = info;
+        const { material_id, name, buyer_id, seller_id, seller_stripe_account_id, amount, currency } = info;
 
         const session = await stripe.checkout.sessions.create({
             mode: "payment",
@@ -15,21 +17,22 @@ class PaymentService {
                         unit_amount: Math.round(amount * 100),
                     },
                     quantity: 1,
-                    metadata: {
-                        material_id: material_id,
-                        buyer_id: buyer_id,
-                        seller_id: seller_id,
-                    },
+
                 },
             ],
+            metadata: {
+                material_id: material_id,
+                buyer_id: buyer_id,
+                seller_id: seller_id,
+            },
             payment_intent_data: {
                 application_fee_amount: Math.round(amount * 0.1 * 100), // takes 10% commission
                 transfer_data: {
-                    destination: sellerAccountId, // money goes to seller
+                    destination: seller_stripe_account_id, // money goes to seller
                 },
             },
             success_url: "http://localhost:3000/api/payment/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url: "http://localhost:3000/cancel",
+            cancel_url: "http://localhost:3000/api/payment/cancel",
         });
 
         return session;
@@ -39,6 +42,7 @@ class PaymentService {
         const session = await stripe.checkout.sessions.retrieve(session_id, {
             expand: ["payment_intent"],
         });
+        const materialFileUrl = await Material.getMaterialUrlById(session.metadata.material_id);
 
         const paymentRecord = {
             payment_id: session.payment_intent.id,
@@ -49,10 +53,13 @@ class PaymentService {
             currency: session.currency,
             status: session.payment_status,
             created_date: new Date(),
+            file_url: materialFileUrl
         }
 
-        const newPaymentRecord = await Payment.createPaymentRecord(paymentRecord);
-        return newPaymentRecord;
+        console.log("Payment Record to be saved:", paymentRecord);
+        await Payment.createPaymentRecord(paymentRecord);
+
+        return materialFileUrl;
     }
 };
 

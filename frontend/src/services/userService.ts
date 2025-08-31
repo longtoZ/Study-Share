@@ -101,9 +101,14 @@ const retriveLessons = async (userId: string, lessonOrder: "newest" | "oldest"):
 }
 
 const updateUserProfile = async (userId: string, updates: any): Promise<any> => {
+	const token = localStorage.getItem('user_token');
+
 	try {
 		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`, {
 			method: 'PUT',
+			headers: {
+				'Authorization': `Bearer ${token}`
+			},
 			body: updates
 		});
 		if (!response.ok) {

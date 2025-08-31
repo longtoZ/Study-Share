@@ -97,6 +97,16 @@ html {
 	cursor: pointer;
 }
 
+.button-primary-pricing {
+	background: linear-gradient(to right, var(--color-green-500), var(--color-green-600));
+	color: var(--color-zinc-50);
+	border-radius: var(--radius-lg);
+	font-weight: 600;
+	font-size: var(--text-base);
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
 .button-primary:hover {
 	background-color: var(--color-zinc-700);
 }

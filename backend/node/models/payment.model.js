@@ -3,6 +3,10 @@ import { TABLES } from '../constants/constant.js';
 
 class Payment {
     static async createPaymentRecord(info) {
+        if (info.file_url) {
+            delete info.file_url; // Remove file_url before inserting
+        }
+
         const { data, error } = await supabase
             .from(TABLES.PAYMENT)
             .insert([info])
