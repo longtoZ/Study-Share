@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import type { Lesson } from '@/interfaces/userProfile';
-import { retriveLessons } from '@/services/userService';
+import { retrieveLessons } from '@/services/userService';
 import { addMaterialToLesson } from '@/services/lessonService';
 
 import BookmarkBorderOutlined from '@mui/icons-material/BookmarkBorderOutlined';
@@ -27,7 +27,7 @@ const AddLessonCard = ({ user_id, material_id, className = '', hideSearch = fals
 
     useEffect(() => {
         const fetchLessons = async () => {
-            const data = await retriveLessons(user_id, 'newest');
+            const data = await retrieveLessons(user_id, 'newest');
             setLessons(data);
         };
         

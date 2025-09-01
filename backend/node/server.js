@@ -8,7 +8,8 @@ import commentRoutes from './routes/comment.route.js';
 import authRoutes from './routes/auth.route.js';    
 import ratingRoutes from './routes/rating.route.js';
 import historyRoutes from './routes/history.route.js';
-import paymentRoutes from './routes/payment.route.js'
+import paymentRoutes from './routes/payment.route.js';
+import statisticsRoutes from './routes/statistics.route.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/rating', ratingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/statistics', statisticsRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

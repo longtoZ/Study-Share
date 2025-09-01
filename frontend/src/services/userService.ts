@@ -56,9 +56,9 @@ const retrieveAllSubjects = async (): Promise<Subject[]> => {
 	}
 }
 
-const retrieveMaterials = async (userId: string, subjects: Subject[], materialOrder: "newest" | "oldest"): Promise<Material[]> => {
+const retrieveMaterials = async (userId: string, subjects: Subject[], materialOrder: "newest" | "oldest", range: { from: number, to: number }): Promise<Material[]> => {
 	try {
-		const response = await fetch(`${USER_MATERIALS_ENDPOINT}/${userId}?order=${materialOrder}`);
+		const response = await fetch(`${USER_MATERIALS_ENDPOINT}/${userId}?order=${materialOrder}&from=${range.from}&to=${range.to}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch user materials');
 		}
@@ -79,9 +79,9 @@ const retrieveMaterials = async (userId: string, subjects: Subject[], materialOr
 	}
 }
 
-const retriveLessons = async (userId: string, lessonOrder: "newest" | "oldest"): Promise<Lesson[]> => {
+const retrieveLessons = async (userId: string, lessonOrder: "newest" | "oldest", range: { from: number, to: number }): Promise<Lesson[]> => {
 	try {
-		const response = await fetch(`${USER_LESSONS_ENDPOINT}/${userId}?order=${lessonOrder}`);
+		const response = await fetch(`${USER_LESSONS_ENDPOINT}/${userId}?order=${lessonOrder}&from=${range.from}&to=${range.to}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch user lessons');
 		}
@@ -123,4 +123,4 @@ const updateUserProfile = async (userId: string, updates: any): Promise<any> => 
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retriveLessons, calculateStatistics, updateUserProfile };
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile };

@@ -8,7 +8,7 @@ const TABLES = {
     RATING: 'Rating',
     RATING_LOG: 'RatingLog',
     HISTORY: 'History',
-    PAYMENT: 'Payment'
+    PAYMENT: 'Payment',
 };
 
 const TEMP_FILE_PATH = './temp/files/';

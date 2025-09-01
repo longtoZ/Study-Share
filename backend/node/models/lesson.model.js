@@ -2,12 +2,13 @@ import supabase from '../config/database.js';
 import { TABLES } from '../constants/constant.js';
 
 class Lesson {
-    static async getLessonsByUserId(user_id, order) {
+    static async getLessonsByUserId(user_id, order, from, to) {
         const { data, error } = await supabase
             .from(TABLES.LESSON)
-            .select('*')
+            .select('*', { count: 'exact' })
             .eq('user_id', user_id)
-            .order('created_date', { ascending: order === 'oldest' });
+            .order('created_date', { ascending: order === 'oldest' })
+            .range(from, to);
 
         if (error && error.code !== 'PGRST116') throw error;
         

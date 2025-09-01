@@ -51,10 +51,10 @@ class MaterialController {
 
     static async getMaterialByUserId(req, res) {
         const { userId } = req.params;
-        const { order } = req.query;
+        const { order, from, to } = req.query;
 
         try {
-            const materials = await Material.getMaterialsByUserId(userId, order);
+            const materials = await Material.getMaterialsByUserId(userId, order, from, to);
             res.status(200).json({ message: 'Materials fetched successfully', materials: Array.from(materials) });
         } catch (error) {
             console.error('Error fetching materials:', error);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getMaterial } from '@services/materialService';
 import { useParams } from 'react-router-dom';
-import { retriveLessons, retrieveAllSubjects } from '@/services/userService';
+import { retrieveLessons, retrieveAllSubjects } from '@/services/userService';
 import { updateMaterial } from '@services/materialService';
 
 import type { Subject } from '@interfaces/table';
@@ -24,7 +24,7 @@ const MaterialEditPage: React.FC = () => {
 
             const material = await getMaterial(materialId);
             const subjects = await retrieveAllSubjects();
-            const lessons = await retriveLessons(userId, "newest");
+            const lessons = await retrieveLessons(userId, "newest");
             console.log(lessons)
 
             setMaterialData(material);

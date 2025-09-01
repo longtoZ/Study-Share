@@ -43,38 +43,38 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
     const navBarRef = useRef<HTMLDivElement>(null);
     const [prevPos, setPrevPos] = useState(0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!navBarRef.current) return; // Check if the ref is set
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         if (!navBarRef.current) return; // Check if the ref is set
             
-            const currentPos = window.scrollY;
-            if (currentPos > prevPos) {
-                navBarRef.current.style.transform = 'translateY(-125%)'; // Hide the navbar
-            } else {
-                navBarRef.current.style.transform = 'translateY(0)'; // Show the navbar
-            }
-            setPrevPos(currentPos);
-        };
+    //         const currentPos = window.scrollY;
+    //         if (currentPos > prevPos) {
+    //             navBarRef.current.style.transform = 'translateY(-125%)'; // Hide the navbar
+    //         } else {
+    //             navBarRef.current.style.transform = 'translateY(0)'; // Show the navbar
+    //         }
+    //         setPrevPos(currentPos);
+    //     };
 
-        window.addEventListener('scroll', handleScroll);
+    //     window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [prevPos]);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, [prevPos]);
 
     return (
-        <div className="sticky top-4 px-12 py-3 z-50 h-18 rounded-2xl shadow-xl mx-12 bg-[#ffffff] transition duration-250 ease-in-out" ref={navBarRef}>
+        <div className="sticky top-4 px-12 py-3 z-50 h-18 " ref={navBarRef}>
             <div className="flex items-center justify-between max-w-7xl mx-auto h-full">
                 <div className="flex-1 max-w-md">
                     <div className="relative">
-                        <SearchOutlinedIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 icon-primary" />
+                        <SearchOutlinedIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 icon-primary" style={{color: '#ffffff85'}}/>
                         <input
                             type="text"
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 rounded-xl focus:outline-none bg-secondary"
+                            className="w-full pl-10 pr-4 py-2 rounded-xl focus:outline-none bg-[#ffffff25] text-[#ffffff85] focus-visible:shadow-[0_0_0_2px_rgba(255,255,255,0.40)] transition-shadow"
                         />
                     </div>
                 </div>

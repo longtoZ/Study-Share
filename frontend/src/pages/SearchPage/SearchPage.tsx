@@ -6,7 +6,7 @@ import type { Subject } from '@/interfaces/table';
 import type { Material, Lesson } from '@/interfaces/userProfile';
 
 import { retrieveAllSubjects } from '@/services/userService';
-import { retriveLessons } from '@/services/userService';
+import { retrieveLessons } from '@/services/userService';
 import { searchMaterial } from '@/services/materialService';
 import { searchLesson } from '@/services/lessonService';
 
@@ -71,7 +71,7 @@ const SearchPage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             const subjects = await retrieveAllSubjects();
-            const lessons = await retriveLessons(userId, 'newest');
+            const lessons = await retrieveLessons(userId, 'newest');
 
             subjects.push({ subject_id: '', name: 'All Subjects', description: '' });
             lessons.push({ lesson_id: '', name: 'All Lessons', description: '', created_date: '', material_count: 0, is_public: false });

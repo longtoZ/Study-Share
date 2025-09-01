@@ -163,12 +163,13 @@ class Material {
         return decodeURIComponent(JSON.parse(data.file_url).publicUrl);
     }
 
-    static async getMaterialsByUserId(user_id, order) {
+    static async getMaterialsByUserId(user_id, order, from, to) {
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
-            .select('*')
+            .select('*', { count: 'exact' })
             .eq('user_id', user_id)
-            .order('upload_date', { ascending: order === 'oldest' });
+            .order('upload_date', { ascending: order === 'oldest' })
+            .range(from, to);
 
         if (error && error.code !== 'PGRST116') throw error;
 

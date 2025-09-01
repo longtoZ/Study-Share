@@ -19,8 +19,21 @@ html {
 	overflow: -moz-scrollbars-none;
 	-ms-overflow-style: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
 	display: none;
+}
+
+.scrolltrack-hide::-webkit-scrollbar {
+	width: 10px;
+}
+.scrolltrack-hide::-webkit-scrollbar-track {
+	background: rgba(0,0,0,0);
+}
+
+.scrolltrack-hide::-webkit-scrollbar-thumb {
+	background: rgb(167, 167, 167);
+	border-radius: 10px;
 }
 
 .bg-primary {
@@ -125,4 +138,18 @@ html {
 .button-outline:hover {
 	background-color: var(--color-zinc-100);
 	color: var(--color-zinc-700);
+}
+
+.card-shadow {
+	box-shadow: 0 10px 20px 10px rgba(0, 0, 0, 0.08);
+}
+
+td:first-child,
+th:first-child {
+  border-radius: 0.75rem 0 0 0.75rem;
+}
+
+td:last-child,
+th:last-child {
+  border-radius: 0 0.75rem 0.75rem 0;
 }

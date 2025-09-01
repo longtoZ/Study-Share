@@ -112,7 +112,7 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
     };
 
     return (
-        <div className="bg-white rounded-3xl shadow-xl p-6">
+        <div className="bg-white rounded-3xl card-shadow p-6">
             <div className="flex gap-8">
                 {/* Left side - Average Rating */}
                 <div className="flex flex-col items-center justify-center min-w-[200px]">

@@ -55,7 +55,7 @@ class Rating {
             .single();
 
         if (error) throw error;
-        return data;
+        return data || [];
     }
 }
 

@@ -303,7 +303,7 @@ const MaterialViewPage = () => {
     }
 
     return (
-        <div className="bg-gray-100 min-h-screen font-sans p-4 md:p-8 lg:p-12">
+        <div className="bg-gray-100 min-h-screen font-sans p-12 overflow-y-auto scrollbar-hide h-[100vh] pb-36">
             {isAuthor && (
                 <div className="mb-6 flex justify-end">
                     <button 
@@ -314,9 +314,9 @@ const MaterialViewPage = () => {
                     </button>
                 </div>
             )}
-            <div className="flex flex-col gap-8 max-w-7xl mx-auto">
+            <div className="flex flex-col gap-10 max-w-7xl mx-auto">
                 {/* Header Section: Title, User Info, and CTA */}
-                <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10 lg:p-12">
+                <div className="bg-white rounded-3xl card-shadow p-12">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-6">
                         <div>
                             <h1 className="text-4xl font-extrabold text-gray-900 leading-tight mb-2">
@@ -422,7 +422,7 @@ const MaterialViewPage = () => {
                 {/* Main Content Area: Tabs, Viewer, and Metadata Grid */}
                 <div className="flex flex-col gap-8">
                     {/* (Viewer and Tabs) */}
-                    <div className=" bg-white rounded-3xl shadow-xl p-6">
+                    <div className=" bg-white rounded-3xl card-shadow p-8">
                         <div className="flex items-center gap-6 border-b border-gray-200 mb-6">
                             <button
                                 className={`text-lg font-bold pb-3 transition-colors duration-200
@@ -451,7 +451,7 @@ const MaterialViewPage = () => {
                         {currentView === "content" ? (
                             <div className="w-full h-[80vh] bg-gray-100 rounded-2xl flex items-center justify-center p-4 relative">
                                 <div
-                                    className="w-full h-full overflow-y-auto rounded-xl scrollbar-hide"
+                                    className="w-full h-full overflow-y-auto rounded-xl scrolltrack-hide"
                                     onScroll={handleOnScroll}
                                     ref={scrollViewRef}
                                 >
@@ -464,13 +464,9 @@ const MaterialViewPage = () => {
                                                 <img
                                                     src={page.imageUrl}
                                                     alt={`Page ${page.pageNumber}`}
-                                                    className="object-contain h-auto my-6 mx-auto rounded-xl shadow-xl"
+                                                    className="object-contain h-auto my-4 mx-auto rounded-xl shadow-md"
                                                     style={{
-                                                        width: `${
-                                                            imageWidth === 0
-                                                                ? "100%"
-                                                                : imageWidth
-                                                        }px`,
+                                                        width: '100%',
                                                         maxWidth: "none",
                                                     }}
                                                 />
@@ -578,7 +574,7 @@ const MaterialViewPage = () => {
                     <RatingCard materialId={materialId} />
 
 					{/* Comment Section */}
-					<div className="bg-white rounded-3xl p-6 shadow-xl">
+					<div className="bg-white rounded-3xl p-6 card-shadow">
 						<div className="flex justify-between items-center">
 							<h3 className="text-xl font-bold text-gray-800 mb-2">
 								Comments

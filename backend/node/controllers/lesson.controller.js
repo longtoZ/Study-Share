@@ -4,10 +4,10 @@ import LessonService from "../services/lesson.service.js";
 class LessonController {
     static async getLessonsByUserId(req, res) {
         const { userId } = req.params;
-        const { order } = req.query;
+        const { order, from, to } = req.query;
 
         try {
-            const lessons = await Lesson.getLessonsByUserId(userId, order);
+            const lessons = await Lesson.getLessonsByUserId(userId, order, from, to);
             res.status(200).json({ message: 'Lessons fetched successfully', lessons: lessons });
         } catch (error) {
             console.log('Error fetching lessons');
