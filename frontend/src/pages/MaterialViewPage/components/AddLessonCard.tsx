@@ -27,7 +27,7 @@ const AddLessonCard = ({ user_id, material_id, className = '', hideSearch = fals
 
     useEffect(() => {
         const fetchLessons = async () => {
-            const data = await retrieveLessons(user_id, 'newest');
+            const data = await retrieveLessons(user_id, 'newest', { from: 0, to: 99 });
             setLessons(data);
         };
         

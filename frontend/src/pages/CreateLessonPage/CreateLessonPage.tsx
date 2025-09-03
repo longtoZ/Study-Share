@@ -36,7 +36,7 @@ const CreateLessonPage = () => {
 	}
 
 	return (
-		<div className='p-12 min-h-screen'>
+		<div className='p-12 min-h-screen overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
 			<div className='rounded-2xl bg-primary overflow-hidden border border-primary px-10 py-6 mt-4'>
 				<h1 className='text-header-medium'>Create a new lesson</h1>
 				<p className='text-subtitle'>Add your materials or public resources to the lesson. Your contributions will help enrich the learning experience for everyone.</p>

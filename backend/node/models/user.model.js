@@ -43,7 +43,7 @@ class User {
     static async findByID(user_id) {
         const { data, error } = await supabase
             .from(TABLES.USER)
-            .select('*')
+            .select('user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url')
             .eq('user_id', user_id)
             .single();
 

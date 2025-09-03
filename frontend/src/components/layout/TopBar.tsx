@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/userSlice';
@@ -19,7 +19,7 @@ const ACTION_VIEW_PROFILE = 'view-profile';
 const ACTION_SWITCH_ACCOUNT = 'switch-account';
 const ACTION_LOGOUT = 'logout';
 
-const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
+const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -41,31 +41,10 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, onToggleDarkMode }) => {
     };
 
     const navBarRef = useRef<HTMLDivElement>(null);
-    const [prevPos, setPrevPos] = useState(0);
-
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (!navBarRef.current) return; // Check if the ref is set
-            
-    //         const currentPos = window.scrollY;
-    //         if (currentPos > prevPos) {
-    //             navBarRef.current.style.transform = 'translateY(-125%)'; // Hide the navbar
-    //         } else {
-    //             navBarRef.current.style.transform = 'translateY(0)'; // Show the navbar
-    //         }
-    //         setPrevPos(currentPos);
-    //     };
-
-    //     window.addEventListener('scroll', handleScroll);
-
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, [prevPos]);
 
     return (
-        <div className="sticky top-4 px-12 py-3 z-50 h-18 " ref={navBarRef}>
-            <div className="flex items-center justify-between max-w-7xl mx-auto h-full">
+        <div className="sticky px-6 py-3 z-50 h-18 w-full" ref={navBarRef}>
+            <div className="flex items-center justify-between h-full">
                 <div className="flex-1 max-w-md">
                     <div className="relative">
                         <SearchOutlinedIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 icon-primary" style={{color: '#ffffff85'}}/>

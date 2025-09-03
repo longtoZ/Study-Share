@@ -29,9 +29,10 @@ class LessonController {
 
     static async getAllMaterialsByLessonId(req, res) {
         const { lessonId } = req.params;
+        const { order } = req.query;
 
         try {
-            const materials = await Lesson.getAllMaterialsByLessonId(lessonId);
+            const materials = await Lesson.getAllMaterialsByLessonId(lessonId, order);
             res.status(200).json({ message: 'Materials fetched successfully', materials });
         } catch (error) {
             console.error('Error fetching materials:', error);

@@ -38,20 +38,19 @@ class Comment {
     }
 
     static async deleteComment(comment_id) {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from(TABLES.COMMENT)
             .delete()
-            .eq('id', comment_id);
+            .eq('comment_id', comment_id);
 
         if (error) throw error;
-        return data;
     }
 
-    static async voteComment(comment_id, vote, type) {
+    static async voteComment(user_id, comment_id, vote) {
         // Fetch current comment
         const { data: comment, error: fetchError } = await supabase
             .from(TABLES.COMMENT)
-            .select('upvote, downvote')
+            .select('upvote')
             .eq('comment_id', comment_id)
             .single();
 
@@ -59,22 +58,60 @@ class Comment {
         if (!comment) throw new Error('Comment not found');
 
         let newUpvote = comment.upvote;
-        let newDownvote = comment.downvote;
 
         if (vote === "upvote") {
-            newUpvote = type === 'up' ? newUpvote + 1 : Math.max(newDownvote - 1, 0);
-        } else if (vote === "downvote") {
-            newDownvote = type === 'down' ? newDownvote + 1 : Math.max(newUpvote - 1, 0);
+            newUpvote += 1;
+        } else if (vote === "cancel-upvote") {
+            newUpvote = Math.max(newUpvote - 1, 0);
         }
-
-        console.log(`New upvote: ${newUpvote}; New downvote: ${newDownvote}`);
 
         const { data, error } = await supabase
             .from(TABLES.COMMENT)
             .update({
-                upvote: newUpvote,
-                downvote: newDownvote
+                upvote: newUpvote
             })
+            .eq('comment_id', comment_id);
+
+        if (error) throw error;
+
+        // Vote comment (if user hasn't voted yet)
+        const existingRecord = await this.checkUpvoteRecord(user_id, comment_id);
+        if (!existingRecord) {
+            await this.createUpvoteRecord(user_id, comment_id, new Date());
+        } else {
+            await this.removeUpvoteRecord(user_id, comment_id);
+        }
+        
+        return data;
+    }
+
+    static async checkUpvoteRecord(user_id, comment_id) {
+        const { data, error } = await supabase
+            .from(TABLES.UPVOTE)
+            .select('*')
+            .eq('user_id', user_id)
+            .eq('comment_id', comment_id)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data || null;
+    }
+
+    static async createUpvoteRecord(user_id, comment_id, vote_date) {
+        const { data, error } = await supabase
+            .from(TABLES.UPVOTE)
+            .insert([{ user_id, comment_id, vote_date }])
+            .single();
+
+        if (error) throw error;
+        return data;
+    }
+
+    static async removeUpvoteRecord(user_id, comment_id) {
+        const { data, error } = await supabase
+            .from(TABLES.UPVOTE)
+            .delete()
+            .eq('user_id', user_id)
             .eq('comment_id', comment_id);
 
         if (error) throw error;

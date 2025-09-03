@@ -71,7 +71,7 @@ const SearchPage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             const subjects = await retrieveAllSubjects();
-            const lessons = await retrieveLessons(userId, 'newest');
+            const lessons = await retrieveLessons(userId, 'newest', { from: 0, to: 99 });
 
             subjects.push({ subject_id: '', name: 'All Subjects', description: '' });
             lessons.push({ lesson_id: '', name: 'All Lessons', description: '', created_date: '', material_count: 0, is_public: false });
@@ -119,7 +119,8 @@ const SearchPage: React.FC = () => {
 
     return (
         <>
-            <div className="flex flex-col gap-4 p-6 m-12 mb-6 bg-primary rounded-xl">
+            <div className="flex flex-col gap-4 p-6 m-12 mb-6 bg-primary rounded-xl overflow-y-auto scrollbar-hide h-[100vh] pb-36">
+                <h1 className='font-bold text-2xl'>Search</h1>
                 {/* Search bar */}
                 <form
                     onSubmit={onSubmitSearch}

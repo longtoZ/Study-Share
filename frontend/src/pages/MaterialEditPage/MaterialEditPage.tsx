@@ -24,7 +24,7 @@ const MaterialEditPage: React.FC = () => {
 
             const material = await getMaterial(materialId);
             const subjects = await retrieveAllSubjects();
-            const lessons = await retrieveLessons(userId, "newest");
+            const lessons = await retrieveLessons(userId, "newest", {from: 0, to: 99});
             console.log(lessons)
 
             setMaterialData(material);
@@ -87,7 +87,7 @@ const MaterialEditPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-12">
+        <div className="min-h-screen bg-gray-50 p-12 overflow-y-auto scrollbar-hide h-[100vh] pb-36">
             <div className="bg-white shadow-lg rounded-2xl p-8">
                 <h1 className="text-2xl font-bold">Edit Material</h1>
                 <div className='border-b border-zinc-300 my-6'></div>
@@ -166,7 +166,7 @@ const MaterialEditPage: React.FC = () => {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
                                     <DropdownList
-                                        options={subjects.map((subject: Subject) => subject.name)}
+                                        options={subjects.map((subject: Subject) => ({ id: subject.subject_id, name: subject.name }))}
                                         onSelect={onSubjectSelect}
                                         placeholder={subjects.find((subject: Subject) => subject.subject_id === materialData?.subject_id)?.name}
                                     />
@@ -175,7 +175,7 @@ const MaterialEditPage: React.FC = () => {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Lesson</label>
                                     <DropdownList
-                                        options={lessons.map((lesson: Lesson) => lesson.name)}
+                                        options={lessons.map((lesson: Lesson) => ({ id: lesson.lesson_id, name: lesson.name }))}
                                         onSelect={onLessonSelect}
                                         placeholder={lessons.find((lesson: Lesson) => lesson.lesson_id === materialData?.lesson_id)?.name}
                                     />

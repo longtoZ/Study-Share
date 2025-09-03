@@ -40,11 +40,12 @@ class Lesson {
         return data;
     }
 
-    static async getAllMaterialsByLessonId(lesson_id) {
+    static async getAllMaterialsByLessonId(lesson_id, order) {
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
             .select('*')
-            .eq('lesson_id', lesson_id);
+            .eq('lesson_id', lesson_id)
+            .order('upload_date', { ascending: order === 'oldest' });
 
         if (error) throw error;
 

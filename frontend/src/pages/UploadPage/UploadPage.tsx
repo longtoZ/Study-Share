@@ -133,7 +133,7 @@ const UploadPage = () => {
 	}, []);
 
 	return (
-		<div className="p-12 min-h-screen w-full">
+		<div className="p-12 min-h-screen overflow-y-auto scrollbar-hide h-[100vh] pb-36">
 			<div className="mx-auto rounded-2xl bg-primary overflow-hidden border border-primary p-6">
 				<h1 className="text-header-large ml-20 mb-2">Add Document</h1>
 				<p className="text-subtitle ml-20 mb-8">

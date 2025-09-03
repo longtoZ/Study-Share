@@ -46,7 +46,7 @@ const LessonEditPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-12">
+    <div className="min-h-screen bg-gray-50 p-12 overflow-y-auto scrollbar-hide h-[100vh] pb-36">
       <div className="bg-white shadow-lg rounded-2xl p-8">
         <h1 className="text-2xl font-bold">Edit Lesson</h1>
         <div className='border-b border-zinc-300 my-6'></div>

@@ -1,16 +1,27 @@
+import type { Subject } from "@/interfaces/table";
+
 const ALL_MATERIALS_LESSON_ENDPOINT = import.meta.env.VITE_ALL_MATERIALS_LESSON_ENDPOINT;
 const ADD_MATERIAL_LESSON_ENDPOINT = import.meta.env.VITE_ADD_MATERIAL_LESSON_ENDPOINT;
 const GET_LESSON_ENDPOINT = import.meta.env.VITE_GET_LESSON_ENDPOINT;
 const SEARCH_LESSON_ENDPOINT = import.meta.env.VITE_SEARCH_LESSON_ENDPOINT;
 
-const retrieveAllMaterials = async (lessonId: string) => {
+const retrieveAllMaterials = async (lessonId: string, subjects: Subject[], order: "newest" | "oldest") => {
     try {
-        const response = await fetch(ALL_MATERIALS_LESSON_ENDPOINT.replace('lesson-id', lessonId));
+        const response = await fetch(`${ALL_MATERIALS_LESSON_ENDPOINT.replace('lesson-id', lessonId)}?order=${order}`);
         if (!response.ok) {
             throw new Error('Failed to fetch materials');
         }
         const data = await response.json();
-        return data.materials;
+		return data.materials.map((material: any) => ({
+			material_id: material.material_id,
+			name: material.name,
+			description: material.description,
+			subject: subjects.find((subject) => subject.subject_id === material.subject_id)?.name || 'Unknown',
+			upload_date: material.upload_date,
+			download_count: material.download_count,
+			rating: material.total_rating / (material.rating_count || 1), // Avoid division by zero
+			file_type: material.file_type
+		}));
     } catch (error) {
         console.error('Error fetching materials:', error);
     }

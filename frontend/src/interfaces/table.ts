@@ -53,4 +53,9 @@ interface History {
     viewed_date: Date;
 }
 
-export type { Subject, Material, User, Rating, History };
+interface HistoryExtended extends History {
+    material_name: string | null;
+    lesson_name: string | null;
+}
+
+export type { Subject, Material, User, Rating, History, HistoryExtended };

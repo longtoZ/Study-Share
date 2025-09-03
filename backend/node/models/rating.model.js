@@ -52,10 +52,10 @@ class Rating {
             .select('*')
             .eq('material_id', material_id)
             .eq('user_id', user_id)
-            .single();
+            .maybeSingle();
 
         if (error) throw error;
-        return data || [];
+        return data || null;
     }
 }
 

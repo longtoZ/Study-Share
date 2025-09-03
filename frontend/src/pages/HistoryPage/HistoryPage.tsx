@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import { deleteEntry, listEntries } from '@/services/historyService';
-import type { History } from '@/interfaces/table';
+import type { HistoryExtended } from '@/interfaces/table';
 
 import DropdownList from '@/components/common/DropdownList';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -29,7 +29,7 @@ const HistoryPage = () => {
         {id: 'all', name: 'All'}
     ]
     const userId = localStorage.getItem('user_id') || '';
-    const [entries, setEntries] = useState<History[]>([]);
+    const [entries, setEntries] = useState<HistoryExtended[]>([]);
 
     const handleViewChange = async (view: string) => {
         setCurrentView(view as FilterType);
@@ -44,8 +44,12 @@ const HistoryPage = () => {
         setEntries(fetchedEntries);
     };
 
+    useEffect(() => {
+        handleViewChange(currentView);
+    }, []);
+
     return (
-        <div className='p-6'>
+        <div className='p-6 overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
             <h1 className='text-2xl font-bold mb-8 mt-4'>Materials and Lessons history</h1>
             <div className='bg-white rounded-3xl shadow-xl p-6'>
                 <div className='flex justify-between items-center mb-4'>
@@ -103,7 +107,7 @@ const HistoryPage = () => {
                                         <td className="py-3 px-4 text-blue-500 font-semibold hover:underline cursor-pointer" onClick={() => {
                                             if (entry.material_id) navigate(`/material/${entry.material_id}`)
                                             else if (entry.lesson_id) navigate(`/lesson/${entry.lesson_id}`);
-                                        }}>{entry.material_id || entry.lesson_id}</td>
+                                        }}>{entry.material_name || entry.lesson_name}</td>
                                         <td className="py-3 px-4">{entry.type}</td>
                                         <td className="py-3 px-4 hover:underline cursor-pointer">{entry.user_id}</td>
                                         <td className="py-3 px-4">{new Date(entry.viewed_date).toLocaleString(undefined, { timeZone: 'UTC' })}</td>

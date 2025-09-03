@@ -66,7 +66,7 @@ class History {
 
     static async listEntries(user_id, filter) {
         const query = supabase
-            .from(TABLES.HISTORY)
+            .rpc('get_materials_lessons_history')
             .select('*')
             .eq('user_id', user_id);
 

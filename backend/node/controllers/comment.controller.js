@@ -24,8 +24,8 @@ class CommentController {
 
     static async deleteComment(req, res) {
         try {
-            const result = await Comment.deleteComment(req.params.id);
-            res.status(200).json({ message: "Comment deleted successfully", result });
+            await Comment.deleteComment(req.params.comment_id);
+            res.status(200).json({ message: "Comment deleted successfully"});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -33,11 +33,22 @@ class CommentController {
 
     static async voteComment(req, res) {
         const { comment_id } = req.params;
-        const { vote, type } = req.body;
+        const { user_id, vote } = req.body;
 
         try {
-            const result = await Comment.voteComment(comment_id, vote, type);
+            const result = await Comment.voteComment(user_id, comment_id, vote);
             res.status(200).json({ message: "Comment voted successfully", result });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async checkUpvoteRecord(req, res) {
+        const { user_id, comment_id } = req.params;
+
+        try {
+            const isUpvoted = await Comment.checkUpvoteRecord(user_id, comment_id);
+            res.status(200).json({ message: "Upvote record checked successfully", isUpvoted });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

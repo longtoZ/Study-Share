@@ -4,6 +4,7 @@ import type { Material } from '@/interfaces/userProfile';
 import type { History } from '@/interfaces/table';
 
 import { retrieveAllMaterials } from '@/services/lessonService';
+import { retrieveAllSubjects } from '@/services/userService';
 import { verifyUser } from '@services/authService';
 import { addEntry } from '@/services/historyService';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,6 +14,7 @@ import SearchBar from '@/components/common/SearchBar';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import MaterialsGrid from '@/components/layout/MaterialsGrid';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const LessonViewPage = () => {
     const { lessonId } = useParams();
@@ -20,6 +22,7 @@ const LessonViewPage = () => {
     const [materials, setMaterials] = useState<Material[]>([]);
     const [materialOrder, setMaterialOrder] = useState<"newest" | "oldest">("newest");
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const navigate = useNavigate();
 
@@ -32,9 +35,12 @@ const LessonViewPage = () => {
 				return;
             }
 
-            const data = await retrieveAllMaterials(lessonId);
+            setIsLoading(true);
+			const subjects = await retrieveAllSubjects();
+            const data = await retrieveAllMaterials(lessonId, subjects, materialOrder);
             console.log('Retrieved materials:', data);
             setMaterials(data);
+            setIsLoading(false);
 
             try {
                 await verifyUser();
@@ -60,7 +66,7 @@ const LessonViewPage = () => {
     }, [lessonId, materialOrder]);
 
     return (
-        <div className='p-12 min-h-screen'>
+        <div className='p-12 min-h-screen overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
             <h1 className='text-header-large mb-4'>All Materials</h1>
             {isAuthor && (
                 <div className="mb-6 flex justify-end">
@@ -76,7 +82,7 @@ const LessonViewPage = () => {
                 <SearchBar className=''/>
                 <button className='button-primary py-2 px-4' onClick={() => navigate('/create-lesson')}>
                     <AddOutlinedIcon className='relative -top-[2px]'/>
-                    <span className='ml-2'>Upload material</span>
+                    <span className='ml-2'>Create lesson</span>
                 </button>
             </div>
 
@@ -106,7 +112,16 @@ const LessonViewPage = () => {
                         </button>
                     </div>
                 </div>
-                <MaterialsGrid materials={materials}/>
+                { isLoading && 
+                    <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
+                        <CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
+                        <h1 className='mt-2 text-lg'>Loading materials...</h1>
+                    </div> 
+                }
+                { !isLoading && materials.length == 0 ?
+                    <h1 className='flex justify-center items-center flex-col mt-10 text-gray-600'>No materials found.</h1> :
+                    <MaterialsGrid materials={materials}/>
+                }
             </div>
         </div>
     )

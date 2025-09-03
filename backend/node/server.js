@@ -1,5 +1,7 @@
 import express, { json } from 'express';
 import cors from 'cors';
+import env from 'dotenv';
+
 import userRoutes from './routes/user.route.js';
 import materialRoutes from './routes/material.route.js';
 import subjectRoutes from './routes/subject.route.js';
@@ -10,6 +12,8 @@ import ratingRoutes from './routes/rating.route.js';
 import historyRoutes from './routes/history.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import statisticsRoutes from './routes/statistics.route.js';
+
+env.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;

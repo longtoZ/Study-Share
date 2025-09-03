@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { verifyUser } from '@services/authService';
 import { v4 as uuidv4 } from 'uuid';
 
-import { createComment, getComments, voteComment } from '@services/commentService';
+import { createComment, deleteComment, getComments, voteComment, checkUpvoteRecord } from '@services/commentService';
 import { makePayment } from "@/services/paymentService";
 import { getMaterialUrl } from "@services/materialService";
 
@@ -17,6 +17,7 @@ import type { History } from "@/interfaces/table";
 import MetadataCard from "./components/MetadataCard";
 import AddLessonCard from "./components/AddLessonCard";
 import RatingCard from "./components/RatingCard";
+import ChatPannel from "./components/ChatPannel";
 
 import {
     FileDownloadOutlined as FileDownloadOutlinedIcon,
@@ -32,10 +33,11 @@ import {
     ZoomInOutlined as ZoomInOutlinedIcon,
     ZoomOutOutlined as ZoomOutOutlinedIcon,
 	SendOutlined as SendOutlinedIcon,
-	ThumbUpAltOutlined as ThumbUpAltOutlinedIcon,
-	ThumbDownAltOutlined as ThumbDownAltOutlinedIcon,
+	FavoriteBorderOutlined as FavoriteBorderOutlinedIcon,
+    FavoriteOutlined as FavoriteOutlinedIcon,
     SettingsOutlined as SettingsOutlinedIcon,
-    MonetizationOnOutlined as MonetizationOnOutlinedIcon
+    MonetizationOnOutlined as MonetizationOnOutlinedIcon,
+    ChatBubble as ChatBubbleIcon
 } from "@mui/icons-material";
 
 const GET_MATERIAL_PAGE_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_PAGE_ENDPOINT;
@@ -54,17 +56,13 @@ const MaterialViewPage = () => {
     const [currentView, setCurrentView] = useState("content"); // 'content' or 'about'
     const [avgRating, setAvgRating] = useState(0);
     const [subject, setSubject] = useState<string>("");
-    const [userRating, setUserRating] = useState(0); // For user's own rating
-    const [hoverRating, setHoverRating] = useState(0); // For hover effect
     const [imageWidth, setImageWidth] = useState(0);
 	const [commentOrder, setCommentOrder] = useState<string>("newest");
 	const [commentContent, setCommentContent] = useState<string>("");
 	const [allCommentsData, setAllCommentsData] = useState<any[]>([]);
-    const [upvoteChoice, setUpvoteChoice] = useState<boolean>(false);
-    const [downvoteChoice, setDownvoteChoice] = useState<boolean>(false);
-    const [voteTypeChoice, setVoteTypeChoice] = useState<string>("");
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
     const [isMaterialPaid, setIsMaterialPaid] = useState<boolean>(false);
+    const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
     const userState = useSelector((state: any) => state.user);
 
@@ -134,20 +132,6 @@ const MaterialViewPage = () => {
                 setUser(userData);
             }
 
-			const comments = await getComments(materialId, commentOrder);
-			
-			for (const element of comments) {
-				const userOfComment = await retrieveUserData(element.user_id);
-				if (userOfComment) {
-					setAllCommentsData((prevComments) => {
-                        if (!prevComments.some((c) => c.comment.comment_id === element.comment_id)) {
-                            return [...prevComments, { comment: element, user: userOfComment }];
-                        }
-                        return prevComments;
-                    });
-				}
-			}
-
             try {
                 await verifyUser();
                 setIsAuthor(true);
@@ -184,7 +168,31 @@ const MaterialViewPage = () => {
             await getImagePage(page);
         };
         getImagePageAsync(currentPage);
-    }, [materialId, currentPage]);
+    }, [currentPage]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            if (!materialId) return;
+
+            const comments = await getComments(materialId, commentOrder);
+
+            for (const element of comments) {
+                const userOfComment = await retrieveUserData(element.user_id);
+                if (userOfComment) {
+                    const isUpvoted = await checkUpvoteRecord(userId, element.comment_id) ? true : false;
+                    setAllCommentsData((prevComments) => {
+                        if (!prevComments.some((c) => c.comment.comment_id === element.comment_id)) {
+                            return [...prevComments, { comment: element, user: userOfComment, isUpvoted }];
+                        }
+                        return prevComments;
+                    });
+                }
+            }
+
+        };
+
+        fetchComments();
+    }, []);
 
     const handleOnScroll = async (e: any) => {
         const scrollTop = e.target.scrollTop;
@@ -211,34 +219,6 @@ const MaterialViewPage = () => {
         setCurrentView(view);
     };
 
-    const handleRatingClick = (ratingValue: number) => {
-        setUserRating(ratingValue);
-        // Here you would typically send the rating to the backend
-        console.log(`User rated the document: ${ratingValue} stars`);
-    };
-
-
-    const renderInteractiveStars = () => {
-        return (
-            <div className="flex items-center">
-                {Array.from({ length: 5 }, (_, index) => {
-                    const ratingValue = index + 1;
-                    const isFilled = (hoverRating || userRating) >= ratingValue;
-                    return (
-                        <StarIcon
-                            key={index}
-                            className={`cursor-pointer transition-colors duration-200
-							${isFilled ? "text-yellow-400" : "text-gray-400"}`}
-                            onMouseEnter={() => setHoverRating(ratingValue)}
-                            onMouseLeave={() => setHoverRating(0)}
-                            onClick={() => handleRatingClick(ratingValue)}
-                        />
-                    );
-                })}
-            </div>
-        );
-    };
-
     useEffect(() => {
         console.log("Image width updated:", imageWidth);
     }, [imageWidth]);
@@ -259,18 +239,30 @@ const MaterialViewPage = () => {
         }
     };
 
-    const handleVotingComment = async (commentId: string, vote: 'upvote' | 'downvote') => {
+    const handleUpvote = async (commentId: string, vote: 'upvote' | 'cancel-upvote') => {
         if (!userState.loggedIn) {
             alert("Please log in to vote on comments.");
             return;
         }
 
-        if (voteTypeChoice) {
-            console.log(voteTypeChoice);
-            await voteComment(commentId, vote, voteTypeChoice);
-        }
-
-    }
+        console.log(`Voting on comment ${commentId} with action: ${vote}`);
+        await voteComment(commentId, vote);
+        setAllCommentsData((prevComments) =>
+            prevComments.map((c) => {
+                if (c.comment.comment_id === commentId) {
+                    console.log(`Updating comment ${commentId} upvote status to: ${vote === 'upvote'}`);
+                    
+                    // Deep copy to avoid mutation
+                    const newCommentData = { ...c, comment: { ...c.comment } }
+                    newCommentData.isUpvoted = vote === 'upvote';
+                    newCommentData.comment.upvote += vote === 'upvote' ? 1 : -1;
+                    return newCommentData;
+                }
+                return c;
+            })
+        );
+        console.log(allCommentsData);
+    };
 
     const downloadMaterial = async () => {
         if (!material) {
@@ -303,7 +295,8 @@ const MaterialViewPage = () => {
     }
 
     return (
-        <div className="bg-gray-100 min-h-screen font-sans p-12 overflow-y-auto scrollbar-hide h-[100vh] pb-36">
+        <div className="relative bg-gray-100 min-h-screen overflow-y-auto scrollbar-hide h-[100vh]">
+            <div className="p-12 pb-36">
             {isAuthor && (
                 <div className="mb-6 flex justify-end">
                     <button 
@@ -574,7 +567,7 @@ const MaterialViewPage = () => {
                     <RatingCard materialId={materialId} />
 
 					{/* Comment Section */}
-					<div className="bg-white rounded-3xl p-6 card-shadow">
+					<div className="bg-white rounded-3xl py-6 px-12 card-shadow">
 						<div className="flex justify-between items-center">
 							<h3 className="text-xl font-bold text-gray-800 mb-2">
 								Comments
@@ -660,42 +653,13 @@ const MaterialViewPage = () => {
 												<button 
                                                     className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200" 
                                                     onClick={() => {
-                                                        if (upvoteChoice) {
-                                                            setVoteTypeChoice('cancel_up');
-                                                            setUpvoteChoice(false);
-                                                        } else {
-                                                            setVoteTypeChoice('up');
-                                                            setUpvoteChoice(true);
-
-                                                            if (downvoteChoice) {
-                                                                setVoteTypeChoice('cancel_down');
-                                                                setDownvoteChoice(false);
-                                                            }
-                                                        }
-                                                        handleVotingComment(commentData.comment.comment_id, 'upvote');
+                                                        handleUpvote(commentData.comment.comment_id, commentData.isUpvoted ? 'cancel-upvote' : 'upvote');
                                                     }}
                                                 >
-													<ThumbUpAltOutlinedIcon fontSize="small" />
+													{ commentData.isUpvoted ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteBorderOutlinedIcon fontSize="small" /> }
 													<span>{commentData.comment.upvote}</span>
 												</button>
-												<button className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200" onClick={() => {
-                                                    if (downvoteChoice) {
-                                                        setVoteTypeChoice('cancel_down');
-                                                        setDownvoteChoice(false);
-                                                    } else {
-                                                        setVoteTypeChoice('down');
-                                                        setDownvoteChoice(true);
-
-                                                        if (upvoteChoice) {
-                                                            setVoteTypeChoice('cancel_up');
-                                                            setUpvoteChoice(false);
-                                                        }
-                                                    }
-                                                    handleVotingComment(commentData.comment.comment_id, 'downvote');
-                                                }}>
-													<ThumbDownAltOutlinedIcon fontSize="small" />
-													<span>{commentData.comment.downvote}</span>
-												</button>
+                                                <span className="ml-4 cursor-pointer" onClick={() => deleteComment(commentData.comment.comment_id)}>Delete</span>
 											</div>
 										</div>
 									</div>
@@ -707,6 +671,15 @@ const MaterialViewPage = () => {
 					</div>
                 </div>
             </div>
+            </div>
+            <button
+                className="fixed bottom-8 right-8 z-40 button-primary p-4 flex items-center gap-2 transition-all hover:scale-105"
+                onClick={() => setIsChatOpen(true)}
+                style={{ borderRadius: '50%'}}
+            >
+                <ChatBubbleIcon fontSize="small"/>
+            </button>
+            <ChatPannel open={isChatOpen} onClose={() => setIsChatOpen(false)} />
         </div>
     );
 };
