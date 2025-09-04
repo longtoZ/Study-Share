@@ -12,7 +12,7 @@ import GptIcon from '../images/chatgpt-icon.png';
 
 const AI_MODELS = [
     { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo' },
-    { id: 'gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash' },
+    { id: 'gemini-2.0-flash-lite', name: 'Gemini 2.0 Flash' },
 ];
 
 interface ChatMessage {
@@ -45,7 +45,7 @@ export default function ChatPannel({
         setIsThinking(true);
         setMessages((prev) => [
             ...prev,
-            { sender: "ai", content: "Thinking..." },
+            { sender: "ai", content: `${ prev.length === 2 ? "I'm reading the material for the first time. Please wait a moment..." : "Thinking..."}` },
         ]);
 
         const response = await generateResponse(userId, materialId, input, model);
@@ -90,7 +90,7 @@ export default function ChatPannel({
                             <div key={idx} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                                 { msg.sender === 'ai' ? (
                                     <div className="flex items-start gap-2 max-w-[70%]">
-                                        <img src={ model === 'gemini-2.5-flash' ? GeminiIcon : GptIcon} alt="AI" className="w-8 h-8 rounded-full mt-1"/>
+                                        <img src={ model === 'gemini-2.0-flash-lite' ? GeminiIcon : GptIcon} alt="AI" className="w-8 h-8 rounded-full mt-1"/>
                                         <div className={`px-4 py-2 rounded-2xl bg-zinc-100 text-zinc-800 ${isThinking && idx === messages.length - 1 ? "italic animate-pulse" : ""}`}>
                                             <Markdown>{msg.content}</Markdown>
                                         </div>

@@ -14,8 +14,6 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 def upload_and_get_link(file_path: str) -> str:
     with open(file_path, "rb") as file:
-        file_data = file.read()
-
         response = supabase.storage.from_(SUPABASE_BUCKET).upload(file=file, path=file_path)
         print(response)
 

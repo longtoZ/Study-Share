@@ -1,7 +1,8 @@
 import supabase from '../config/database.js';
-import { TABLES, TEMP_FILE_PATH, MAX_STAR_LEVEL, PDF_TO_WEBP_URL, DOCX_TO_WEBP_URL } from '../constants/constant.js';
+import { TABLES, MAX_STAR_LEVEL, PDF_TO_WEBP_URL, DOCX_TO_WEBP_URL } from '../constants/constant.js';
 import fs from 'fs';
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 class Material {
     static async createMaterialData(info) {
@@ -100,7 +101,9 @@ class Material {
             console.log(data)
             return {
                 filePagesUrl: data.public_links,
-                totalPages: data.public_links[data.public_links.length - 1].page
+                totalPages: data.public_links[data.public_links.length - 1].page,
+                content: data.content,
+                usage: data.usage
             };
         } catch (error) {
             console.error('Error converting PDF to WebP:', error);
@@ -119,6 +122,24 @@ class Material {
                 url: link.url,
             })));
 
+        if (error) throw error;
+        return data;
+    }
+
+    static async createSummaryRecord(user_id, material_id, content, usage) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL_SUMMARY)
+            .insert([{
+                summary_id: `${user_id}-${uuidv4()}`,
+                material_id: material_id,
+                content: content,
+                prompt_token_count: usage.prompt_token_count,
+                thoughts_token_count: usage.thoughts_token_count || 0,
+                total_token_count: usage.total_token_count,
+            }])
+            .select()
+            .single();
+        
         if (error) throw error;
         return data;
     }

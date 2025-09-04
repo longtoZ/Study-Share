@@ -2,6 +2,7 @@ const TABLES = {
     USER: 'User',
     MATERIAL: 'Material',
     MATERIAL_PAGE: 'MaterialPage',
+    MATERIAL_SUMMARY: 'MaterialSummary',
     LESSON: 'Lesson',
     SUBJECT: 'Subject',
     COMMENT: 'Comment',

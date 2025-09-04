@@ -1,9 +1,4 @@
 import Material from '../models/material.model.js';
-import fs from 'fs';
-import path from 'path';
-import { convert } from 'pdf-poppler';
-import { TEMP_IMAGE_PATH } from '../constants/constant.js';
-import PDFUtils from '../utils/pdf.util.js';
 
 class MaterialService {
     static async uploadFile(info, file) {
@@ -16,12 +11,13 @@ class MaterialService {
         info.file_url = fileUrl;
 
         // Create material pages
-        const { filePagesUrl, totalPages } = await Material.createFilePagesUrl(info.material_id, file, info.file_type);
+        const { filePagesUrl, totalPages, content, usage } = await Material.createFilePagesUrl(info.material_id, file, info.file_type);
         info.num_page = totalPages;
 
         const newMaterial = await Material.createMaterialData(info);
         await Material.createMaterialPagesData(info.material_id, filePagesUrl);
-        
+        await Material.createSummaryRecord(info.user_id, info.material_id, content, usage);
+
         // Create initial ratings for the new material
         await Material.createMaterialRating(info.material_id);
         

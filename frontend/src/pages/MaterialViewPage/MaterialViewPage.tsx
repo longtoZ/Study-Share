@@ -206,7 +206,7 @@ const MaterialViewPage = () => {
         // console.log('Total Pages:', totalPages);
 
         if (
-            scrollTop + clientHeight >= scrollHeight - 10 &&
+            scrollTop + clientHeight >= scrollHeight - 20 &&
             currentPage < totalPages
         ) {
             console.log("Loading next page:", currentPage + 1);
