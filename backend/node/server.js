@@ -12,6 +12,7 @@ import ratingRoutes from './routes/rating.route.js';
 import historyRoutes from './routes/history.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import statisticsRoutes from './routes/statistics.route.js';
+import aiChatRoutes from './routes/ai-chat.route.js';
 
 env.config();
 
@@ -39,6 +40,7 @@ app.use('/api/rating', ratingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/statistics', statisticsRoutes);
+app.use('/api/ai-chat', aiChatRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

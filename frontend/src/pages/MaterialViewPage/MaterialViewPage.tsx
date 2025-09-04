@@ -295,7 +295,7 @@ const MaterialViewPage = () => {
     }
 
     return (
-        <div className="relative bg-gray-100 min-h-screen overflow-y-auto scrollbar-hide h-[100vh]">
+        <div className={`relative bg-gray-100 min-h-screen scrollbar-hide h-[100vh] ${ isChatOpen ? 'overflow-hidden' : 'overflow-y-auto' }`}>
             <div className="p-12 pb-36">
             {isAuthor && (
                 <div className="mb-6 flex justify-end">
@@ -679,7 +679,7 @@ const MaterialViewPage = () => {
             >
                 <ChatBubbleIcon fontSize="small"/>
             </button>
-            <ChatPannel open={isChatOpen} onClose={() => setIsChatOpen(false)} />
+            <ChatPannel userId={userId} materialId={materialId ?? ''} open={isChatOpen} onClose={() => setIsChatOpen(false)} />
         </div>
     );
 };
