@@ -34,15 +34,15 @@ function AppContent() {
     return (
         <div className="bg-zinc-800 text-primary flex fixed">
             {!isExcludedPages && (
-                <div className={`z-20 transition-all duration-300 ease-in-out ${ isSidebarMinimized ? "w-[4vw]" : "w-[18vw]"} h-[100vh] relative`}>
+                <div className={`z-50 transition-all duration-300 ease-in-out ${ isSidebarMinimized ? "w-[4vw]" : "w-[18vw]"} h-[100vh] relative`}>
                     <SideBar isMinimized={isSidebarMinimized} onToggleMinimize={setIsSidebarMinimized} />
                 </div>
             )}
 
-            <div className={`${isExcludedPages ? "w-full" : `${ isSidebarMinimized ? "w-[94vw]" : "w-[80vw]"} h-[100vh] mx-4 mb-4`}`}>
+            <div className={`${isExcludedPages ? "w-[100vw] flex justify-center items-center" : `${ isSidebarMinimized ? "w-[94vw]" : "w-[80vw]"} h-[100vh] mx-4 mb-4`}`}>
                 {!isExcludedPages && <TopBar isDarkMode={false} onToggleDarkMode={() => {}} />}
 
-                <div className="z-10 bg-secondary rounded-3xl relative overflow-hidden h-[90%]">
+                <div className={`z-10 bg-secondary rounded-3xl relative overflow-hidden ${ isExcludedPages ? "w-[99%] h-[98vh]" : "h-[90%]"}`}>
                     <Suspense fallback={
                         <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                             <CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>

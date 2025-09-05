@@ -1,7 +1,8 @@
+import User from '../models/user.model.js';
 import UserService from '../services/user.service.js';
 
 class UserController {
-    async signup(req, res) {
+    static async signup(req, res) {
         const { username, password, full_name, email, gender, dateOfBirth, address } = req.body;
 
         const info = {
@@ -33,7 +34,7 @@ class UserController {
         }
     }
 
-    async login(req, res) {
+    static async login(req, res) {
         const { email, password } = req.body;
 
         try {
@@ -47,11 +48,12 @@ class UserController {
         }
     }
 
-    async getUserProfile(req, res) {
+    static async getUserProfile(req, res) {
         const { userId } = req.params;
+        const requireEmail = req.query['require-email'];
 
         try {
-            const user = await UserService.getUserById(userId);
+            const user = await UserService.getUserById(userId, requireEmail === 'true');
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
@@ -62,7 +64,7 @@ class UserController {
         }
     }
     
-    async updateUserProfile(req, res) {
+    static async updateUserProfile(req, res) {
         const { userId } = req.params;
         const profilePictureFile = req.files.length > 0 ? req.files.profile_picture_file[0] : null;
         const backgroundImageFile = req.files.length > 0 ? req.files.background_image_file[0] : null;
@@ -80,6 +82,33 @@ class UserController {
         }
     }
 
+    static async deleteUser(req, res) {
+        const { userId } = req.params;
+        const { password } = req.body;
+
+        try {
+            await UserService.deleteUser(userId, password);
+            res.status(200).json({ message: 'User deleted successfully' });
+        } catch (error) {
+            if (error.message.includes('Password is not correct')) {
+                return res.status(401).json({ message: error.message });
+            }
+            console.error('Error deleting user:', error);
+            res.status(500).json({ message: 'Internal server error while deleting user.' });
+        }
+    }
+
+    static async checkEmailExists(req, res) {
+        const { email } = req.query;
+
+        try {
+            const exists = await User.findByEmail(email);
+            res.status(200).json({ exists: !!exists });
+        } catch (error) {
+            console.error('Error checking email existence:', error);
+            res.status(500).json({ message: 'Internal server error while checking email existence.' });
+        }
+    }
 }
 
-export default new UserController();
+export default UserController;

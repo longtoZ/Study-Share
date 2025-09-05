@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PersonalInfo from './layouts/PersonalInfo';
 import ConnectStripe from './layouts/ConnectStripe';
+import DeleteAccount from './layouts/DeleteAccount';
 
 import { verifyUser } from '@services/authService';
 
@@ -36,19 +37,14 @@ const AccountSettingPage: React.FC = () => {
                     </div>
                 );
             case 'delete':
-                return (
-                    <div className="bg-white p-6 rounded-lg shadow-sm">
-                        <h2 className="text-2xl font-semibold mb-6">Delete Account</h2>
-                        <p className="text-gray-500">Account deletion functionality coming soon...</p>
-                    </div>
-                );
+                return ( <DeleteAccount/> );
             default:
                 return null;
         }
     };
 
     return (
-        <div className="min-h-screen bg-secondary p-6">
+        <div className="min-h-screen bg-secondary p-6 overflow-y-auto scrollbar-hide h-[100vh] pb-36">
             <div className="max-w-6xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-900 mb-8">Account Settings</h1>
                 <div className="flex bg-primary shadow-xl rounded-2xl">

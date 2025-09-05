@@ -18,6 +18,7 @@ const PersonalInfo = () => {
         profile_picture_url: '',
         background_image_url: '',
         address: '',
+        stripe_account_id: null,
     });
 
     const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
@@ -50,7 +51,7 @@ const PersonalInfo = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await retrieveUserData(userId);
+            const data = await retrieveUserData(userId, true);
             setPersonalInfo({
                 user_id: data.user_id || '',
                 full_name: data.full_name || '',
@@ -61,6 +62,7 @@ const PersonalInfo = () => {
                 profile_picture_url: data.profile_picture_url || '',
                 background_image_url: data.background_image_url || '',
                 address: data.address || '',
+                stripe_account_id: data.stripe_account_id || null,
             });
 
             if (data.profile_picture_url) {

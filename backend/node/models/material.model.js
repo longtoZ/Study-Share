@@ -320,6 +320,16 @@ class Material {
         if (error) throw error;
         return data;
     }
+
+    static async deleteMaterial(material_id) {
+        const { data, error } = await supabase
+            .from(TABLES.MATERIAL)
+            .delete()
+            .eq('material_id', material_id);
+        
+        if (error) throw error;
+        return data;
+    }
 }
 
 export default Material;

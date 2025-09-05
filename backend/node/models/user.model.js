@@ -40,10 +40,10 @@ class User {
         return data;
     }
 
-    static async findByID(user_id) {
+    static async findByID(user_id, requireEmail = false) {
         const { data, error } = await supabase
             .from(TABLES.USER)
-            .select('user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url')
+            .select(`user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url${requireEmail ? ', email' : ''}`)
             .eq('user_id', user_id)
             .single();
 
@@ -142,6 +142,17 @@ class User {
                 fs.unlinkSync(backgroundImageFile.path);
             }
         }
+    }
+
+    static async delete(user_id) {
+        const { error } = await supabase
+            .from(TABLES.USER)
+            .delete()
+            .eq('user_id', user_id)
+            .select()
+            .single();
+        
+        if (error) throw error;
     }
 }
 

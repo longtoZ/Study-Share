@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createComment, deleteComment, getComments, voteComment, checkUpvoteRecord } from '@services/commentService';
 import { makePayment } from "@/services/paymentService";
 import { getMaterialUrl } from "@services/materialService";
+import { clearSession } from "../../services/aiChatService";
 
 import type { History } from "@/interfaces/table";
 
@@ -192,6 +193,24 @@ const MaterialViewPage = () => {
         };
 
         fetchComments();
+    }, []);
+
+    useEffect(() => {
+        const handleBeforeUnload = async (e: BeforeUnloadEvent) => {
+            if (userId &&materialId) {
+                try {
+                    await clearSession(userId, materialId);
+                    console.log("AI session cleared successfully on unload.");
+                } catch (error) {
+                    console.error("Error clearing AI session on unload:", error);
+                }
+            }
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
     }, []);
 
     const handleOnScroll = async (e: any) => {

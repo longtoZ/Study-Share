@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { login } from '@redux/userSlice';
+import { loginUser } from '@/services/userService';
 
-const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
+import BackgroundImage from './images/login_background.jpeg';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -22,31 +23,19 @@ const LoginPage = () => {
         setPasswordErrorMessage('');
         
         try {
-            const response = await fetch(LOGIN_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Form submitted successfully: ', data);
-                dispatch(login({ user_id: data.user.user_id, token: data.token }));
-                navigate('/');
-            } else {
-                const errorData = await response.json();
-                if (errorData.message.includes('Email is not valid')) {
-                    setEmailErrorMessage(errorData.message);
+            const userData = await loginUser({ email, password });
+            dispatch(login({ user_id: userData.user_id, token: userData.token }));
+            navigate('/');
+        } catch (error: any) {
+            if (error.response) {
+                const { message } = error.response.data;
+                if (message.includes('Email is not valid')) {
+                    setEmailErrorMessage(message);
                 }
-                if (errorData.message.includes('Password is not correct')) {
-                    setPasswordErrorMessage(errorData.message);
+                if (message.includes('Password is not correct')) {
+                    setPasswordErrorMessage(message);
                 }
-                console.error('Form submitted failed', response.statusText);
             }
-        } catch (e) {
-            console.error('Unexpected error when submitting form: ', e);
         }
     };
 
@@ -61,9 +50,14 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="max-w-md w-full space-y-8">
-                <div className="bg-white p-8 rounded-lg shadow-md">
+        <div className="min-h-screen flex items-center justify-center relative">
+            <img
+                src={BackgroundImage}
+                alt="Background"
+                className="absolute top-0 left-0 w-full h-full object-cover saturate-76"
+            />
+            <div className="max-w-md w-full space-y-8 z-20">
+                <div className="bg-white p-8 rounded-2xl card-shadow">
                     {/* Header */}
                     <div className="text-center mb-6">
                         <h2 className="text-3xl font-bold text-gray-900">Welcome back!</h2>

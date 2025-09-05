@@ -1,19 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getMaterial } from '@services/materialService';
 import { useParams } from 'react-router-dom';
+
 import { retrieveLessons, retrieveAllSubjects } from '@/services/userService';
-import { updateMaterial } from '@services/materialService';
+import { updateMaterial, deleteMaterial } from '@services/materialService';
 
 import type { Subject } from '@interfaces/table';
 import type { Lesson } from '@interfaces/userProfile';
 import type { Material } from '@interfaces/table';
 
 import DropdownList from '@components/common/DropdownList';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const MaterialEditPage: React.FC = () => {
     const [materialData, setMaterialData] = useState<Material | null>(null);
     const [subjects, setSubjects] = useState<Subject[]>([]);
     const [lessons, setLessons] = useState<Lesson[]>([]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [confirmationText, setConfirmationText] = useState('');
+    const defaultConfirmationText = "delete this material";
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const navigate = useNavigate();
+
+    const [overlaySize, setOverlaySize] = useState({ width: 0, height: 0 });
 
     const { materialId } = useParams();
     const userId = localStorage.getItem('user_id') || '';
@@ -33,6 +45,15 @@ const MaterialEditPage: React.FC = () => {
         };
         fetchData();
     }, [materialId]);
+
+    useEffect(() => {
+        if (isDialogOpen && containerRef.current) {
+            setOverlaySize({
+                width: window.innerWidth - containerRef.current!.getBoundingClientRect().left,
+                height: window.innerHeight - containerRef.current!.getBoundingClientRect().top,
+            })
+        }
+    }, [isDialogOpen]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -86,8 +107,26 @@ const MaterialEditPage: React.FC = () => {
         }
     };
 
+    const handleDeleteConfirm = async () => {
+        if (confirmationText === defaultConfirmationText) {
+            // Delete logic here
+            console.log('Material deleted');
+            if (materialId) {
+                setIsDeleting(true);
+                await deleteMaterial(materialId);
+                setIsDeleting(false);
+            }
+
+            setIsDialogOpen(false);
+            navigate('/');
+        } else {
+            setConfirmationText('');
+            alert('Confirmation text does not match. Please try again.');
+        }
+    }
+
     return (
-        <div className="min-h-screen bg-gray-50 p-12 overflow-y-auto scrollbar-hide h-[100vh] pb-36">
+        <div className={`relative min-h-screen bg-gray-50 p-12 overflow-y-auto scrollbar-hide h-[100vh] pb-36`} ref={containerRef}>
             <div className="bg-white shadow-lg rounded-2xl p-8">
                 <h1 className="text-2xl font-bold">Edit Material</h1>
                 <div className='border-b border-zinc-300 my-6'></div>
@@ -183,6 +222,20 @@ const MaterialEditPage: React.FC = () => {
                             </div>
                         </div>
                     </div>
+                    <div className='border-b border-zinc-300 my-6'></div>
+
+                    {/* Danger zone */}
+                    <div>
+                        <h2 className="text-lg font-semibold mb-2">Delete material</h2>
+                        <p className="text-sm text-zinc-500 italic mb-4">Once you delete a material, there is no going back. Please be certain.</p>
+                        <button
+                            type="button"
+                            className="px-6 py-2 border-2 border-red-600 rounded-lg cursor-pointer text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500"
+                            onClick={() => setIsDialogOpen(true)}
+                        >
+                            Delete Material
+                        </button>
+                    </div>
 
                     {/* Action Buttons */}
                     <div className="flex justify-end space-x-4 pt-6 border-t">
@@ -198,6 +251,41 @@ const MaterialEditPage: React.FC = () => {
                             className="px-6 py-2 button-primary"
                         >
                             Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className={`fixed bottom-0 right-0 z-20' ${isDialogOpen ? 'block' : 'hidden'}`} style={{ width: overlaySize.width, height: overlaySize.height }}>
+                <div className='absolute rounded-3xl w-full h-full top-0 left-0 bg-[#00000080] backdrop-blur-xs' onClick={() => {
+                    setIsDialogOpen(false);
+                }}></div>
+
+                <div className='absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-[45%] bg-white w-[40%] rounded-xl py-4 px-6'>
+                    <h1 className='font-semibold text-xl'>Are you sure?</h1>
+                    <p className='text-sm text-zinc-500 mt-2'>Once you delete a material, there is no going back. Please be certain.</p>
+                    <h2 className='mt-6 font-semibold text-sm'>Please type <span className='font-mono text-red-500'>{defaultConfirmationText}</span> to confirm.</h2>
+                    <input
+                        type="text"
+                        className='w-full border border-zinc-300 rounded-lg px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                        placeholder='Type here...'
+                        onChange={(e) => setConfirmationText(e.target.value)}
+                        value={confirmationText}
+                    />
+                    <div className='flex justify-end space-x-4 mt-6'>
+                        <button
+                            type="button"
+                            onClick={() => setIsDialogOpen(false)}
+                            className="cursor-pointer px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleDeleteConfirm}
+                            className="cursor-pointer px-6 py-2 rounded-lg text-white bg-red-600 border-red-600 hover:bg-red-700 flex items-center"
+                        >
+                            {isDeleting ? <CircularProgress size={20} color="inherit" /> : 'Confirm'}
                         </button>
                     </div>
                 </div>

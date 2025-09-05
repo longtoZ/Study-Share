@@ -91,4 +91,30 @@ const getMaterialUrl = async (materialId: string) => {
     return null;
 }
 
-export { getMaterial, updateMaterial, searchMaterial, getMaterialUrl };
+const deleteMaterial = async (materialId: string) => {
+    console.log('Deleting material with ID:', materialId);
+    const deleteMaterialUrl = GET_MATERIAL_ENDPOINT.replace('material-id', materialId);
+    const token = localStorage.getItem('user_token') || '';
+
+    try {
+        const response = await fetch(deleteMaterialUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete material');
+        }
+
+        const data = await response.json();
+        return data.material;
+    } catch (error) {
+        console.error('Error deleting material:', error);
+    }
+
+    return null;
+};
+
+export { getMaterial, updateMaterial, searchMaterial, getMaterialUrl, deleteMaterial };

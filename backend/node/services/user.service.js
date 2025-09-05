@@ -5,7 +5,7 @@ import jwtConfig from '../config/jwt.js';
 import supabase from '../config/database.js';
 
 class UserService {
-    async signupUser(info) {
+    static async signupUser(info) {
         const existinguser_id = await User.findByID(info.user_id);
         if (existinguser_id) {
             throw new Error('User with this user_id already exists');
@@ -27,7 +27,7 @@ class UserService {
         return { user: userWithoutPasswordHash };
     }
 
-    async loginUser(email, password) {
+    static async loginUser(email, password) {
         console.log('Login attempt with email:', email, password);
         const user = await User.findByEmail(email);
         console.log('User found:', user);
@@ -51,15 +51,15 @@ class UserService {
         return { user: userWithoutPasswordHash, token };
     }
 
-    async getUserById(userId) {
-        const user = await User.findByID(userId);
+    static async getUserById(userId, requireEmail = false) {
+        const user = await User.findByID(userId, requireEmail);
         if (!user) {
             throw new Error('Failed to fetch user data');
         }
         return user;
     }
 
-    async updateUserInfo(user_id, updates) {
+    static async updateUserInfo(user_id, updates) {
         const user = await User.findByID(user_id);
         if (!user) {
             throw new Error('User not found');
@@ -72,6 +72,20 @@ class UserService {
         await User.updateImage(metadata, profilePictureFile, backgroundImageFile);
         await User.updateInfo(user_id, metadata);
     }
+
+    static async deleteUser(user_id, password) {
+        const user = await User.findByID(user_id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
+        if (!isPasswordCorrect) {
+            throw new Error('Password is not correct.');
+        }
+
+        await User.delete(user_id);
+    }
 }
 
-export default new UserService();
+export default UserService;

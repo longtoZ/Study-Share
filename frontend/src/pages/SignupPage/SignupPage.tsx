@@ -1,8 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DropdownList from '@/components/common/DropdownList';
+import { signupUser, checkEmailExists } from '@/services/userService';
 
-const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT
+import DropdownList from '@/components/common/DropdownList';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import BackgroundImage from './images/signup_background.jpeg';
 
 interface FormData {
     email: string;
@@ -17,6 +20,7 @@ interface FormData {
 
 const SignupPage: React.FC = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const retypePasswordRef = useRef<HTMLInputElement>(null);
@@ -61,7 +65,7 @@ const SignupPage: React.FC = () => {
         }));
     };
 
-    const handleInputValidation = (): boolean => {
+    const handleInputValidation = async () => {
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
         const retypePassword = retypePasswordRef.current?.value;
@@ -94,7 +98,6 @@ const SignupPage: React.FC = () => {
             return false;
         } 
         
-
         if (!retypePassword) {
             retypePasswordValidRef.current!.textContent = 'Retype password is required';
             return false;
@@ -103,13 +106,20 @@ const SignupPage: React.FC = () => {
             return false;
         }
 
-        return true;
+        setIsLoading(true);
+        const emailExists = await checkEmailExists(email);
+        setIsLoading(false);
+        if (emailExists) {
+            emailValidRef.current!.textContent = 'Email is already registered';
+            return false;
+        }
 
+        return true;
     };
 
-    const handleNextStep = () => {
+    const handleNextStep = async () => {
         if (currentStep === 1) {
-            const isValid = handleInputValidation();
+            const isValid = await handleInputValidation();
 
             if (isValid) {
                 setCurrentStep(2);
@@ -127,20 +137,12 @@ const SignupPage: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(SIGNUP_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Form submittied successfully: ', data);
+            const response = await signupUser(formData);
+            if (response) {
+                console.log('Form submitted successfully: ', response);
                 navigate('/login');
             } else {
-                console.error('Form submitted failed', response.statusText);
+                console.error('Form submission failed');
             }
         } catch (e) {
             console.error('Unexpected error when submitting form: ', e);
@@ -148,20 +150,24 @@ const SignupPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex">
-            <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 to-purple-700 flex-col justify-center items-center p-12 text-white relative">
+        <div className="h-full flex items-center relative bg-gradient-to-br bg-white">
+            <div className="flex w-1/2 flex-col justify-center items-center p-12 text-white relative mx-2 rounded-3xl overflow-hidden h-[98%]">
+                <img
+                    src={BackgroundImage}
+                    alt="Background"
+                    className="absolute top-0 left-0 w-full h-full object-cover brightness-75"
+                />
                 <div className="max-w-lg text-center z-10">
                     <h1 className="text-4xl font-bold mb-6">Join StudyShare</h1>
-                    <p className="text-lg leading-relaxed opacity-90">
+                    <p className="text-lg leading-relaxed">
                         Connect with fellow students, share knowledge, and accelerate your learning journey. 
                         Access thousands of study materials, collaborate on projects, and build meaningful 
                         academic relationships that will last a lifetime.
                     </p>
                 </div>
-                <div className="absolute inset-0 bg-black opacity-10"></div>
             </div>
 
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
+            <div className="w-1/2 flex items-center justify-center p-8">
                 <div className="w-full max-w-md">
                     <div className="flex justify-center mb-8">
                         <div className="flex space-x-4">
@@ -178,10 +184,13 @@ const SignupPage: React.FC = () => {
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8">
+                    <form onSubmit={handleSubmit} className="p-8">
                         {currentStep === 1 && (
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-800 mb-6">Account Setup</h2>
+                                <h2 className="text-2xl font-bold text-gray-800 mb-2">Let's get started!</h2>
+                                <p className='text-gray-600 mb-6'>
+                                    Please enter your email and create a password to sign up
+                                </p>
                                 <div className="mb-4">
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                                         Email Address *
@@ -237,10 +246,19 @@ const SignupPage: React.FC = () => {
                                 <button 
                                     type="button" 
                                     onClick={handleNextStep} 
-                                    className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                    className="w-full button-primary py-3 px-4 rounded-lg font-medium flex items-center justify-center"
                                 >
-                                    Next
+                                    {isLoading ? <CircularProgress color="inherit" size={24}/> : 'Next'}
                                 </button>
+                                <p className='mt-10 text-center text-sm text-gray-600'>
+                                    Already have an account?{' '}
+                                    <span 
+                                        className="font-semibold hover:underline cursor-pointer"
+                                        onClick={() => navigate('/login')}
+                                    >
+                                        Log in
+                                    </span>
+                                </p>
                             </div>
                         )}
 
@@ -257,6 +275,7 @@ const SignupPage: React.FC = () => {
                                         name="full_name"
                                         value={formData.full_name}
                                         onChange={handleInputChange}
+                                        placeholder='Enter your full name'
                                         required
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                     />
@@ -309,6 +328,7 @@ const SignupPage: React.FC = () => {
                                         id="address"
                                         name="address"
                                         value={formData.address}
+                                        placeholder='Enter your address'
                                         onChange={handleInputChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                     />
@@ -317,13 +337,13 @@ const SignupPage: React.FC = () => {
                                     <button 
                                         type="button" 
                                         onClick={handlePrevStep} 
-                                        className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+                                        className="bg-gray-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-600 transition-colors w-1/2"
                                     >
                                         Previous
                                     </button>
                                     <button 
                                         type="submit" 
-                                        className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                        className="button-primary font-medium w-1/2"
                                     >
                                         Create Account
                                     </button>

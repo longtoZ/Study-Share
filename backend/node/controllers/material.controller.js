@@ -139,6 +139,18 @@ class MaterialController {
             res.status(500).json({ message: 'Internal server error while fetching search results.' });
         }
     }
+
+    static async deleteMaterial(req, res) {
+        const { materialId } = req.params;
+        try {
+            const material = await Material.deleteMaterial(materialId);
+            res.status(200).json({ message: 'Material deleted successfully', material });
+        }
+        catch (error) {
+            console.error('Error deleting material:', error);
+            res.status(500).json({ message: 'Internal server error while deleting material.' });
+        } 
+    }
 }
 
 export default MaterialController;

@@ -1,4 +1,4 @@
-import type { User, Statistic, Material, Lesson} from '@interfaces/userProfile'
+import type { Statistic, Material, Lesson} from '@interfaces/userProfile'
 import type { Subject } from '@interfaces/table';
 
 const USER_PROFILE_ENDPOINT = import.meta.env.VITE_USER_PROFILE_ENDPOINT;
@@ -6,16 +6,18 @@ const USER_STATISTICS_ENDPOINT = import.meta.env.VITE_USER_STATISTICS_ENDPOINT;
 const USER_MATERIALS_ENDPOINT = import.meta.env.VITE_USER_MATERIALS_ENDPOINT;
 const USER_LESSONS_ENDPOINT = import.meta.env.VITE_USER_LESSONS_ENDPOINT;
 const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
+const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT
+const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
+const CHECK_EMAIL_ENDPOINT = import.meta.env.VITE_CHECK_EMAIL_ENDPOINT;
 
-const retrieveUserData = async (userId: string): Promise<any> => {
+const retrieveUserData = async (userId: string, requireEmail: boolean = false): Promise<any> => {
 	try {
-		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`);
+		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}${requireEmail ? '?require-email=true' : ''}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch user data');
 		}
 		const data = await response.json();
-		const user = data.user;
-		return user;
+		return data.user;
 	} catch (error) {
 		console.error('Error fetching user data:', error);
 		throw error;
@@ -123,4 +125,93 @@ const updateUserProfile = async (userId: string, updates: any): Promise<any> => 
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile };
+const deleteUserAccount = async (userId: string, password: string): Promise<void> => {
+	const token = localStorage.getItem('user_token');
+
+	try {
+		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			},
+			body: JSON.stringify({ password })
+		});
+
+		if (response.status === 401) {
+			throw new Error('Incorrect password. Please try again.');
+		} else if (!response.ok) {
+			throw new Error('Failed to delete user account');
+		}
+	} catch (error) {
+		console.error('Error deleting user account:', error);
+		throw error;
+	}
+}
+
+const signupUser = async (formData: any): Promise<any> => {
+	try {
+		const response = await fetch(SIGNUP_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formData)
+		});
+
+		if (!response.ok) {
+			throw new Error('Failed to sign up');
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error signing up:', error);
+		throw error;
+	}
+}
+
+const loginUser = async (formData: any): Promise<any> => {
+	try {
+		const response = await fetch(LOGIN_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formData)
+		});
+
+		if (!response.ok) {
+			throw new Error('Failed to log in');
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error logging in:', error);
+		throw error;
+	}
+}
+
+const checkEmailExists = async (email: string): Promise<boolean> => {
+	try {
+		const response = await fetch(`${CHECK_EMAIL_ENDPOINT}?email=${encodeURIComponent(email)}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (!response.ok) {
+			throw new Error('Failed to check email existence');
+		}
+
+		const data = await response.json();
+		return data.exists;
+	} catch (error) {
+		console.error('Error checking email existence:', error);
+		throw error;
+	}
+}
+
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, checkEmailExists };
