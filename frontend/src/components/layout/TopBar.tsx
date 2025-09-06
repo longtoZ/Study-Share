@@ -8,8 +8,6 @@ import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
-import ProfileImage from '@assets/images/profile.png';
-
 interface TopBarProps {
     isDarkMode: boolean;
     onToggleDarkMode: () => void;
@@ -22,6 +20,7 @@ const ACTION_LOGOUT = 'logout';
 const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const profilePictureUrl = localStorage.getItem('profile_picture_url');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -61,7 +60,7 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
                 <div className="flex items-center space-x-4">
                     <div
                         onClick={onToggleDarkMode}
-                        className="p-2 rounded-xl hover:bg-zinc-300 transition-colors curosr-pointer"
+                        className="p-2 rounded-xl hover:bg-zinc-600 transition-colors curosr-pointer"
                     >
                         {isDarkMode ? (
                             <WbSunnyOutlinedIcon className="w-5 h-5 icon-primary" />
@@ -71,7 +70,7 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
                     </div>
 
                     {/* Notification button */}
-                    <div className="p-2 rounded-lg hover:bg-zinc-300 transition-colors relative">
+                    <div className="p-2 rounded-lg hover:bg-zinc-600 transition-colors relative">
                         <NotificationsOutlinedIcon className="w-5 h-5 icon-primary" />
                         <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     </div>
@@ -80,10 +79,10 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
                     <div className="relative">
                         <div
                             onClick={handleProfileClick}
-                            className="w-8 h-8 rounded-full hover:ring-2 hover:border-primary transition-all overflow-hidden"
+                            className="w-8 h-8 rounded-full cursor-pointer transition-all overflow-hidden"
                         >
                             <img
-                                src={ProfileImage}
+                                src={profilePictureUrl || 'https://avatar.iran.liara.run/public'}
                                 alt="Profile"
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
@@ -95,23 +94,23 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
 
                         {/* Profile dropdown menu */}
                         {isProfileMenuOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-primary rounded-lg shadow-lg py-1 z-50">
+                            <div className="absolute cursor-pointer right-0 mt-2 w-48 bg-zinc-700 text-zinc-200 rounded-xl shadow-xl p-1 z-50">
                                 <button
                                     onClick={() => handleMenuItemClick(ACTION_VIEW_PROFILE)}
-                                    className="w-full px-4 py-2 text-left hover:button-transparent flex items-center space-x-2"
+                                    className="w-full px-4 py-2 text-left hover:bg-zinc-600 rounded-xl flex items-center space-x-2"
                                 >
                                     <span>View Main Profile</span>
                                 </button>
                                 <button
                                     onClick={() => handleMenuItemClick(ACTION_SWITCH_ACCOUNT)}
-                                    className="w-full px-4 py-2 text-left hover:button-transparent flex items-center space-x-2"
+                                    className="w-full px-4 py-2 text-left hover:bg-zinc-600 rounded-xl flex items-center space-x-2"
                                 >
                                     <span>Switch Account</span>
                                 </button>
                                 <hr className="my-1 border-gray-200 dark:border-gray-600" />
                                 <button
                                     onClick={() => handleMenuItemClick(ACTION_LOGOUT)}
-                                    className="w-full px-4 py-2 text-left text-red-600 hover:bg-red-100 flex items-center space-x-2"
+                                    className="w-full px-4 py-2 text-left text-red-500 hover:bg-red-100 rounded-xl flex items-center space-x-2"
                                 >
                                     <span>Logout</span>
                                 </button>

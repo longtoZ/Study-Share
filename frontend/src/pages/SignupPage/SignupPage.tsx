@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signupUser, checkEmailExists } from '@/services/userService';
 
@@ -148,6 +148,13 @@ const SignupPage: React.FC = () => {
             console.error('Unexpected error when submitting form: ', e);
         }
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwt_token');
+        if (token) {
+            navigate('/');
+        }
+    }, []);
 
     return (
         <div className="h-full flex items-center relative bg-gradient-to-br bg-white">

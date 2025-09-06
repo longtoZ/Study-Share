@@ -74,7 +74,7 @@ const SearchPage: React.FC = () => {
             const lessons = await retrieveLessons(userId, 'newest', { from: 0, to: 99 });
 
             subjects.push({ subject_id: '', name: 'All Subjects', description: '' });
-            lessons.push({ lesson_id: '', name: 'All Lessons', description: '', created_date: '', material_count: 0, is_public: false });
+            lessons.push({ user_id: '',lesson_id: '', name: 'All Lessons', description: '', created_date: '', material_count: 0, is_public: false });
             setSubjects(subjects);
             setLessons(lessons);
         }
@@ -118,8 +118,8 @@ const SearchPage: React.FC = () => {
     };
 
     return (
-        <>
-            <div className="flex flex-col gap-4 p-6 m-12 mb-6 bg-primary rounded-xl overflow-y-auto scrollbar-hide h-[100vh] pb-36">
+        <div className='overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
+            <div className="flex flex-col gap-4 p-6 m-12 mb-6 bg-primary rounded-xl">
                 <h1 className='font-bold text-2xl'>Search</h1>
                 {/* Search bar */}
                 <form
@@ -142,7 +142,7 @@ const SearchPage: React.FC = () => {
                         type="button"
                         aria-label="Toggle filters"
                         onClick={() => setShowFilters((s) => !s)}
-                        className="inline-flex items-center gap-1.5 text-gray-700 hover:text-gray-900 p-1.5 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500"
+                        className="cursor-pointer inline-flex items-center gap-1.5 text-gray-700 hover:text-gray-900 p-1.5 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500"
                         title="Filters"
                     >
                         <TuneOutlinedIcon />
@@ -305,7 +305,7 @@ const SearchPage: React.FC = () => {
                     <LessonsGrid lessons={retrievedLessons} />
                 )}
             </div>
-        </>
+        </div>
     );
 };
 

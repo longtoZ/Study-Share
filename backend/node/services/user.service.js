@@ -2,22 +2,25 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import jwtConfig from '../config/jwt.js';
-import supabase from '../config/database.js';
+import env from 'dotenv';
+
+env.config();
 
 class UserService {
-    static async signupUser(info) {
+    async signupUser(info, auth_provider = 'regular') {
         const existinguser_id = await User.findByID(info.user_id);
         if (existinguser_id) {
             throw new Error('User with this user_id already exists');
         }
 
-        const existingEmail = await User.findByEmail(info.email);
+        const existingEmail = await User.findByEmail(info.email, auth_provider);
         if (existingEmail) {
             throw new Error('User with this email already exists');
         }
 
         const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(info.password_hash, saltRounds);
+        const passwordHash = await bcrypt.hash(info.password, saltRounds);
+        delete info.password;
 
         info.password_hash = passwordHash;
         const newUser = await User.create(info);
@@ -27,9 +30,9 @@ class UserService {
         return { user: userWithoutPasswordHash };
     }
 
-    static async loginUser(email, password) {
+    async loginUser(email, password, auth_provider = 'regular') {
         console.log('Login attempt with email:', email, password);
-        const user = await User.findByEmail(email);
+        const user = await User.findByEmail(email , auth_provider);
         console.log('User found:', user);
         if (!user) {
             throw new Error("email doesn't exist.");
@@ -51,7 +54,7 @@ class UserService {
         return { user: userWithoutPasswordHash, token };
     }
 
-    static async getUserById(userId, requireEmail = false) {
+    async getUserById(userId, requireEmail = false) {
         const user = await User.findByID(userId, requireEmail);
         if (!user) {
             throw new Error('Failed to fetch user data');
@@ -59,7 +62,7 @@ class UserService {
         return user;
     }
 
-    static async updateUserInfo(user_id, updates) {
+    async updateUserInfo(user_id, updates) {
         const user = await User.findByID(user_id);
         if (!user) {
             throw new Error('User not found');
@@ -73,7 +76,7 @@ class UserService {
         await User.updateInfo(user_id, metadata);
     }
 
-    static async deleteUser(user_id, password) {
+    async deleteUser(user_id, password) {
         const user = await User.findByID(user_id);
         if (!user) {
             throw new Error('User not found');
@@ -86,6 +89,10 @@ class UserService {
 
         await User.delete(user_id);
     }
+
+    async googleLogin(code) {
+
+    }
 }
 
-export default UserService;
+export default new UserService();

@@ -134,7 +134,7 @@ const MaterialViewPage = () => {
             }
 
             try {
-                await verifyUser();
+                await verifyUser(materialData.user_id);
                 setIsAuthor(true);
             } catch (error) {
                 console.error("Error verifying user:", error);
@@ -678,7 +678,7 @@ const MaterialViewPage = () => {
 													{ commentData.isUpvoted ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteBorderOutlinedIcon fontSize="small" /> }
 													<span>{commentData.comment.upvote}</span>
 												</button>
-                                                <span className="ml-4 cursor-pointer" onClick={() => deleteComment(commentData.comment.comment_id)}>Delete</span>
+                                                <span className="ml-4 cursor-pointer" onClick={() => deleteComment(commentData.comment.comment_id, commentData.user.user_id)}>Delete</span>
 											</div>
 										</div>
 									</div>

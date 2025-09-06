@@ -6,7 +6,8 @@ const USER_STATISTICS_ENDPOINT = import.meta.env.VITE_USER_STATISTICS_ENDPOINT;
 const USER_MATERIALS_ENDPOINT = import.meta.env.VITE_USER_MATERIALS_ENDPOINT;
 const USER_LESSONS_ENDPOINT = import.meta.env.VITE_USER_LESSONS_ENDPOINT;
 const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
-const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT
+const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT;
+const GOOGLE_LOGIN_ENDPOINT = import.meta.env.VITE_GOOGLE_LOGIN_ENDPOINT;
 const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
 const CHECK_EMAIL_ENDPOINT = import.meta.env.VITE_CHECK_EMAIL_ENDPOINT;
 
@@ -102,11 +103,11 @@ const retrieveLessons = async (userId: string, lessonOrder: "newest" | "oldest",
 	}
 }
 
-const updateUserProfile = async (userId: string, updates: any): Promise<any> => {
-	const token = localStorage.getItem('user_token');
+const updateUserProfile = async (authorId: string, updates: any): Promise<any> => {
+	const token = localStorage.getItem('jwt_token');
 
 	try {
-		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`, {
+		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${authorId}`, {
 			method: 'PUT',
 			headers: {
 				'Authorization': `Bearer ${token}`
@@ -125,11 +126,11 @@ const updateUserProfile = async (userId: string, updates: any): Promise<any> => 
 	}
 }
 
-const deleteUserAccount = async (userId: string, password: string): Promise<void> => {
-	const token = localStorage.getItem('user_token');
+const deleteUserAccount = async (authorId: string, password: string): Promise<void> => {
+	const token = localStorage.getItem('jwt_token');
 
 	try {
-		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}`, {
+		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${authorId}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ const deleteUserAccount = async (userId: string, password: string): Promise<void
 		if (response.status === 401) {
 			throw new Error('Incorrect password. Please try again.');
 		} else if (!response.ok) {
-			throw new Error('Failed to delete user account');
+			throw new Error((await response.json()).message);
 		}
 	} catch (error) {
 		console.error('Error deleting user account:', error);
@@ -160,7 +161,7 @@ const signupUser = async (formData: any): Promise<any> => {
 		});
 
 		if (!response.ok) {
-			throw new Error('Failed to sign up');
+			throw new Error((await response.json()).message);
 		}
 
 		const data = await response.json();
@@ -182,13 +183,22 @@ const loginUser = async (formData: any): Promise<any> => {
 		});
 
 		if (!response.ok) {
-			throw new Error('Failed to log in');
+			throw new Error((await response.json()).message);
 		}
 
 		const data = await response.json();
 		return data;
 	} catch (error) {
 		console.error('Error logging in:', error);
+		throw error;
+	}
+}
+
+const googleLogin = async (): Promise<any> => {
+	try {
+		window.location.href = 'http://localhost:3000/auth/google';
+	} catch (error) {
+		console.error('Error logging in with Google:', error);
 		throw error;
 	}
 }
@@ -203,7 +213,7 @@ const checkEmailExists = async (email: string): Promise<boolean> => {
 		});
 
 		if (!response.ok) {
-			throw new Error('Failed to check email existence');
+			throw new Error((await response.json()).message);
 		}
 
 		const data = await response.json();
@@ -214,4 +224,4 @@ const checkEmailExists = async (email: string): Promise<boolean> => {
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, checkEmailExists };
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists };

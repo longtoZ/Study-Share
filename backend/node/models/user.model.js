@@ -19,7 +19,9 @@ class User {
                 password_hash: info.password_hash,
                 created_date: info.created_date,
                 last_login: info.last_login,
-                is_admin: info.is_admin
+                is_admin: info.is_admin,
+                auth_provider: info.auth_provider || 'regular',
+                provider_id: info.provider_id || null
             }])
             .select()
             .single();
@@ -51,14 +53,18 @@ class User {
         return data;
     }
 
-    static async findByEmail(email) {
+    static async findByEmail(email, auth_provider = 'regular') {
         const { data, error } = await supabase
             .from(TABLES.USER)
             .select('*')
             .eq('email', email)
             .single();
 
-        if (error && error.code !== 'PGRST116') throw error;
+        if (error) throw error;
+
+        if (data.auth_provider && data.auth_provider !== auth_provider) {
+            throw new Error(`This email is registered via ${data.auth_provider}. Please use ${data.auth_provider} to log in.`);
+        }
         return data;
     }
 

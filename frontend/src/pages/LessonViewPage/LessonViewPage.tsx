@@ -38,12 +38,12 @@ const LessonViewPage = () => {
             setIsLoading(true);
 			const subjects = await retrieveAllSubjects();
             const data = await retrieveAllMaterials(lessonId, subjects, materialOrder);
-            console.log('Retrieved materials:', data);
-            setMaterials(data);
+            console.log('Retrieved materials:', data!.materials);
+            setMaterials(data!.materials);
             setIsLoading(false);
 
             try {
-                await verifyUser();
+                await verifyUser(data!.authorId);
                 setIsAuthor(true);
             } catch (error) {
                 console.error("Error verifying user:", error);

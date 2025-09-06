@@ -1,7 +1,10 @@
 import express, { json } from 'express';
+import session from 'express-session';
 import cors from 'cors';
 import env from 'dotenv';
+import passport from 'passport';
 
+import configurePassport from './config/passport.js';
 import userRoutes from './routes/user.route.js';
 import materialRoutes from './routes/material.route.js';
 import subjectRoutes from './routes/subject.route.js';
@@ -13,6 +16,7 @@ import historyRoutes from './routes/history.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import statisticsRoutes from './routes/statistics.route.js';
 import aiChatRoutes from './routes/ai-chat.route.js';
+import googleOAuthRoutes from './routes/google-oauth.route.js';
 
 env.config();
 
@@ -23,8 +27,16 @@ app.use(cors({
     origin: process.env.FRONTEND_ORIGIN,
     credentials: true
 }));
-
 app.use(json());
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+
+configurePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => {
     res.send('Welcome to StudyShare API!');
@@ -41,6 +53,7 @@ app.use('/api/history', historyRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/statistics', statisticsRoutes);
 app.use('/api/ai-chat', aiChatRoutes);
+app.use('/auth', googleOAuthRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

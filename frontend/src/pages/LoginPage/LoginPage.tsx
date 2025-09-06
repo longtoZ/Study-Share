@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { login } from '@redux/userSlice';
-import { loginUser } from '@/services/userService';
+import { loginUser, googleLogin } from '@/services/userService';
 
 import BackgroundImage from './images/login_background.jpeg';
 
@@ -24,30 +24,45 @@ const LoginPage = () => {
         
         try {
             const userData = await loginUser({ email, password });
-            dispatch(login({ user_id: userData.user_id, token: userData.token }));
+            console.log(userData)
+            dispatch(login({ user_id: userData.user.user_id, token: userData.token }));
             navigate('/');
         } catch (error: any) {
-            if (error.response) {
-                const { message } = error.response.data;
-                if (message.includes('Email is not valid')) {
-                    setEmailErrorMessage(message);
-                }
-                if (message.includes('Password is not correct')) {
-                    setPasswordErrorMessage(message);
-                }
+            const message = error.message || 'Login failed. Please try again.';
+            if (message.includes('Email is not valid')) {
+                setEmailErrorMessage(message);
+            }
+            if (message.includes('Password is not correct')) {
+                setPasswordErrorMessage(message);
+            } else if (message.includes('This email is registered via')) {
+                setEmailErrorMessage(message);
             }
         }
     };
 
-    const handleGoogleSuccess = (credentialResponse: any) => {
+    const handleGoogleSuccess = async (credentialResponse: any) => {
         // Handle Google login success
-        console.log(credentialResponse);
+        try {
+            const userData = await googleLogin();
+            console.log(userData);
+            // dispatch(login({ user_id: userData.user_id, token: userData.token }));
+            // navigate('/');
+        } catch (error: any) {
+            console.error('Error logging in with Google:', error);
+        }
     };
 
     const handleGoogleError = () => {
         // Handle Google login error
         console.log('Google login failed');
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwt_token');
+        if (token) {
+            navigate('/');
+        }
+    }, []);
 
     return (
         <div className="min-h-screen flex items-center justify-center relative">
@@ -69,7 +84,6 @@ const LoginPage = () => {
                         <GoogleLogin
                             onSuccess={handleGoogleSuccess}
                             onError={handleGoogleError}
-                            useOneTap
                         />
                     </div>
 
@@ -138,12 +152,12 @@ const LoginPage = () => {
                             </a>
                         </div>
 
-                        {/* Sign In Button */}
+                        {/* Login Button */}
                         <button
                             type="submit"
                             className="w-full flex justify-center py-2 px-4 button-primary shadow-md"
                         >
-                            Sign in
+                            Login
                         </button>
                     </form>
 

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getLesson, updateLesson } from '@/services/lessonService';
 import type { Lesson } from '@interfaces/userProfile';
 
-const LessonEditPage: React.FC = () => {
+const LessonEditPage = () => {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const [lessonData, setLessonData] = useState<Lesson | null>(null);
@@ -31,7 +31,7 @@ const LessonEditPage: React.FC = () => {
 
   const handleSave = async () => {
     if (!lessonId || !lessonData) return;
-    const updated = await updateLesson(lessonId, {
+    const updated = await updateLesson(lessonId, lessonData.user_id, {
       name: lessonData.name,
       description: lessonData.description,
       is_public: lessonData.is_public,

@@ -14,7 +14,7 @@ class UserController {
             profile_picture_url: '',
             date_of_birth: dateOfBirth,
             address: address,
-            password_hash: password,
+            password: password,
             created_date: new Date(),
             last_login: null,
             is_admin: false
@@ -43,7 +43,10 @@ class UserController {
         } catch (error) {
             if (error.message.includes('Password is not correct')) {
                 return res.status(401).json({ message: error.message });
+            } else if (error.message.includes("This email is registered via")) {
+                return res.status(400).json({ message: error.message });
             }
+            
             res.status(500).json({ message: 'Internal server error during login.' });
         }
     }
@@ -65,12 +68,18 @@ class UserController {
     }
     
     static async updateUserProfile(req, res) {
-        const { userId } = req.params;
+        const { authorId } = req.params;
+        const userId = req.user.user_id;
+
+        if (userId !== authorId) {
+            return res.status(403).json({ message: 'Forbidden: You can only update your own profile.' });
+        }
+
         const profilePictureFile = req.files.length > 0 ? req.files.profile_picture_file[0] : null;
         const backgroundImageFile = req.files.length > 0 ? req.files.background_image_file[0] : null;
 
         try {
-            await UserService.updateUserInfo(userId, {
+            await UserService.updateUserInfo(authorId, {
                 metadata: JSON.parse(req.body.metadata),
                 profilePictureFile,
                 backgroundImageFile
@@ -83,11 +92,16 @@ class UserController {
     }
 
     static async deleteUser(req, res) {
-        const { userId } = req.params;
+        const { authorId } = req.params;
+        const userId = req.user.user_id;
         const { password } = req.body;
 
+        if (userId !== authorId) {
+            return res.status(403).json({ message: 'Forbidden: You can only delete your own account.' });
+        }
+
         try {
-            await UserService.deleteUser(userId, password);
+            await UserService.deleteUser(authorId, password);
             res.status(200).json({ message: 'User deleted successfully' });
         } catch (error) {
             if (error.message.includes('Password is not correct')) {
@@ -107,6 +121,18 @@ class UserController {
         } catch (error) {
             console.error('Error checking email existence:', error);
             res.status(500).json({ message: 'Internal server error while checking email existence.' });
+        }
+    }
+
+    static async googleLogin(req, res) {
+        const { token } = req.body;
+
+        try {
+            const { user, jwtToken } = await UserService.googleLogin(token);
+            res.status(200).json({ message: 'Logged in with Google successfully', user, token: jwtToken });
+        } catch (error) {
+            console.error('Google login error:', error);
+            res.status(500).json({ message: 'Internal server error during Google login.' });
         }
     }
 }

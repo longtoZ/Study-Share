@@ -12,7 +12,8 @@ const retrieveAllMaterials = async (lessonId: string, subjects: Subject[], order
             throw new Error('Failed to fetch materials');
         }
         const data = await response.json();
-		return data.materials.map((material: any) => ({
+		return { materials: 
+            data.materials.map((material: any) => ({
 			material_id: material.material_id,
 			name: material.name,
 			description: material.description,
@@ -21,7 +22,7 @@ const retrieveAllMaterials = async (lessonId: string, subjects: Subject[], order
 			download_count: material.download_count,
 			rating: material.total_rating / (material.rating_count || 1), // Avoid division by zero
 			file_type: material.file_type
-		}));
+		})), authorId: data.authorId };
     } catch (error) {
         console.error('Error fetching materials:', error);
     }
@@ -65,10 +66,10 @@ const getLesson = async (lessonId: string) => {
     return null;
 }
 
-const updateLesson = async (lessonId: string, updatedData: any) => {
+const updateLesson = async (lessonId: string, authorId: string, updatedData: any) => {
     console.log('Updating lesson with ID:', lessonId);
     const url = GET_LESSON_ENDPOINT.replace('lesson-id', lessonId);
-    const token = localStorage.getItem('user_token') || '';
+    const token = localStorage.getItem('jwt_token') || '';
     try {
         const response = await fetch(url, {
             method: 'PUT',
@@ -76,7 +77,7 @@ const updateLesson = async (lessonId: string, updatedData: any) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(updatedData),
+            body: JSON.stringify({ updatedData, authorId }),
         });
         if (!response.ok) {
             throw new Error('Failed to update lesson');

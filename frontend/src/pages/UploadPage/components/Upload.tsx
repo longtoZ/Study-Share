@@ -86,6 +86,19 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                 </div>
 
                 <div>
+                    <label className="block text-sm font-medium mb-2">
+                        Price (in USD)
+                    </label>
+                    <input
+                        type="number"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
+                        placeholder="Enter price"
+                        value={fileData.price}
+                        onChange={(e) => setFileData({ ...fileData, price: Number(e.target.value) })}
+                    />
+                </div>
+
+                <div>
                     <label htmlFor="filetype" className="block text-sm font-medium mb-2">
                         File Type
                     </label>

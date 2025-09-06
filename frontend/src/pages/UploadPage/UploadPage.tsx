@@ -134,7 +134,7 @@ const UploadPage = () => {
 
 	return (
 		<div className="p-12 min-h-screen overflow-y-auto scrollbar-hide h-[100vh] pb-36">
-			<div className="mx-auto rounded-2xl bg-primary overflow-hidden border border-primary p-6">
+			<div className="mx-auto rounded-3xl bg-primary overflow-hidden card-shadow p-6">
 				<h1 className="text-header-large ml-20 mb-2">Add Document</h1>
 				<p className="text-subtitle ml-20 mb-8">
 					You can upload multiple files at once. Remember to fill in the details for each file after uploading.
@@ -159,14 +159,14 @@ const UploadPage = () => {
 							</div>
 							
 							<div className="text-sm text-gray-400">
-								Supported formats: PDF, DOC, DOCX, PPT, PPTX
+								Supported formats: PDF, DOC, DOCX
 							</div>
 
 							<input 
 								ref={inputRef}
 								type="file"
 								multiple
-								accept=".pdf,.doc,.docx,.ppt,.pptx"
+								accept=".pdf,.doc,.docx"
 								onChange={handleFileSelect}
 								className="hidden" 
 							/>

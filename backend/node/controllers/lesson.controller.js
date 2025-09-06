@@ -32,8 +32,8 @@ class LessonController {
         const { order } = req.query;
 
         try {
-            const materials = await Lesson.getAllMaterialsByLessonId(lessonId, order);
-            res.status(200).json({ message: 'Materials fetched successfully', materials });
+            const { materials, authorId } = await Lesson.getAllMaterialsByLessonId(lessonId, order);
+            res.status(200).json({ message: 'Materials fetched successfully', materials, authorId });
         } catch (error) {
             console.error('Error fetching materials:', error);
             res.status(500).json({ message: 'Internal server error while fetching materials.' });
@@ -67,7 +67,12 @@ class LessonController {
 
     static async updateLesson(req, res) {
         const { lessonId } = req.params;
-        const updatedData = req.body;
+        const userId = req.user.id;
+        const { authorId, updatedData } = req.body;
+
+        if (authorId && userId !== authorId) {
+            return res.status(403).json({ message: 'Forbidden: You are not the author of this lesson.' });
+        }
 
         try {
             const lesson = await Lesson.updateLesson(lessonId, updatedData);

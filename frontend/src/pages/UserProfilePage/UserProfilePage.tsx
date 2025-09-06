@@ -39,6 +39,14 @@ const UserProfilePage = () => {
 				console.log('User Data:', userData);
 				console.log('User Statistics:', userStats);
 				setUser({ ...userData, statistics: userStats });
+
+				// Store background and profile image links in local storage
+				if (userData.background_image_url) {
+					localStorage.setItem('background_image_url', userData.background_image_url);
+				}
+				if (userData.profile_picture_url) {
+					localStorage.setItem('profile_picture_url', userData.profile_picture_url);
+				}
 			} catch (error) {
 				if (error instanceof Error && error.message.includes('Failed to fetch user data')) {
 					navigate('/not-found', { replace: true });
@@ -75,10 +83,12 @@ const UserProfilePage = () => {
 	return (
 		<div className='p-12 min-h-screen w-full rounded-2xl overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
 			<div className='rounded-3xl bg-primary overflow-hidden card-shadow pb-6'>
-				<img src={user?.background_image_url || PlaceholderBg} alt="" className='w-full h-64 object-cover'/>
+				<div className='p-2'>
+					<img src={user?.background_image_url || PlaceholderBg} alt="" className='w-full rounded-3xl h-80 object-cover pointer-events-none'/>
+				</div>
 				<div className='px-6'>
 					<div className='p-4 relative'>
-						<img src={user?.profile_picture_url || PlaceholderPfp} alt="Profile" className='absolute w-48 h-48 object-cover rounded-full border-6 border-white -top-36 left-6'/>
+						<img src={user?.profile_picture_url || PlaceholderPfp} alt="Profile" className='absolute w-48 h-48 object-cover rounded-full border-6 border-white -top-34 left-6 pointer-events-none'/>
 						
 						<div className='mt-12 flex justify-between items-center'>
 							<div>

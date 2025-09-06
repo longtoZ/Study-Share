@@ -21,10 +21,10 @@ const getMaterial = async (materialId: string) => {
     return null;
 };
 
-const updateMaterial = async (materialId: string, updatedData: any) => {
+const updateMaterial = async (materialId: string, authorId: string, updatedData: any) => {
     console.log('Updating material with ID:', materialId);
     const updateMaterialUrl = GET_MATERIAL_ENDPOINT.replace('material-id', materialId);
-    const token = localStorage.getItem('user_token') || '';
+    const token = localStorage.getItem('jwt_token') || '';
 
     try {
         const response = await fetch(updateMaterialUrl, {
@@ -33,7 +33,7 @@ const updateMaterial = async (materialId: string, updatedData: any) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(updatedData),
+            body: JSON.stringify({ authorId, updatedData }),
         });
         if (!response.ok) {
             throw new Error('Failed to update material');
@@ -91,10 +91,10 @@ const getMaterialUrl = async (materialId: string) => {
     return null;
 }
 
-const deleteMaterial = async (materialId: string) => {
+const deleteMaterial = async (materialId: string, authorId: string) => {
     console.log('Deleting material with ID:', materialId);
     const deleteMaterialUrl = GET_MATERIAL_ENDPOINT.replace('material-id', materialId);
-    const token = localStorage.getItem('user_token') || '';
+    const token = localStorage.getItem('jwt_token') || '';
 
     try {
         const response = await fetch(deleteMaterialUrl, {
@@ -102,7 +102,8 @@ const deleteMaterial = async (materialId: string) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({ authorId })
         });
         if (!response.ok) {
             throw new Error('Failed to delete material');

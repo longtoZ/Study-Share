@@ -4,8 +4,7 @@ const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 const REDIRECT_TO_CHECKOUT = import.meta.env.VITE_REDIRECT_TO_CHECKOUT;
 
 const makePayment = async (data: any) => {
-    const stripe = await loadStripe(STRIPE_PUBLISHABLE_KEY);
-    const token = localStorage.getItem('user_token');
+    const token = localStorage.getItem('jwt_token');
 
     const response = await fetch(REDIRECT_TO_CHECKOUT, {
         method: 'POST',

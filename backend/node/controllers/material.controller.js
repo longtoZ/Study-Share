@@ -116,7 +116,12 @@ class MaterialController {
 
     static async updateMaterial(req, res) {
         const { materialId } = req.params;
-        const updatedData = req.body;
+        const userId = req.user.user_id;
+        const { authorId, updatedData } = req.body;
+
+        if (userId !== authorId) {
+            return res.status(403).json({ message: 'Forbidden: You are not the author of this material.' });
+        }
 
         try {
             const material = await Material.updateMaterial(materialId, updatedData);
@@ -142,6 +147,13 @@ class MaterialController {
 
     static async deleteMaterial(req, res) {
         const { materialId } = req.params;
+        const userId = req.user.user_id;
+        const { authorId } = req.body;
+
+        if (userId !== authorId) {
+            return res.status(403).json({ message: 'Forbidden: You are not the author of this material.' });
+        }
+
         try {
             const material = await Material.deleteMaterial(materialId);
             res.status(200).json({ message: 'Material deleted successfully', material });

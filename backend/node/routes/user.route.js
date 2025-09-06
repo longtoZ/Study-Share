@@ -10,10 +10,11 @@ router.get('/exists', UserController.checkEmailExists);
 router.post('/signup', UserController.signup);
 router.post('/login', UserController.login);
 router.get('/:userId', UserController.getUserProfile);
-router.put('/:userId', AuthMiddleware.verifyUser, upload.fields([
+router.put('/:authorId', AuthMiddleware.verifyUser, upload.fields([
     { name: 'profile_picture_file', maxCount: 1 },
     { name: 'background_image_file', maxCount: 1 }
 ]), UserController.updateUserProfile);
 router.delete('/:userId', AuthMiddleware.verifyUser, UserController.deleteUser);
+router.post('/login/google', UserController.googleLogin);
 
 export default router;

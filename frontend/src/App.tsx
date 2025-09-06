@@ -17,6 +17,7 @@ const MyMaterialsPage = lazy(() => import("@pages/MyMaterialsPage/MyMaterialsPag
 const SearchPage = lazy(() => import("@pages/SearchPage/SearchPage"));
 const HistoryPage = lazy(() => import("@pages/HistoryPage/HistoryPage"));
 const StatisticsPage = lazy(() => import("@pages/StatisticsPage/StatisticsPage"));
+const RedirectToHomePage = lazy(() => import("@pages/RedirectPage/RedirectToHomePage"));
 
 // Layout components
 import SideBar from '@components/layout/SideBar';
@@ -42,7 +43,7 @@ function AppContent() {
             <div className={`${isExcludedPages ? "w-[100vw] flex justify-center items-center" : `${ isSidebarMinimized ? "w-[94vw]" : "w-[80vw]"} h-[100vh] mx-4 mb-4`}`}>
                 {!isExcludedPages && <TopBar isDarkMode={false} onToggleDarkMode={() => {}} />}
 
-                <div className={`z-10 bg-secondary rounded-3xl relative overflow-hidden ${ isExcludedPages ? "w-[99%] h-[98vh]" : "h-[90%]"}`}>
+                <div className={`z-10 bg-secondary rounded-3xl relative overflow-hidden ${ isExcludedPages ? "w-[99%] h-[98%]" : "h-[90%]"}`}>
                     <Suspense fallback={
                         <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                             <CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
@@ -65,6 +66,7 @@ function AppContent() {
                             <Route path="/search" element={<SearchPage />} />
                             <Route path="/history" element={<HistoryPage />} />
                             <Route path="/statistics" element={<StatisticsPage />} />
+                            <Route path="/redirect-to-home" element={<RedirectToHomePage />} />
                         </Routes>
                     </Suspense>
                 </div>

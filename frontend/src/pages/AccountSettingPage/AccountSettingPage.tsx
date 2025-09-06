@@ -8,12 +8,13 @@ import { verifyUser } from '@services/authService';
 
 const AccountSettingPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('personal');
+    const userId = localStorage.getItem('user_id') || '';
     const navigate = useNavigate();
 
     useEffect(() => {
         const checkUserVerification = async () => {
             try {
-                const user = await verifyUser();
+                const user = await verifyUser(userId);
                 console.log('User verification successful:', user);
             } catch (error) {
                 console.error('User verification failed:', error);

@@ -40,9 +40,9 @@ const createComment = async (commentContent: string, materialId: string | undefi
     }
 };
 
-const deleteComment = async (commentId: string) => {
+const deleteComment = async (commentId: string, authorId: string) => {
     if (!commentId) return;
-    const token = localStorage.getItem('user_token') || '';
+    const token = localStorage.getItem('jwt_token') || '';
 
     try {
         const response = await fetch(`${DELETE_COMMENT_ENDPOINT.replace("comment-id", commentId)}`, {
@@ -51,6 +51,7 @@ const deleteComment = async (commentId: string) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
+            body: JSON.stringify({ authorId }),
         });
 
         if (response.ok) {

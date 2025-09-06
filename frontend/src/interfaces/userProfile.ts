@@ -29,12 +29,13 @@ interface Material {
 }
 
 interface Lesson {
-  lesson_id: string,
-  name: string,
-  description: string,
-  created_date: string,
-  material_count: number,
-  is_public: boolean
+	user_id: string,
+	lesson_id: string,
+	name: string,
+	description: string,
+	created_date: string,
+	material_count: number,
+	is_public: boolean
 }
 
 export type { User, Statistic, Material, Lesson};

@@ -30,7 +30,7 @@ const MyMaterialsPage = () => {
 
         const retrieveData = async () => {
             try {
-                await verifyUser();
+                await verifyUser(userId);
                 setIsAuthor(true);
             } catch (error) {
                 console.error("Error verifying user:", error);

@@ -41,6 +41,12 @@ class Lesson {
     }
 
     static async getAllMaterialsByLessonId(lesson_id, order) {
+        const { data: lessonData, error: lessonError } = await supabase
+            .from(TABLES.LESSON)
+            .select('user_id')
+            .eq('lesson_id', lesson_id)
+            .single();
+
         const { data, error } = await supabase
             .from(TABLES.MATERIAL)
             .select('*')
@@ -49,7 +55,10 @@ class Lesson {
 
         if (error) throw error;
 
-        return data;
+        return {
+            materials: data,
+            authorId: lessonData.user_id
+        }
     }
 
     static async addMaterialToLesson(lesson_id, material_id) {
