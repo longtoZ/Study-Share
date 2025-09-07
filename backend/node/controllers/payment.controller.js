@@ -17,7 +17,7 @@ class PaymentController {
                 },
             });
 
-            res.json({ accountId: account.id });
+            res.status(200).json({ accountId: account.id });
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: err.message });
@@ -27,7 +27,7 @@ class PaymentController {
     static async redirectToCheckout(req, res) {
           try {
             const session = await PaymentService.redirectToCheckout(req.body);
-            res.json({ url: session.url });
+            res.status(200).json({ url: session.url });
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: err.message });
@@ -70,6 +70,32 @@ class PaymentController {
             res.status(500).json({ error: err.message });
         }
     }
-};
+
+    static async checkMaterialPayment(req, res) {
+        const userId = req.user.user_id;
+        const materialId = req.query.material_id;
+
+        try {
+            const payment = await Payment.checkMaterialPayment(userId, materialId);
+            res.status(200).json(payment);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: err.message });
+        }
+    }
+
+    static async getPaymentHistory(req, res) {
+        const userId = req.user.user_id;
+        const { filter } = req.body;
+
+        try {
+            const payments = await Payment.getPaymentsByUserId(userId, filter || {});
+            res.status(200).json({ payments });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: err.message });
+        }
+    }
+}
 
 export default PaymentController;

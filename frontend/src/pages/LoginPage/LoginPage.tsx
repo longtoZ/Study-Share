@@ -6,6 +6,7 @@ import { login } from '@redux/userSlice';
 import { loginUser, googleLogin } from '@/services/userService';
 
 import BackgroundImage from './images/login_background.jpeg';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ const LoginPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -23,8 +25,10 @@ const LoginPage = () => {
         setPasswordErrorMessage('');
         
         try {
+            setIsLoading(true);
             const userData = await loginUser({ email, password });
             console.log(userData)
+            setIsLoading(false);
             dispatch(login({ user_id: userData.user.user_id, token: userData.token }));
             navigate('/');
         } catch (error: any) {
@@ -155,9 +159,9 @@ const LoginPage = () => {
                         {/* Login Button */}
                         <button
                             type="submit"
-                            className="w-full flex justify-center py-2 px-4 button-primary shadow-md"
+                            className="w-full flex justify-center items-center py-2 px-4 button-primary shadow-md"
                         >
-                            Login
+                            {isLoading ? <CircularProgress sx={{ color: 'white' }} size={24} /> : 'Login'}
                         </button>
                     </form>
 

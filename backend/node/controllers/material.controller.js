@@ -49,7 +49,7 @@ class MaterialController {
         }
     }
 
-    static async getMaterialByUserId(req, res) {
+    static async getMaterialsByUserId(req, res) {
         const { userId } = req.params;
         const { order, from, to } = req.query;
 

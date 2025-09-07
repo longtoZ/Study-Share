@@ -34,6 +34,7 @@
       "@services/*": ["src/services/*"],
       "@redux/*": ["src/redux/*"],
       "@interfaces/*": ["src/interfaces/*"],
+      "@constants/*": ["src/constants/*"]
     },
   },
   "include": ["src"]

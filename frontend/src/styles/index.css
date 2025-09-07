@@ -103,8 +103,9 @@ html {
 
 .button-primary {
 	background: linear-gradient(to right, var(--color-blue-500), var(--color-violet-600));
+	box-shadow: 0 8px 10px rgba(71, 43, 255, 0.4);
 	color: var(--color-zinc-50);
-	border-radius: var(--radius-lg);
+	border-radius: var(--radius-xl);
 	font-weight: 600;
 	font-size: var(--text-base);
 	transition: all 0.3s ease;

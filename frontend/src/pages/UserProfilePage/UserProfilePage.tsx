@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 
-import type { Subject } from '@interfaces/table';
-
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
@@ -14,14 +12,13 @@ import MaterialsGrid from '@/components/layout/MaterialsGrid';
 import PlaceholderPfp from './images/placeholder_pfp.png';
 import PlaceholderBg from './images/placeholder_bg.png';
 
-import type { User, Material, Lesson } from '@interfaces/userProfile';
-import { retrieveAllSubjects, retrieveMaterials, retrieveUserData, retrieveLessons, calculateStatistics} from '@services/userService';
+import type { User, MaterialExtended, Lesson } from '@interfaces/userProfile';
+import { retrieveMaterials, retrieveUserData, retrieveLessons, calculateStatistics} from '@services/userService';
 
 const UserProfilePage = () => {
 	const { userId } = useParams();
 	const [user, setUser] = useState<User | null>(null);
-	const [subjects, setSubjects] = useState<Subject[]>([]);
-	const [materials, setMaterials] = useState<Material[]>([]);
+	const [materials, setMaterials] = useState<MaterialExtended[]>([]);
 	const [lessons, setLessons] = useState<Lesson[]>([]);
 
 	const navigate = useNavigate();
@@ -61,14 +58,11 @@ const UserProfilePage = () => {
 			}
 
 			try {
-				const subjects = await retrieveAllSubjects();
-				console.log('Subjects:', subjects);
-				const materials = await retrieveMaterials(userId, subjects, 'newest', { from: 0, to: 5 });
+				const materials = await retrieveMaterials(userId, 'newest', { from: 0, to: 5 });
 				const lessons = await retrieveLessons(userId, 'newest', { from: 0, to: 5 });
 				console.log('User Materials:', materials);
 				console.log('User Lessons:', lessons);
 
-				setSubjects(subjects);
 				setMaterials(materials);
 				setLessons(lessons);
 			} catch (error) {

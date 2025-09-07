@@ -186,7 +186,7 @@ class Material {
 
     static async getMaterialsByUserId(user_id, order, from, to) {
         const { data, error } = await supabase
-            .from(TABLES.MATERIAL)
+            .rpc('get_materials_user_info')
             .select('*', { count: 'exact' })
             .eq('user_id', user_id)
             .order('upload_date', { ascending: order === 'oldest' })

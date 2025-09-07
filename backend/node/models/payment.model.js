@@ -32,6 +32,48 @@ class Payment {
 
         return data;
     }
+
+    static async checkMaterialPayment(user_id, material_id) {
+        const { data, error } = await supabase
+            .from(TABLES.PAYMENT)
+            .select('*')
+            .eq('buyer_id', user_id)
+            .eq('material_id', material_id)
+            .eq('status', 'paid')
+            .maybeSingle();
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data;
+    }
+
+    static async getPaymentsByUserId(user_id, filter) {
+        console.log(user_id, filter);
+        let query = supabase
+            .rpc('get_payment_history')
+            .select('*')
+            .eq('buyer_id', user_id);
+
+        if (filter.from) query = query.gte('created_date', filter.from);
+        if (filter.to) query = query.lte('created_date', filter.to);
+
+        if (filter.order === 'date') {
+            query = query.order('created_date', { ascending: false });
+        } else {
+            query = query.order('amount', { ascending: filter.order === 'asc' });
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data;
+    }
+
 };
 
 export default Payment;

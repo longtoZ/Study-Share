@@ -56,6 +56,25 @@ interface History {
 interface HistoryExtended extends History {
     material_name: string | null;
     lesson_name: string | null;
+    material_author: string | null;
+    lesson_author: string | null;
 }
 
-export type { Subject, Material, User, Rating, History, HistoryExtended };
+interface Payment {
+    payment_id: string;
+    material_id: string;
+    seller_id: string;
+    buyer_id: string;
+    amount: number;
+    currency: string;
+    created_date: Date;
+    status: string;
+}
+
+interface PaymentExtended extends Payment {
+    material_name: string;
+    seller_name: string;
+    buyer_name: string;
+}
+
+export type { Subject, Material, User, Rating, History, HistoryExtended, Payment, PaymentExtended };

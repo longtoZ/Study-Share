@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { Material, Statistic } from '@/interfaces/userProfile';
+import type { MaterialExtended, Statistic } from '@/interfaces/userProfile';
 
-import { retrieveMaterials, retrieveAllSubjects, calculateStatistics } from '@/services/userService';
+import { retrieveMaterials, calculateStatistics } from '@/services/userService';
 import { verifyUser } from '@services/authService';
 
 import SearchBar from '@/components/common/SearchBar';
@@ -14,10 +14,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 const MyMaterialsPage = () => {
     const { userId } = useParams();
 
-    const [subjects, setSubjects] = useState<any[]>([]);
-    const [materials, setMaterials] = useState<Material[]>([]);
+    const [materials, setMaterials] = useState<MaterialExtended[]>([]);
     const [materialOrder, setMaterialOrder] = useState<"newest" | "oldest">("newest");
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [range, setRange] = useState<{ from: number; to: number }>({ from: 0, to: 9 });
     const [statistics, setStatistics] = useState<Statistic | null>(null);
 
@@ -37,9 +37,7 @@ const MyMaterialsPage = () => {
             }
 
             const stats = await calculateStatistics(userId);
-            const subjects = await retrieveAllSubjects();
             setStatistics(stats);
-            setSubjects(subjects);
         };
 
         retrieveData();
@@ -52,17 +50,19 @@ const MyMaterialsPage = () => {
                 return;
             }
 
-            const data = await retrieveMaterials(userId, subjects, materialOrder, range);
+            setIsLoading(true);
+            const data = await retrieveMaterials(userId, materialOrder, range);
             console.log('Retrieved materials:', data);
             setMaterials(data);
+            setIsLoading(false);
         }
 
         retrieveData();
 
-    }, [subjects, range, materialOrder]);
+    }, [range, materialOrder]);
 
     return (
-        <div className='p-12 min-h-screen overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
+        <div className='p-12 min-h-screen overflow-y-auto scrollbar-hide h-[100vh] pb-36 bg-gradient-to-tr from-sky-50 to-white'>
             <h1 className='text-header-large mb-4'>All Materials</h1>
             <div className='flex gap-2 justify-end'>
                 <SearchBar className=''/>
@@ -72,14 +72,14 @@ const MyMaterialsPage = () => {
                 </button>
             </div>
 
-            <div className='rounded-2xl bg-primary overflow-hidden px-10 py-6 mt-4 shadow-xl'>
+            <div className='rounded-3xl bg-primary overflow-hidden px-10 py-6 mt-4 card-shadow'>
                 <div className='flex justify-between'>
-                    <h1 className='text-header-medium'>{`${userId}'s materials`}</h1>
-                    <div className="flex justify-evenly p-1 bg-zinc-100 rounded-2xl">
+                    <h1 className='text-header-medium'>{`${materials[0]?.user_name}'s materials`}</h1>
+                    <div className="flex justify-evenly gap-2 p-1 bg-zinc-100 rounded-2xl cursor-pointer inset-shadow-sm">
                         <button
-                            className={`px-4 py-2 rounded-2xl cursor-pointer ${
+                            className={`px-4 py-2 rounded-2xl ${
                                 materialOrder === "newest"
-                                    ? "bg-white"
+                                    ? "bg-white shadow-sm"
                                     : "text-zinc-800"
                             }`}
                             onClick={() => {setMaterialOrder("newest"); setMaterials([])}}
@@ -87,9 +87,9 @@ const MyMaterialsPage = () => {
                             Newest
                         </button>
                         <button
-                            className={`px-4 py-2 rounded-2xl cursor-pointer ${
+                            className={`px-4 py-2 rounded-2xl ${
                                 materialOrder === "oldest"
-                                    ? "bg-white"
+                                    ? "bg-white shadow-sm"
                                     : "text-zinc-800"
                             }`}
                             onClick={() => {setMaterialOrder("oldest"); setMaterials([])}}
@@ -98,7 +98,7 @@ const MyMaterialsPage = () => {
                         </button>
                     </div>
                 </div>
-                { materials.length === 0 ?
+                { isLoading ?
                     <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                         <CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
                         <h1 className='mt-2 text-lg'>Fetching materials...</h1>

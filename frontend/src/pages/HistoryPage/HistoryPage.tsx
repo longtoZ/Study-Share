@@ -109,7 +109,7 @@ const HistoryPage = () => {
                                             else if (entry.lesson_id) navigate(`/lesson/${entry.lesson_id}`);
                                         }}>{entry.material_name || entry.lesson_name}</td>
                                         <td className="py-3 px-4">{entry.type}</td>
-                                        <td className="py-3 px-4 hover:underline cursor-pointer">{entry.user_id}</td>
+                                        <td className="py-3 px-4 hover:underline cursor-pointer" onClick={() => navigate(`/user/${entry.user_id}`)}>{entry.material_author || entry.lesson_author}</td>
                                         <td className="py-3 px-4">{new Date(entry.viewed_date).toLocaleString(undefined, { timeZone: 'UTC' })}</td>
                                         <td className="py-3 px-4">
                                             <button

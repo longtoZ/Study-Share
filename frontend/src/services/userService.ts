@@ -1,4 +1,4 @@
-import type { Statistic, Material, Lesson} from '@interfaces/userProfile'
+import type { Statistic, MaterialExtended, Lesson} from '@interfaces/userProfile'
 import type { Subject } from '@interfaces/table';
 
 const USER_PROFILE_ENDPOINT = import.meta.env.VITE_USER_PROFILE_ENDPOINT;
@@ -59,7 +59,7 @@ const retrieveAllSubjects = async (): Promise<Subject[]> => {
 	}
 }
 
-const retrieveMaterials = async (userId: string, subjects: Subject[], materialOrder: "newest" | "oldest", range: { from: number, to: number }): Promise<Material[]> => {
+const retrieveMaterials = async (userId: string, materialOrder: "newest" | "oldest", range: { from: number, to: number }): Promise<MaterialExtended[]> => {
 	try {
 		const response = await fetch(`${USER_MATERIALS_ENDPOINT}/${userId}?order=${materialOrder}&from=${range.from}&to=${range.to}`);
 		if (!response.ok) {
@@ -67,14 +67,8 @@ const retrieveMaterials = async (userId: string, subjects: Subject[], materialOr
 		}
 		const data = await response.json();
 		return data.materials.map((material: any) => ({
-			material_id: material.material_id,
-			name: material.name,
-			description: material.description,
-			subject: subjects.find((subject) => subject.subject_id === material.subject_id)?.name || 'Unknown',
-			upload_date: material.upload_date,
-			download_count: material.download_count,
+			...material,
 			rating: material.total_rating / (material.rating_count || 1), // Avoid division by zero
-			file_type: material.file_type
 		}));
 	} catch (error) {
 		console.error('Error fetching user materials:', error);

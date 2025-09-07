@@ -8,6 +8,7 @@ interface Option {
 
 interface DropdownListProps {
     options: Option[];
+    defaultValue?: string;
     placeholder?: string;
     onSelect: (value: string) => void;
     className?: string;
@@ -17,6 +18,7 @@ interface DropdownListProps {
 
 const DropdownList = ({
     options,
+    defaultValue = '',
     placeholder = "Select an option...",
     onSelect,
     className = "",
@@ -25,7 +27,7 @@ const DropdownList = ({
 }: DropdownListProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedValue, setSelectedValue] = useState(defaultValue);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const filteredOptions = options.filter(option =>

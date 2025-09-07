@@ -21,11 +21,21 @@ interface Material {
 	material_id: string,
 	name: string,
 	description: string,
-	subject: string,
+	subject_id: string,
 	upload_date: string,
 	download_count: number,
+	view_count: number,
 	rating: number,
 	file_type: string,
+	price: number,
+	is_paid: string
+}
+
+interface MaterialExtended extends Material {
+	subject_name: string,
+	user_name: string,
+	profile_picture_url: string,
+	background_image_url: string,
 }
 
 interface Lesson {
@@ -38,4 +48,4 @@ interface Lesson {
 	is_public: boolean
 }
 
-export type { User, Statistic, Material, Lesson};
+export type { User, Statistic, Material, MaterialExtended, Lesson};

@@ -9,7 +9,7 @@ import { verifyUser } from '@services/authService';
 import { v4 as uuidv4 } from 'uuid';
 
 import { createComment, deleteComment, getComments, voteComment, checkUpvoteRecord } from '@services/commentService';
-import { makePayment } from "@/services/paymentService";
+import { makePayment, checkMaterialPayment } from "@/services/paymentService";
 import { getMaterialUrl } from "@services/materialService";
 import { clearSession } from "../../services/aiChatService";
 
@@ -63,6 +63,7 @@ const MaterialViewPage = () => {
 	const [allCommentsData, setAllCommentsData] = useState<any[]>([]);
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
     const [isMaterialPaid, setIsMaterialPaid] = useState<boolean>(false);
+    const [hasUserPaid, setHasUserPaid] = useState<boolean>(false);
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
     const userState = useSelector((state: any) => state.user);
@@ -112,6 +113,7 @@ const MaterialViewPage = () => {
 
         const fetchData = async () => {
             const materialData = await getMaterial(materialId);
+            const paymentData = await checkMaterialPayment(materialId);
 
             if (materialData) {
                 setMaterial(materialData);
@@ -119,7 +121,7 @@ const MaterialViewPage = () => {
                 setAvgRating(
                     materialData.total_rating / materialData.rating_count || 0
                 );
-                setIsMaterialPaid(!!materialData.price);
+                setIsMaterialPaid(!!materialData.price || paymentData);
             }
 
             const subjectData = await getSubject(materialData.subject_id);

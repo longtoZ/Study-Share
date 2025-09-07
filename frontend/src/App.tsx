@@ -17,6 +17,7 @@ const MyMaterialsPage = lazy(() => import("@pages/MyMaterialsPage/MyMaterialsPag
 const SearchPage = lazy(() => import("@pages/SearchPage/SearchPage"));
 const HistoryPage = lazy(() => import("@pages/HistoryPage/HistoryPage"));
 const StatisticsPage = lazy(() => import("@pages/StatisticsPage/StatisticsPage"));
+const PaymentHistoryPage = lazy(() => import("@pages/PaymentHistoryPage/PaymentHistoryPage"));
 const RedirectToHomePage = lazy(() => import("@pages/RedirectPage/RedirectToHomePage"));
 
 // Layout components
@@ -66,6 +67,7 @@ function AppContent() {
                             <Route path="/search" element={<SearchPage />} />
                             <Route path="/history" element={<HistoryPage />} />
                             <Route path="/statistics" element={<StatisticsPage />} />
+                            <Route path="/payment-history" element={<PaymentHistoryPage />} />
                             <Route path="/redirect-to-home" element={<RedirectToHomePage />} />
                         </Routes>
                     </Suspense>

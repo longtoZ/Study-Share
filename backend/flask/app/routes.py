@@ -131,6 +131,10 @@ def convert_docx_to_webp():
             file_converter.docx_to_pdf(docx_path, output_dir_pdf, output_pdf_filename)
             pdf_filename = os.path.join(output_dir_pdf, output_pdf_filename)
 
+            # Extract content from the DOCX (via the converted PDF)
+            content = extract_all_pages_content(pdf_filename, mime_type='application/pdf')
+            print("Extracted Content:", content)
+
             # Convert PDF to WebP
             output_dir_webp = os.path.join('output_webp', filename)
             prefix = filename
@@ -138,7 +142,7 @@ def convert_docx_to_webp():
             file_converter.pdf_to_webp(pdf_filename, output_dir_webp, prefix)
             
             public_links = []
-            files_list = os.listdir(output_dir_webp)
+            files_list = sorted(os.listdir(output_dir_webp), key=lambda x: int(x.split('_')[-1].split('.')[0])) # Sort files by page number
 
             for i in range(len(files_list)):
                 webp_filename = files_list[i]
@@ -151,7 +155,16 @@ def convert_docx_to_webp():
                     'url': public_link
                 })
 
-            return jsonify({'message': 'DOCX converted to WebP successfully', 'public_links': public_links}), 200
+            return jsonify({
+                'message': 'PDF converted to WebP successfully',
+                'public_links': public_links,
+                'content': content.text,
+                'usage': {
+                    'prompt_token_count': content.usage.prompt_token_count,
+                    'thoughts_token_count': content.usage.thoughts_token_count,
+                    'total_token_count': content.usage.total_token_count
+                }
+            }), 200
         except Exception as e:
             # Handle any errors during conversion
             return jsonify({'error': f'Conversion failed: {str(e)}'}), 500

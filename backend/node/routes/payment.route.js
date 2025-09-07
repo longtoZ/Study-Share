@@ -8,5 +8,7 @@ router.post('/create-connected-account', PaymentController.createConnectedAccoun
 router.post('/redirect-to-checkout', AuthMiddleware.verifyUser, PaymentController.redirectToCheckout);
 router.get('/success', PaymentController.paymentSuccess);
 router.get('/oauth/callback', PaymentController.accountAuthorizationCallback);
+router.get('/check-material-payment', AuthMiddleware.verifyUser, PaymentController.checkMaterialPayment);
+router.post('/payment-history', AuthMiddleware.verifyUser, PaymentController.getPaymentHistory);
 
 export default router;

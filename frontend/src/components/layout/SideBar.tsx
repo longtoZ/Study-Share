@@ -90,7 +90,7 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                 { !isMinimized && <h2 className="mb-2 text-secondary text-sm">Account</h2> }
                 <ul>
                     <li>
-                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`}>
+                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/payment-history')}>
                             <ShoppingCartCheckoutOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
                             { !isMinimized && <span className="leading-[1.5]">Purchased Materials</span> }
                         </div>
