@@ -52,10 +52,6 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                             <SearchIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.4rem'}`, color: 'inherit'}}/>
                             { !isMinimized && <span className="leading-[1.5]">Search</span> }
                         </div>
-                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/ai-chat')}>
-                            <AutoAwesomeOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
-                            { !isMinimized && <span className="leading-[1.5]">AI Chat</span> }
-                        </div>
                         <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/statistics')}>
                             <LeaderboardOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
                             { !isMinimized && <span className="leading-[1.5]">Statistics</span> }
@@ -70,10 +66,6 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                         <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/history')}>
                             <RestoreOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
                             { !isMinimized && <span className="leading-[1.5]">Recently Viewed</span> }
-                        </div>
-                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/bookmarks')}>
-                            <BookmarkAddOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
-                            { !isMinimized && <span className="leading-[1.5]">My Bookmarks</span> }
                         </div>
                         <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate(`/user/${userId}/materials`)}>
                             <ArticleOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>

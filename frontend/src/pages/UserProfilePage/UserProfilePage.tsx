@@ -12,14 +12,21 @@ import MaterialsGrid from '@/components/layout/MaterialsGrid';
 import PlaceholderPfp from './images/placeholder_pfp.png';
 import PlaceholderBg from './images/placeholder_bg.png';
 
-import type { User, MaterialExtended, Lesson } from '@interfaces/userProfile';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+
+import type { User, MaterialExtended, LessonExtended } from '@interfaces/userProfile';
 import { retrieveMaterials, retrieveUserData, retrieveLessons, calculateStatistics} from '@services/userService';
 
 const UserProfilePage = () => {
 	const { userId } = useParams();
 	const [user, setUser] = useState<User | null>(null);
 	const [materials, setMaterials] = useState<MaterialExtended[]>([]);
-	const [lessons, setLessons] = useState<Lesson[]>([]);
+	const [lessons, setLessons] = useState<LessonExtended[]>([]);
+	const [isMaterialsLoading, setIsMaterialsLoading] = useState<boolean>(true);
+	const [isLessonsLoading, setIsLessonsLoading] = useState<boolean>(true);
 
 	const navigate = useNavigate();
 
@@ -58,8 +65,12 @@ const UserProfilePage = () => {
 			}
 
 			try {
+				setIsMaterialsLoading(true);
+				setIsLessonsLoading(true);
 				const materials = await retrieveMaterials(userId, 'newest', { from: 0, to: 5 });
+				setIsMaterialsLoading(false);
 				const lessons = await retrieveLessons(userId, 'newest', { from: 0, to: 5 });
+				setIsLessonsLoading(false);
 				console.log('User Materials:', materials);
 				console.log('User Lessons:', lessons);
 
@@ -111,38 +122,74 @@ const UserProfilePage = () => {
 				<p className='mt-2 text-justify'>{user?.bio}</p>
 
 				<h1 className='text-header-medium mt-8'>Achievement</h1>
-				<div className='grid grid-cols-4 mt-4 border border-primary rounded-lg overflow-hidden shadow-sm'>
-					<div className='p-6 text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.total_materials}</p>
-						<h2 className='mt-2 text-gray-600'>Study Materials Created</h2>
-						<p className='text-xs mt-1 text-gray-500'>Documents, Notes & Guides</p>
+				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-4'>
+				{/* Materials Card */}
+				<div className='flex items-center p-6 rounded-2xl border-2 border-blue-200 cursor-pointer shadow-lg shadow-blue-100 bg-gradient-to-br from-blue-200 to-white text-blue-500 transition-transform duration-300 hover:scale-105'>
+					<div className='flex-shrink-0'>
+					<div className='w-16 h-16 rounded-full flex items-center justify-center bg-white bg-opacity-20 shadow-lg mr-6'>
+						<ArticleOutlinedIcon style={{ fontSize: 36 }} />
 					</div>
-					<div className='p-6 border-l border-primary text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.total_lessons}</p>
-						<h2 className='mt-2 text-gray-600'>Learning Lessons</h2>
-						<p className='text-xs mt-1 text-gray-500'>Curated Content Collections</p>
 					</div>
-					<div className='p-6 border-l border-primary text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.total_downloads}</p>
-						<h2 className='mt-2 text-gray-600'>Total Downloads</h2>
-						<p className='text-xs mt-1 text-gray-500'>By Other Students</p>
+					<div>
+					<p className='text-3xl font-bold'>{user?.statistics.total_materials}</p>
+					<h2 className='mt-1 font-semibold'>Study Materials</h2>
+					<p className='text-xs mt-1 opacity-80'>Documents, Notes & Guides</p>
 					</div>
-					<div className='p-6 border-l border-primary text-center transition-all duration-300 hover:bg-gray-50'>
-						<p className='text-4xl font-bold text-primary'>{user?.statistics.average_rating}</p>
-						<h2 className='mt-2 text-gray-600'>Community Ratings</h2>
-						<p className='text-xs mt-1 text-gray-500'>Feedback Received</p>
+				</div>
+				{/* Lessons Card */}
+				<div className='flex items-center p-6 rounded-2xl border-2 border-purple-200 cursor-pointer shadow-lg shadow-purple-100 bg-gradient-to-br from-purple-200 to-white text-purple-500 transition-transform duration-300 hover:scale-105'>
+					<div className='flex-shrink-0'>
+					<div className='w-16 h-16 rounded-full flex items-center justify-center bg-white bg-opacity-20 shadow-lg mr-6'>
+						<SchoolOutlinedIcon style={{ fontSize: 36 }} />
 					</div>
+					</div>
+					<div>
+					<p className='text-3xl font-bold'>{user?.statistics.total_lessons}</p>
+					<h2 className='mt-1 font-semibold'>Learning Lessons</h2>
+					<p className='text-xs mt-1 opacity-80'>Curated Content Collections</p>
+					</div>
+				</div>
+				{/* Downloads Card */}
+				<div className='flex items-center p-6 rounded-2xl border-2 border-green-200 cursor-pointer shadow-lg shadow-green-100 bg-gradient-to-br from-green-200 to-white text-green-500 transition-transform duration-300 hover:scale-105'>
+					<div className='flex-shrink-0'>
+					<div className='w-16 h-16 rounded-full flex items-center justify-center bg-white bg-opacity-20 shadow-lg mr-6'>
+						<DownloadOutlinedIcon style={{ fontSize: 36 }} />
+					</div>
+					</div>
+					<div>
+					<p className='text-3xl font-bold'>{user?.statistics.total_downloads}</p>
+					<h2 className='mt-1 font-semibold'>Total Downloads</h2>
+					<p className='text-xs mt-1 opacity-80'>By Other Students</p>
+					</div>
+				</div>
+				{/* Ratings Card */}
+				<div className='flex items-center p-6 rounded-2xl border-2 border-yellow-200 cursor-pointer shadow-lg shadow-yellow-100 bg-gradient-to-br from-yellow-200 to-white text-yellow-500 transition-transform duration-300 hover:scale-105'>
+					<div className='flex-shrink-0'>
+					<div className='w-16 h-16 rounded-full flex items-center justify-center bg-white bg-opacity-20 shadow-lg mr-6'>
+						<PeopleOutlinedIcon style={{ fontSize: 36 }} />
+					</div>
+					</div>
+					<div>
+					<p className='text-3xl font-bold'>{user?.statistics.average_rating}</p>
+					<h2 className='mt-1 font-semibold'>Community Ratings</h2>
+					<p className='text-xs mt-1 opacity-80'>Feedback Received</p>
+					</div>
+				</div>
 				</div>
 			</div>
 
 			<div className='rounded-3xl bg-primary overflow-hidden card-shadow px-10 py-6 mt-10'>
 				<h1 className='text-header-medium'>My Materials</h1>
 				<p className='mt-2 text-gray-600'>Here are some of the materials I have created:</p>
-				{ materials.length === 0 ?
+				{ isMaterialsLoading ?
 					<div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
 						<CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
 						<h1 className='mt-2 text-lg'>Fetching materials...</h1>
-					</div> : <MaterialsGrid materials={materials} />
+					</div> : materials.length === 0 ? (
+						<div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
+							<h1 className='mt-2 text-lg'>No materials found.</h1>
+						</div>
+					) : <MaterialsGrid materials={materials} />
 				}
 
 				<div>
@@ -156,11 +203,15 @@ const UserProfilePage = () => {
 			<div className='rounded-3xl bg-primary overflow-hidden card-shadow px-10 py-6 mt-10'>
 				<h1 className='text-header-medium'>My Lessons</h1>
 				<p className='mt-2 text-gray-600'>Here are some of the lessons I have created:</p>
-				{ lessons.length === 0 ?
+				{ isLessonsLoading ?
 					<div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
 						<CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
 						<h1 className='mt-2 text-lg'>Fetching lessons...</h1>
-					</div> : <LessonsGrid lessons={lessons}/>
+					</div> : lessons.length === 0 ? (
+						<div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
+							<h1 className='mt-2 text-lg'>No lessons found.</h1>
+						</div>
+					) : <LessonsGrid lessons={lessons}/>
 				}
 
 				<div>

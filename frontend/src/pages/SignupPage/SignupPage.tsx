@@ -211,7 +211,7 @@ const SignupPage: React.FC = () => {
                                         onChange={handleInputChange}
                                         required
                                         placeholder='Enter your email address'
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                     <p className='text-xs text-red-500 mt-1' ref={emailValidRef}></p>
 
@@ -229,7 +229,7 @@ const SignupPage: React.FC = () => {
                                         onChange={handleInputChange}
                                         required
                                         placeholder='Enter your password'
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                     <p className='text-xs text-red-500 mt-1' ref={passwordValidRef}></p>
                                 </div>
@@ -246,7 +246,7 @@ const SignupPage: React.FC = () => {
                                         onChange={handleInputChange}
                                         required
                                         placeholder='Retype your password'
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                     <p className='text-xs text-red-500 mt-1' ref={retypePasswordValidRef}></p>
                                 </div>
@@ -284,7 +284,7 @@ const SignupPage: React.FC = () => {
                                         onChange={handleInputChange}
                                         placeholder='Enter your full name'
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -299,7 +299,7 @@ const SignupPage: React.FC = () => {
                                         onChange={handleInputChange}
                                         placeholder="@username"
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -323,7 +323,7 @@ const SignupPage: React.FC = () => {
                                         name="dateOfBirth"
                                         value={formData.dateOfBirth}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                 </div>
                                 <div className="mb-6">
@@ -337,7 +337,7 @@ const SignupPage: React.FC = () => {
                                         value={formData.address}
                                         placeholder='Enter your address'
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                                     />
                                 </div>
                                 <div className="flex space-x-4">

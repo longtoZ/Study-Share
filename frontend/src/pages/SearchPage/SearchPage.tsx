@@ -3,7 +3,7 @@ import MaterialsGrid from '@components/layout/MaterialsGrid';
 import LessonsGrid from '@components/layout/LessonsGrid';
 
 import type { Subject } from '@/interfaces/table';
-import type { Material, Lesson } from '@/interfaces/userProfile';
+import type { Material, Lesson, LessonExtended, MaterialExtended } from '@/interfaces/userProfile';
 
 import { retrieveAllSubjects } from '@/services/userService';
 import { retrieveLessons } from '@/services/userService';
@@ -43,10 +43,10 @@ const SearchPage: React.FC = () => {
     const [queryInput, setQueryInput] = useState('');
     const [showFilters, setShowFilters] = useState(true);
     const [subjects, setSubjects] = useState<Subject[]>([]);
-    const [lessons, setLessons] = useState<Lesson[]>([]);
+    const [lessons, setLessons] = useState<LessonExtended[]>([]);
 
-    const [retrievedMaterials, setRetrievedMaterials] = useState<Material[]>([]);
-    const [retrievedLessons, setRetrievedLessons] = useState<Lesson[]>([]);
+    const [retrievedMaterials, setRetrievedMaterials] = useState<MaterialExtended[]>([]);
+    const [retrievedLessons, setRetrievedLessons] = useState<LessonExtended[]>([]);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     const materialSortOptions = [
@@ -74,7 +74,19 @@ const SearchPage: React.FC = () => {
             const lessons = await retrieveLessons(userId, 'newest', { from: 0, to: 99 });
 
             subjects.push({ subject_id: '', name: 'All Subjects', description: '' });
-            lessons.push({ user_id: '',lesson_id: '', name: 'All Lessons', description: '', created_date: '', material_count: 0, is_public: false });
+            lessons.push({
+                user_id: '',
+                lesson_id: '',
+                name: 'All Lessons',
+                description: '',
+                created_date: '',
+                material_count: 0,
+                is_public: false,
+                user_name: '',
+                profile_picture_url: '',
+                background_image_url: '',
+                view_count: 0
+            });
             setSubjects(subjects);
             setLessons(lessons);
         }

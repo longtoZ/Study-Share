@@ -302,7 +302,7 @@ class Material {
         console.log('Search Filters:', filters);
 
         const databaseQuery = supabase
-            .from(TABLES.MATERIAL)
+            .rpc('get_materials_user_info')
             .select('*')
             .ilike('name', `%${query}%`)
             .gte('upload_date', from)

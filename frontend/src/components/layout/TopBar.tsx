@@ -20,6 +20,7 @@ const ACTION_LOGOUT = 'logout';
 const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const userId = localStorage.getItem('user_id') || '';
     const profilePictureUrl = localStorage.getItem('profile_picture_url');
 
     const navigate = useNavigate();
@@ -36,6 +37,9 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
             console.log('Logging out...');
             dispatch(logout());
             navigate('/login');
+        }
+        else if (action == ACTION_VIEW_PROFILE) {
+            navigate(`/user/${userId}`);
         }
     };
 

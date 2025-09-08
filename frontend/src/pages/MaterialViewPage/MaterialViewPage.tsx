@@ -696,9 +696,10 @@ const MaterialViewPage = () => {
             <button
                 className="fixed bottom-8 right-8 z-40 button-primary p-4 flex items-center gap-2 transition-all hover:scale-105"
                 onClick={() => setIsChatOpen(true)}
-                style={{ borderRadius: '50%'}}
+                style={{ borderRadius: '20px'}}
             >
                 <ChatBubbleIcon fontSize="small"/>
+                Chat
             </button>
             <ChatPannel userId={userId} materialId={materialId ?? ''} open={isChatOpen} onClose={() => setIsChatOpen(false)} />
         </div>

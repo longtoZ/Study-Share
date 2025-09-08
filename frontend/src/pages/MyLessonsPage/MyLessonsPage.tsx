@@ -7,14 +7,14 @@ import LessonsGrid from '@/components/layout/LessonsGrid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import SearchBar from '@/components/common/SearchBar';
-import type { Lesson, Statistic } from '@/interfaces/userProfile';
+import type { LessonExtended, Statistic } from '@/interfaces/userProfile';
 import { retrieveLessons, calculateStatistics } from '@/services/userService';
 import { verifyUser } from '@/services/authService';
 
 const MyLessonsPage = () => {
     const { userId } = useParams();
 
-    const [lessons, setLessons] = useState<Lesson[]>([]);
+    const [lessons, setLessons] = useState<LessonExtended[]>([]);
     const [lessonOrder, setLessonOrder] = useState<"newest" | "oldest">("newest");
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
     const [range, setRange] = useState<{ from: number; to: number }>({ from: 0, to: 9 });
@@ -71,7 +71,7 @@ const MyLessonsPage = () => {
 
             <div className='rounded-2xl bg-primary overflow-hidden px-10 py-6 mt-4 shadow-xl'>
                 <div className='flex justify-between'>
-                    <h1 className='text-header-medium'>{`${userId}'s lessons`}</h1>
+                    <h1 className='text-header-medium'><span className='text-gradient'>{userId}</span>{`'s lessons`}</h1>
                     <div className="flex justify-evenly p-1 bg-zinc-100 rounded-2xl">
                         <button
                             className={`px-4 py-2 rounded-2xl cursor-pointer ${

@@ -150,7 +150,7 @@ class MaterialController {
         const userId = req.user.user_id;
         const { authorId } = req.body;
 
-        if (userId !== authorId) {
+        if (authorId && userId !== authorId) {
             return res.status(403).json({ message: 'Forbidden: You are not the author of this material.' });
         }
 

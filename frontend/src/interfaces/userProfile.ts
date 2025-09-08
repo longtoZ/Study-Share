@@ -26,6 +26,7 @@ interface Material {
 	download_count: number,
 	view_count: number,
 	rating: number,
+	user_id: string,
 	file_type: string,
 	price: number,
 	is_paid: string
@@ -45,7 +46,14 @@ interface Lesson {
 	description: string,
 	created_date: string,
 	material_count: number,
-	is_public: boolean
+	is_public: boolean,
+	view_count: number,
 }
 
-export type { User, Statistic, Material, MaterialExtended, Lesson};
+interface LessonExtended extends Lesson {
+	user_name: string,
+	profile_picture_url: string,
+	background_image_url: string,
+}
+
+export type { User, Statistic, Material, MaterialExtended, Lesson, LessonExtended };

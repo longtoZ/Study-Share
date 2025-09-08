@@ -10,5 +10,6 @@ router.post('/:lessonId/add-material', LessonController.addMaterialToLesson);
 router.get('/:lessonId', LessonController.getLessonById);
 router.put('/:lessonId', AuthMiddleware.verifyUser, LessonController.updateLesson);
 router.post('/search', LessonController.searchLesson);
+router.delete('/:lessonId', AuthMiddleware.verifyUser, LessonController.deleteLesson);
 
 export default router;

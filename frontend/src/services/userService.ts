@@ -1,4 +1,4 @@
-import type { Statistic, MaterialExtended, Lesson} from '@interfaces/userProfile'
+import type { Statistic, MaterialExtended, LessonExtended} from '@interfaces/userProfile'
 import type { Subject } from '@interfaces/table';
 
 const USER_PROFILE_ENDPOINT = import.meta.env.VITE_USER_PROFILE_ENDPOINT;
@@ -7,7 +7,6 @@ const USER_MATERIALS_ENDPOINT = import.meta.env.VITE_USER_MATERIALS_ENDPOINT;
 const USER_LESSONS_ENDPOINT = import.meta.env.VITE_USER_LESSONS_ENDPOINT;
 const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
 const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT;
-const GOOGLE_LOGIN_ENDPOINT = import.meta.env.VITE_GOOGLE_LOGIN_ENDPOINT;
 const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
 const CHECK_EMAIL_ENDPOINT = import.meta.env.VITE_CHECK_EMAIL_ENDPOINT;
 
@@ -76,21 +75,14 @@ const retrieveMaterials = async (userId: string, materialOrder: "newest" | "olde
 	}
 }
 
-const retrieveLessons = async (userId: string, lessonOrder: "newest" | "oldest", range: { from: number, to: number }): Promise<Lesson[]> => {
+const retrieveLessons = async (userId: string, lessonOrder: "newest" | "oldest", range: { from: number, to: number }): Promise<LessonExtended[]> => {
 	try {
 		const response = await fetch(`${USER_LESSONS_ENDPOINT}/${userId}?order=${lessonOrder}&from=${range.from}&to=${range.to}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch user lessons');
 		}
 		const data = await response.json();
-		return data.lessons.map((lesson: any) => ({
-			lesson_id: lesson.lesson_id,
-			name: lesson.name,
-			description: lesson.description,
-			created_date: lesson.created_date,
-			material_count: lesson.material_count,
-			is_public: lesson.is_public
-		}));
+		return data.lessons;
 	} catch (error) {
 		console.error('Error fetching user lessons:', error);
 		throw error;

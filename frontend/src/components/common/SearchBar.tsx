@@ -7,7 +7,7 @@ const SearchBar = ({ className = '', placeholder = 'Search...', onSearch = () =>
     };
 
     return (
-        <div className='bg-primary border border-primary rounded-lg p-2 inset-shadow-sm'>
+        <div className='bg-primary border border-primary rounded-lg p-2 inset-shadow-sm shadow-lg shadow-zinc-200'>
             <div className={`flex items-center ${className}`}>
                 <SearchOutlinedIcon className='text-gray-500' />
                 <input

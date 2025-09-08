@@ -55,7 +55,7 @@ const DropdownList = ({
     return (
         <div ref={dropdownRef} className={`relative ${className}`}>
             <div
-                className="border border-gray-300 rounded-lg px-3 py-2 cursor-pointer bg-white hover:border-zinc-400"
+                className="border border-gray-300 rounded-lg px-3 py-2 cursor-pointer bg-white hover:border-zinc-400 inset-shadow-sm shadow-lg shadow-zinc-100"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span className={selectedValue ? 'text-gray-900' : 'text-gray-500'}>

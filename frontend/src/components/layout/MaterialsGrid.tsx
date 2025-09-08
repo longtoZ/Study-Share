@@ -13,7 +13,7 @@ const MaterialsGrid = ({ materials } : { materials: MaterialExtended[] }) => {
         <div className='mt-4'>
             {materials.map((_, index) => (
                 <div key={index} 
-                    className='p-4 my-5 border-2 border-zinc-200 rounded-2xl shadow-zinc-100 shadow-lg cursor-pointer transition-all ease-in-out duration-200 hover:border-blue-600 hover:shadow-blue-200 hover:shadow-lg hover:scale-[101%]'
+                    className='p-4 my-5 border-2 border-zinc-200 rounded-2xl shadow-zinc-100 shadow-lg transition-all ease-in-out duration-200 hover:border-blue-600 hover:shadow-blue-200 hover:shadow-lg hover:scale-[101%]'
                     onClick={() => navigate(`/material/${materials[index]?.material_id}`)}
                     >
                         <div className='flex relative justify-between items-center gap-1'>  
@@ -61,7 +61,9 @@ const MaterialsGrid = ({ materials } : { materials: MaterialExtended[] }) => {
                                 <p className='text-subtitle text-sm'>{materials[index]?.description.length ? materials[index].description.substring(0, 100) + '...' : 'No description available'}</p>
                                 <div className='flex items-center gap-2 mt-4'>
                                     <img src={materials[index]?.profile_picture_url} alt={materials[index]?.user_name} className='w-6 h-6 object-cover rounded-full'/>
-                                    <span className='text-md font-semibold'>{materials[index]?.user_name}</span>
+                                    <span 
+                                        className='cursor-pointer text-md font-semibold hover:text-blue-700 hover:underline transition-all ease-in-out duration-100' 
+                                        onClick={() => navigate(`/user/${materials[index]?.user_id}`, )}>{materials[index]?.user_name}</span>
                                 </div>
                                 <div className='mt-2 flex justify-between items-center'>
                                     <div>
@@ -76,7 +78,7 @@ const MaterialsGrid = ({ materials } : { materials: MaterialExtended[] }) => {
                                         </span>
                                         <span className='ml-4 bg-yellow-400 border-2 border-yellow-400 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg shadow-yellow-200'>
                                             <StarIcon className='relative mr-1 -top-[1px]' style={{fontSize: '1.2rem'}}/>
-                                            <span className='relative top-[1px]'>{materials[index]?.rating.toFixed(1)}</span>
+                                            <span className='relative top-[1px]'>{materials[index]?.rating?.toFixed(1)}</span>
                                         </span>
                                     </div>
                                 </div>

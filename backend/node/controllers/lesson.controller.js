@@ -32,8 +32,8 @@ class LessonController {
         const { order } = req.query;
 
         try {
-            const { materials, authorId } = await Lesson.getAllMaterialsByLessonId(lessonId, order);
-            res.status(200).json({ message: 'Materials fetched successfully', materials, authorId });
+            const data = await Lesson.getAllMaterialsByLessonId(lessonId, order);
+            res.status(200).json({ message: 'Materials fetched successfully', ...data });
         } catch (error) {
             console.error('Error fetching materials:', error);
             res.status(500).json({ message: 'Internal server error while fetching materials.' });
@@ -93,6 +93,24 @@ class LessonController {
         } catch (error) {
             console.error('Error fetching lessons:', error);
             res.status(500).json({ message: 'Internal server error while fetching lessons.' });
+        }
+    }
+
+    static async deleteLesson(req, res) {
+        const { lessonId } = req.params;
+        const userId = req.user.id;
+        const { authorId } = req.body;
+
+        if (authorId && userId !== authorId) {
+            return res.status(403).json({ message: 'Forbidden: You are not the author of this lesson.' });
+        }
+
+        try {
+            const lesson = await Lesson.deleteLesson(lessonId);
+            res.status(200).json({ message: 'Lesson deleted successfully', lesson });
+        } catch (error) {
+            console.error('Error deleting lesson:', error);
+            res.status(500).json({ message: 'Internal server error while deleting lesson.' });
         }
     }
 }

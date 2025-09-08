@@ -22,10 +22,20 @@ class HistoryController {
         }
     }
 
+    static async bulkDeleteEntries(req, res) {
+        try {
+            const { history_ids } = req.body;
+            await History.bulkDeleteHistory(history_ids);
+            res.status(200).json({ message: "History entries deleted successfully" });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
     static async listEntries(req, res) {
         try {
-            const { user_id, filter } = req.body;
-            const entries = await History.listEntries(user_id, filter);
+            const { user_id, filter, pageRange } = req.body;
+            const entries = await History.listEntries(user_id, filter, pageRange);
             res.status(200).json({ message: "History entries retrieved successfully", entries });
         } catch (error) {
             res.status(500).json({ error: error.message });

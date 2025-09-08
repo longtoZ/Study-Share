@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { Material } from '@/interfaces/userProfile';
+import type { MaterialExtended } from '@/interfaces/userProfile';
 import type { History } from '@/interfaces/table';
 
 import { retrieveAllMaterials } from '@/services/lessonService';
@@ -19,10 +19,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 const LessonViewPage = () => {
     const { lessonId } = useParams();
 
-    const [materials, setMaterials] = useState<Material[]>([]);
+    const [materials, setMaterials] = useState<MaterialExtended[]>([]);
     const [materialOrder, setMaterialOrder] = useState<"newest" | "oldest">("newest");
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [lessonName, setLessonName] = useState<string>('');
 
     const navigate = useNavigate();
 
@@ -36,10 +37,10 @@ const LessonViewPage = () => {
             }
 
             setIsLoading(true);
-			const subjects = await retrieveAllSubjects();
-            const data = await retrieveAllMaterials(lessonId, subjects, materialOrder);
+            const data = await retrieveAllMaterials(lessonId, materialOrder);
             console.log('Retrieved materials:', data!.materials);
             setMaterials(data!.materials);
+            setLessonName(data!.lessonName || '');
             setIsLoading(false);
 
             try {
@@ -88,7 +89,7 @@ const LessonViewPage = () => {
 
             <div className='rounded-2xl bg-primary overflow-hidden px-10 py-6 mt-4 shadow-xl'>
                 <div className='flex justify-between'>
-                    <h1 className='text-header-medium'>{`${lessonId}'s materials`}</h1>
+                    <h1 className='text-header-medium'><span className='text-gradient'>{lessonName}</span>{`'s materials`}</h1>
                     <div className="flex justify-evenly p-1 bg-zinc-100 rounded-2xl">
                         <button
                             className={`px-4 py-2 rounded-2xl cursor-pointer ${

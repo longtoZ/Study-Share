@@ -74,7 +74,7 @@ const MyMaterialsPage = () => {
 
             <div className='rounded-3xl bg-primary overflow-hidden px-10 py-6 mt-4 card-shadow'>
                 <div className='flex justify-between'>
-                    <h1 className='text-header-medium'>{`${materials[0]?.user_name}'s materials`}</h1>
+                    <h1 className='text-header-medium'><span className='text-gradient'>{materials[0]?.user_name}</span>{`'s materials`}</h1>
                     <div className="flex justify-evenly gap-2 p-1 bg-zinc-100 rounded-2xl cursor-pointer inset-shadow-sm">
                         <button
                             className={`px-4 py-2 rounded-2xl ${

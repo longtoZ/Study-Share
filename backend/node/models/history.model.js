@@ -64,7 +64,20 @@ class History {
         console.log('Delete result:', data);
     }
 
-    static async listEntries(user_id, filter) {
+    static async bulkDeleteHistory(history_ids) {
+        const { data, error } = await supabase
+            .from(TABLES.HISTORY)
+            .delete()
+            .in('history_id', history_ids);
+        
+        if (error) {
+            throw error;
+        }
+
+        return data;
+    }
+
+    static async listEntries(user_id, filter, pageRange) {
         const query = supabase
             .rpc('get_materials_lessons_history')
             .select('*')
@@ -76,7 +89,9 @@ class History {
             if (filter.type !== 'all') query.eq('type', filter.type);
         }
 
-        const { data, error } = await query.order('viewed_date', { ascending: false });
+        const { data, error } = await query
+            .order('viewed_date', { ascending: false })
+            .range(pageRange.from, pageRange.to);
 
         if (error) {
             throw error;

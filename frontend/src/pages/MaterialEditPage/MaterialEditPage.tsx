@@ -138,35 +138,35 @@ const MaterialEditPage: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div>
                                 <label className="block text-sm font-semibold">Material ID</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.material_id}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.material_id}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">File Size</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.size}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.size}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">File Type</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.file_type}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.file_type}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Pages</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.num_page}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.num_page}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Upload Date</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData ? new Date(materialData?.upload_date).toLocaleDateString() : ''}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData ? new Date(materialData?.upload_date).toLocaleDateString() : ''}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Downloads</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.download_count}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData?.download_count}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Rating</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData? materialData.total_rating / (materialData.rating_count || 1) : 0}/5</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData? materialData.total_rating / (materialData.rating_count || 1) : 0}/5</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Price</label>
-                                <p className="text-zinc-800 bg-white px-3 py-2 rounded-lg cursor-not-allowed">${materialData?.price}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">${materialData?.price}</p>
                             </div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@ const MaterialEditPage: React.FC = () => {
                                     name="name"
                                     value={materialData?.name}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
                                     placeholder="Enter material name"
                                 />
                             </div>
@@ -195,7 +195,7 @@ const MaterialEditPage: React.FC = () => {
                                     value={materialData?.description}
                                     onChange={handleInputChange}
                                     rows={4}
-                                    className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md"
                                     style={{ resize: 'none'}}
                                     placeholder="Enter material description"
                                 />
@@ -267,7 +267,7 @@ const MaterialEditPage: React.FC = () => {
                     <h2 className='mt-6 font-semibold text-sm'>Please type <span className='font-mono text-red-500'>{defaultConfirmationText}</span> to confirm.</h2>
                     <input
                         type="text"
-                        className='w-full border border-zinc-300 rounded-lg px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                        className='w-full border border-zinc-300 rounded-lg px-3 py-2 mt-2'
                         placeholder='Type here...'
                         onChange={(e) => setConfirmationText(e.target.value)}
                         value={confirmationText}

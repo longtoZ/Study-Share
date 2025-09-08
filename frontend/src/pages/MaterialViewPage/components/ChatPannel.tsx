@@ -64,7 +64,7 @@ export default function ChatPannel({
     }, [model]);
 
     return (
-        <div className={`sticky right-0 h-full bottom-0 z-50 flex justify-end p-2 ${open ? "pointer-events-auto block" : "pointer-events-none hidden"}`}>
+        <div className={`sticky right-0 h-full bottom-0 z-50 flex justify-end p-2 ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
             {/* Overlay */}
             <div
                 className={`absolute inset-0 bg-[#00000080] bg-opacity-60 transition-all duration-300 ease-in-out ${open ? "opacity-100 backdrop-blur-xs" : "opacity-0 pointer-events-none"}`}
@@ -116,7 +116,7 @@ export default function ChatPannel({
                             disabled={!model}
                         />
                         <div className="flex gap-2 justify-end bg-zinc-200 p-2 rounded-b-2xl">
-                            <DropdownList options={AI_MODELS} onSelect={setModel} placeholder="Select AI Model" reversePosition={true} className={`${model && 'pointer-events-none opacity-50'}`}/>
+                            <DropdownList hideSearch={true} options={AI_MODELS} onSelect={setModel} placeholder="Select AI Model" reversePosition={true} className={`${model && 'pointer-events-none opacity-50'}`}/>
                             <button
                                 className="button-primary rounded-xl w-10 h-10 p-4 flex items-center justify-center"
                                 onClick={handleSend}

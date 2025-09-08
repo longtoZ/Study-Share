@@ -56,8 +56,12 @@ interface History {
 interface HistoryExtended extends History {
     material_name: string | null;
     lesson_name: string | null;
-    material_author: string | null;
-    lesson_author: string | null;
+    material_author_id: string | null;
+    material_author_name: string | null;
+    material_author_profile_picture_url: string | null;
+    lesson_author_name: string | null;
+    lesson_author_id: string | null;
+    lesson_author_profile_picture_url: string | null;
 }
 
 interface Payment {

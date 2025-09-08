@@ -4,7 +4,7 @@ import { TABLES } from '../constants/constant.js';
 class Lesson {
     static async getLessonsByUserId(user_id, order, from, to) {
         const { data, error } = await supabase
-            .from(TABLES.LESSON)
+            .rpc('get_lessons_user_info')
             .select('*', { count: 'exact' })
             .eq('user_id', user_id)
             .order('created_date', { ascending: order === 'oldest' })
@@ -26,7 +26,8 @@ class Lesson {
                 last_updated: info.last_updated,
                 material_count: info.material_count,
                 user_id: info.user_id,
-                is_public: info.is_public
+                is_public: info.is_public,
+                view_count: 0
             })
             .select('*')
             .single();
@@ -43,12 +44,12 @@ class Lesson {
     static async getAllMaterialsByLessonId(lesson_id, order) {
         const { data: lessonData, error: lessonError } = await supabase
             .from(TABLES.LESSON)
-            .select('user_id')
+            .select('user_id, name')
             .eq('lesson_id', lesson_id)
             .single();
 
         const { data, error } = await supabase
-            .from(TABLES.MATERIAL)
+            .rpc('get_materials_user_info')
             .select('*')
             .eq('lesson_id', lesson_id)
             .order('upload_date', { ascending: order === 'oldest' });
@@ -57,7 +58,8 @@ class Lesson {
 
         return {
             materials: data,
-            authorId: lessonData.user_id
+            authorId: lessonData.user_id,
+            lessonName: lessonData.name
         }
     }
 
@@ -129,7 +131,7 @@ class Lesson {
         console.log('Search Filters:', filters);
 
         const databaseQuery = supabase
-            .from(TABLES.LESSON)
+            .rpc('get_lessons_user_info')
             .select('*')
             .ilike('name', `%${query}%`)
             .gte('created_date', from)
@@ -144,6 +146,16 @@ class Lesson {
 
         if (error) throw error;
 
+        return data;
+    }
+
+    static async deleteLesson(lesson_id) {
+        const { data, error } = await supabase
+            .from(TABLES.LESSON)
+            .delete()
+            .eq('lesson_id', lesson_id);
+
+        if (error) throw error;
         return data;
     }
 }

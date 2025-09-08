@@ -152,13 +152,14 @@ const StatisticsPage = () => {
             options={materialsRangeOptions}
             onSelect={setMaterialsRange}
             className='w-48'
+            hideSearch={true}
           />
         </div>
         <div className="flex space-x-4 mb-6">
           <button
             className={`flex items-center px-4 py-2 rounded-full font-medium text-sm transition-all duration-200 ${
               activeTab === 'viewed'
-                ? 'bg-blue-500 text-white shadow-md'
+                ? 'bg-gradient-to-r from-blue-500 to-sky-500 text-white shadow-lg shadow-blue-300'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
             onClick={() => setActiveTab('viewed')}
@@ -169,7 +170,7 @@ const StatisticsPage = () => {
           <button
             className={`flex items-center px-4 py-2 rounded-full font-medium text-sm transition-all duration-200 ${
               activeTab === 'downloaded'
-                ? 'bg-blue-500 text-white shadow-md'
+                ? 'bg-gradient-to-r from-blue-500 to-sky-500 text-white shadow-lg shadow-blue-300'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
             onClick={() => setActiveTab('downloaded')}
@@ -199,7 +200,7 @@ const StatisticsPage = () => {
                 (item, index) => (
                   <tr
                     key={index}
-                    className="hover:bg-blue-50 hover:shadow-lg transition-all ease duration-200"
+                    className="hover:bg-blue-50 transition-all ease duration-200"
                   >
                     <td className="px-4 py-6 text-gray-800 font-medium">
                       <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700">
@@ -243,7 +244,7 @@ const StatisticsPage = () => {
               {topContributors.map((user, index) => (
                 <tr
                   key={index}
-                  className={`rounded-xl border-gray-100 ${index < 3 ? rankStyles[index]?.background : ''} cursor-pointer hover:bg-zinc-50 hover:shadow-lg transition-all duration-200 ease`}
+                  className={`rounded-xl border-gray-100 ${index < 3 ? rankStyles[index]?.background : ''} cursor-pointer hover:bg-zinc-50 transition-all duration-200 ease`}
                 >
                   <td className="px-4 py-6 text-gray-800 font-medium">
                     <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full ${index < 3 ? rankStyles[index]?.number : 'bg-gray-100 text-gray-500'}`}>
