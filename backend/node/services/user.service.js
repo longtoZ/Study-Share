@@ -3,10 +3,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import jwtConfig from '../config/jwt.js';
 import env from 'dotenv';
+import JobManager from '../utils/deleteUnverifiedAccount.js';
+import EmailService from '../utils/sendEmail.js';
 
 env.config();
 
 class UserService {
+    constructor() {
+        this.jobManager = new JobManager();
+        this.emailService = new EmailService();
+    }
+
     async signupUser(info, auth_provider = 'regular') {
         const existinguser_id = await User.findByID(info.user_id);
         if (existinguser_id) {
@@ -27,6 +34,13 @@ class UserService {
 
         const userWithoutPasswordHash = { ... newUser};
         delete userWithoutPasswordHash.password_hash;
+
+        // Send verification email
+        await this.emailService.sendEmail(newUser.email, newUser.verification_code);
+
+        // Start the job to delete unverified account
+        this.jobManager.startJob(newUser.user_id);
+
         return { user: userWithoutPasswordHash };
     }
 
@@ -88,10 +102,6 @@ class UserService {
         }
 
         await User.delete(user_id);
-    }
-
-    async googleLogin(code) {
-
     }
 }
 

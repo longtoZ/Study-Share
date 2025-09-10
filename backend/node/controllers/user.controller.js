@@ -135,6 +135,18 @@ class UserController {
             res.status(500).json({ message: 'Internal server error during Google login.' });
         }
     }
+
+    static async verifyEmail(req, res) {
+        const { email, code } = req.body;
+
+        try {
+            const user = await User.verifyEmail(email, code);
+            res.status(200).json({ message: 'Email verified successfully', user });
+        } catch (error) {
+            console.error('Error verifying email:', error);
+            res.status(500).json({ message: 'Internal server error while verifying email.' });
+        }
+    }
 }
 
 export default UserController;

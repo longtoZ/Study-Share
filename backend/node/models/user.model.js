@@ -5,23 +5,28 @@ import path from 'path';
 
 class User {
     static async create(info) {
+        // Generate a random 6-digit verification code as a string
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+
         const { data, error } = await supabase
             .from(TABLES.USER)
             .insert([{
-                user_id: info.user_id,
-                email: info.email,
-                full_name: info.full_name,
-                gender: info.gender,
-                bio: info.bio,
-                profile_picture_url: info.profile_picture_url,
-                date_of_birth: info.date_of_birth,
-                address: info.address,
-                password_hash: info.password_hash,
-                created_date: info.created_date,
-                last_login: info.last_login,
-                is_admin: info.is_admin,
-                auth_provider: info.auth_provider || 'regular',
-                provider_id: info.provider_id || null
+            user_id: info.user_id,
+            email: info.email,
+            full_name: info.full_name,
+            gender: info.gender,
+            bio: info.bio,
+            profile_picture_url: info.profile_picture_url,
+            date_of_birth: info.date_of_birth,
+            address: info.address,
+            password_hash: info.password_hash,
+            created_date: info.created_date,
+            last_login: info.last_login,
+            is_admin: info.is_admin,
+            auth_provider: info.auth_provider || 'regular',
+            provider_id: info.provider_id || null,
+            is_verfied: false,
+            verification_code: verificationCode
             }])
             .select()
             .single();
@@ -159,6 +164,19 @@ class User {
             .single();
         
         if (error) throw error;
+    }
+
+    static async verifyEmail(email, verification_code) {
+        const { data, error } = await supabase
+            .from(TABLES.USER)
+            .update({ is_verfied: true, verification_code: null })
+            .eq('email', email)
+            .eq('verification_code', verification_code)
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
     }
 }
 

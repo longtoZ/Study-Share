@@ -16,5 +16,6 @@ router.put('/:authorId', AuthMiddleware.verifyUser, upload.fields([
 ]), UserController.updateUserProfile);
 router.delete('/:userId', AuthMiddleware.verifyUser, UserController.deleteUser);
 router.post('/login/google', UserController.googleLogin);
+router.post('/verify-email', UserController.verifyEmail);
 
 export default router;
