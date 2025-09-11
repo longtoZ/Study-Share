@@ -41,7 +41,7 @@ function AppContent() {
                 </div>
             )}
 
-            <div className={`${isExcludedPages ? "w-[100vw] flex justify-center items-center" : `${ isSidebarMinimized ? "w-[94vw]" : "w-[80vw]"} h-[100vh] mx-4 mb-4`}`}>
+            <div className={`${isExcludedPages ? "w-[100vw] flex justify-center items-center" : `${ isSidebarMinimized ? "w-[94vw]" : "w-[80vw]"} mx-4 mb-4`} h-[100vh] `}>
                 {!isExcludedPages && <TopBar isDarkMode={false} onToggleDarkMode={() => {}} />}
 
                 <div className={`z-10 bg-secondary rounded-3xl relative overflow-hidden ${ isExcludedPages ? "w-[99%] h-[98%]" : "h-[90%]"}`}>

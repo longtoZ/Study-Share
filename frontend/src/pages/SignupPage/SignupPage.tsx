@@ -20,7 +20,7 @@ interface FormData {
 }
 
 const SignupPage: React.FC = () => {
-    const [currentStep, setCurrentStep] = useState(3);
+    const [currentStep, setCurrentStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -140,10 +140,12 @@ const SignupPage: React.FC = () => {
         e.preventDefault();
 
         try {
+            setIsLoading(true);
             const response = await signupUser(formData);
+            setIsLoading(false);
             if (response) {
                 console.log('Form submitted successfully: ', response);
-                navigate('/login');
+                setCurrentStep(3);
             } else {
                 console.error('Form submission failed');
             }
@@ -162,7 +164,7 @@ const SignupPage: React.FC = () => {
     return (
         <div className="h-full flex items-center relative bg-gradient-to-br bg-white">
             {currentStep === 3 ? 
-                <EmailVerification /> :
+                <EmailVerification email={formData.email} /> :
             <>
                 <div className="flex w-1/2 flex-col justify-center items-center p-12 text-white relative mx-2 rounded-3xl overflow-hidden h-[98%]">
                     <img
@@ -358,7 +360,7 @@ const SignupPage: React.FC = () => {
                                             type="submit" 
                                             className="button-primary font-medium w-1/2"
                                         >
-                                            Create Account
+                                            {isLoading ? <CircularProgress color="inherit" size={24}/> : 'Create Account'}
                                         </button>
                                     </div>
                                 </div>

@@ -1,10 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { verifyEmail } from '@/services/userService';
 
-const EmailVerification = () => {
-    const [codes, setCodes] = React.useState(Array(6).fill(''));
-    const inputsRef = React.useRef<Array<HTMLInputElement | null>>([]);
+import CircularProgress from '@mui/material/CircularProgress';
+import MailIcon from '../images/mail.png';
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+const EmailVerification = ({ email } : { email: string}) => {
+    const [codes, setCodes] = useState(Array(6).fill(''));
+    const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev === 1) {
+                    clearInterval(timer);
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
         const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 1);
         if (!val) return;
         const newCodes = [...codes];
@@ -15,6 +42,20 @@ const EmailVerification = () => {
         } else if (idx === 5) {
             // Optionally handle submission when all digits are entered
             console.log('Verification code entered:', newCodes.join(''));
+            try {
+                setIsVerifying(true);
+                await verifyEmail(email, newCodes.join(''));
+                setSuccessMessage('Email verified successfully! You are being redirected...');
+                setIsVerifying(false);
+
+                // Redirect to login after a short delay
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            } catch (error) {
+                console.error('Error verifying email:', error);
+                setErrorMessage('Failed to verify email. Please try again.');
+            }
         }
     };
 
@@ -35,9 +76,10 @@ const EmailVerification = () => {
     };
 
     return (
-        <div className="w-full flex flex-col items-center justify-center min-h-screen">
-            <h2 className="text-2xl font-semibold mb-4">Email Verification</h2>
-            <p className="mb-6 text-gray-600">Enter the 6-digit code sent to your email</p>
+        <div className="w-full flex flex-col items-center justify-center">
+            <img src={MailIcon} alt="Mail Icon" className="w-36 h-36 mb-4" />
+            <h2 className="text-2xl font-semibold mb-4">Please verify your email</h2>
+            <p className="mb-6 text-gray-600">Enter the 6-digit code sent to your email. This code will expire in <strong>{formatTime(timeLeft)}</strong> minutes.</p>
             <div className="flex gap-3 mb-6">
                 {codes.map((code, idx) => (
                     <input
@@ -54,7 +96,9 @@ const EmailVerification = () => {
                     />
                 ))}
             </div>
-            {/* You can add a submit button or resend code link here */}
+            {isVerifying && <CircularProgress />}
+            {successMessage && <p className="text-green-500">{successMessage}</p>}
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
     )
 }

@@ -102,7 +102,7 @@ html {
 }
 
 .text-gradient {
-	background: linear-gradient(90deg, var(--color-blue-600), var(--color-violet-700));
+	background: linear-gradient(90deg, var(--color-blue-600), var(--color-violet-600));
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;

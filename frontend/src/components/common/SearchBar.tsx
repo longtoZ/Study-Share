@@ -13,7 +13,7 @@ const SearchBar = ({ className = '', placeholder = 'Search...', onSearch = () =>
                 <input
                     type='text'
                     placeholder={placeholder}
-                    className='ml-2 flex-grow outline-none'
+                    className='ml-2 flex-grow !outline-none !border-none'
                     onChange={handleInputChange}
                 />
             </div>

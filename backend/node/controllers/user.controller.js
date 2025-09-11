@@ -140,10 +140,13 @@ class UserController {
         const { email, code } = req.body;
 
         try {
-            const user = await User.verifyEmail(email, code);
+            const user = await UserService.verifyEmail(email, code);
             res.status(200).json({ message: 'Email verified successfully', user });
         } catch (error) {
             console.error('Error verifying email:', error);
+            if (error.message.includes('incorrect or has expired')) {
+                return res.status(400).json({ message: error.message });
+            }
             res.status(500).json({ message: 'Internal server error while verifying email.' });
         }
     }

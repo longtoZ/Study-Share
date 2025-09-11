@@ -16,15 +16,13 @@ class JobManager {
             return;
         }
 
-        const job = cron.schedule(this.cronExpression, async () => {
+        const job = cron.schedule(this.cronExpression, async (email = email) => {
             const now = new Date();
 
             const { data, error } = await supabase
                 .from(TABLES.USER)
-                .select('email, created_date, is_verfied')
+                .select('email, created_date, is_verified')
                 .eq('email', email)
-                .eq('is_verfied', false)
-                .lt('created_date', new Date(now.getTime() - 1000 * 60 * 2)) // 2 minutes ago
                 .maybeSingle();
             
             if (error) {
@@ -37,18 +35,20 @@ class JobManager {
                 return;
             }
 
-            const { email } = data;
+            const { email, created_date, is_verified } = data;
 
-            // Delete the user account
-            const { error: deleteError } = await supabase
-                .from(TABLES.USER)
-                .delete()
-                .eq('email', email);
+            if (!is_verified && (now - new Date(created_date)) > 2 * 60 * 1000) {
+                // Delete the user account
+                const { error: deleteError } = await supabase
+                    .from(TABLES.USER)
+                    .delete()
+                    .eq('email', email);
 
-            if (deleteError) {
-                console.error(`Error deleting unverified account ${email}:`, deleteError);
-            } else {
-                console.log(`Successfully deleted unverified account ${email}`);
+                if (deleteError) {
+                    console.error(`Error deleting unverified account ${email}:`, deleteError);
+                } else {
+                    console.log(`Successfully deleted unverified account ${email}`);
+                }
             }
         });
 
@@ -69,9 +69,8 @@ class JobManager {
     }
 
     stopAllJobs() {
-        for (const [email, job] of this.jobs) {
-            job.stop();
-            console.log(`Stopped job for email: ${email}`);
+        for (const email of this.jobs.keys()) {
+            this.stopJob(email);
         }
     }
 }

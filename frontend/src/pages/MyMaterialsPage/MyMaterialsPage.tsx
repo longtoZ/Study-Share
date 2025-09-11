@@ -5,6 +5,8 @@ import type { MaterialExtended, Statistic } from '@/interfaces/userProfile';
 import { retrieveMaterials, calculateStatistics } from '@/services/userService';
 import { verifyUser } from '@services/authService';
 
+import { storeMaterials } from '@/utils/storeMaterialsLessons';
+
 import SearchBar from '@/components/common/SearchBar';
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -54,6 +56,7 @@ const MyMaterialsPage = () => {
             const data = await retrieveMaterials(userId, materialOrder, range);
             console.log('Retrieved materials:', data);
             setMaterials(data);
+            storeMaterials(data);
             setIsLoading(false);
         }
 
@@ -66,10 +69,12 @@ const MyMaterialsPage = () => {
             <h1 className='text-header-large mb-4'>All Materials</h1>
             <div className='flex gap-2 justify-end'>
                 <SearchBar className=''/>
-                <button className='button-primary py-2 px-4' onClick={() => navigate('/upload')}>
-                    <AddOutlinedIcon className='relative -top-[2px]'/>
-                    <span className='ml-2'>Upload material</span>
-                </button>
+                { isAuthor && 
+                    <button className='button-primary py-2 px-4' onClick={() => navigate('/upload')}>
+                        <AddOutlinedIcon className='relative -top-[2px]'/>
+                        <span className='ml-2'>Upload material</span>
+                    </button>
+                }
             </div>
 
             <div className='rounded-3xl bg-primary overflow-hidden px-10 py-6 mt-4 card-shadow'>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 
+import { storeLessons } from '@/utils/storeMaterialsLessons';
+
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 import LessonsGrid from '@/components/layout/LessonsGrid';
@@ -52,6 +54,7 @@ const MyLessonsPage = () => {
             const data = await retrieveLessons(userId, lessonOrder, range);
             console.log('Retrieved lessons:', data);
             setLessons(data);
+            storeLessons(data);
         }
 
         retrieveData();
@@ -63,10 +66,12 @@ const MyLessonsPage = () => {
             <h1 className='text-header-large mb-4'>All Lessons</h1>
             <div className='flex gap-2 justify-end'>
                 <SearchBar className=''/>
-                <button className='button-primary py-2 px-4' onClick={() => navigate('/create-lesson')}>
-                    <AddOutlinedIcon className='relative -top-[2px]'/>
-                    <span className='ml-2'>Create lesson</span>
-                </button>
+                { isAuthor &&
+                    <button className='button-primary py-2 px-4' onClick={() => navigate('/create-lesson')}>
+                        <AddOutlinedIcon className='relative -top-[2px]'/>
+                        <span className='ml-2'>Create lesson</span>
+                    </button>
+                }   
             </div>
 
             <div className='rounded-2xl bg-primary overflow-hidden px-10 py-6 mt-4 shadow-xl'>

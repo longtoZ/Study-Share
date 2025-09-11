@@ -27,7 +27,7 @@ export default function configurePassport() {
                 is_admin: false,
                 auth_provider: profile.provider,
                 provider_id: profile.id,
-                is_verfied: true  // Google accounts are considered verified
+                is_verified: true  // Google accounts are considered verified
             }
 
             const { user } = await userService.signupUser(info, info.auth_provider);

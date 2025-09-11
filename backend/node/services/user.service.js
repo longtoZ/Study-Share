@@ -39,9 +39,20 @@ class UserService {
         await this.emailService.sendEmail(newUser.email, newUser.verification_code);
 
         // Start the job to delete unverified account
-        this.jobManager.startJob(newUser.user_id);
+        this.jobManager.startJob(newUser.email);
 
         return { user: userWithoutPasswordHash };
+    }
+
+    async verifyEmail(email, code) {
+        const user = await User.verifyEmail(email, code);
+
+        if (!user) {
+            throw new Error('Email verification code is incorrect or has expired.');
+        }
+        // Stop the job to delete unverified account
+        this.jobManager.stopJob(user.email);
+        return user;
     }
 
     async loginUser(email, password, auth_provider = 'regular') {

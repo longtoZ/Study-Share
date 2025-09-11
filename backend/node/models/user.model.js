@@ -25,7 +25,7 @@ class User {
             is_admin: info.is_admin,
             auth_provider: info.auth_provider || 'regular',
             provider_id: info.provider_id || null,
-            is_verfied: false,
+            is_verified: false,
             verification_code: verificationCode
             }])
             .select()
@@ -63,11 +63,11 @@ class User {
             .from(TABLES.USER)
             .select('*')
             .eq('email', email)
-            .single();
+            .maybeSingle();
 
         if (error) throw error;
 
-        if (data.auth_provider && data.auth_provider !== auth_provider) {
+        if (data && data.auth_provider && data.auth_provider !== auth_provider) {
             throw new Error(`This email is registered via ${data.auth_provider}. Please use ${data.auth_provider} to log in.`);
         }
         return data;
@@ -169,13 +169,14 @@ class User {
     static async verifyEmail(email, verification_code) {
         const { data, error } = await supabase
             .from(TABLES.USER)
-            .update({ is_verfied: true, verification_code: null })
+            .update({ is_verified: true, verification_code: null })
             .eq('email', email)
             .eq('verification_code', verification_code)
-            .select()
-            .single();
+            .select('user_id, email')
+            .maybeSingle();
 
         if (error) throw error;
+
         return data;
     }
 }

@@ -9,6 +9,7 @@ const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
 const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT;
 const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
 const CHECK_EMAIL_ENDPOINT = import.meta.env.VITE_CHECK_EMAIL_ENDPOINT;
+const VERIFY_EMAIL_ENDPOINT = import.meta.env.VITE_VERIFY_EMAIL_ENDPOINT;
 
 const retrieveUserData = async (userId: string, requireEmail: boolean = false): Promise<any> => {
 	try {
@@ -210,4 +211,26 @@ const checkEmailExists = async (email: string): Promise<boolean> => {
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists };
+const verifyEmail = async (email: string, code: string): Promise<any> => {
+	try {
+		const response = await fetch(VERIFY_EMAIL_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ email, code })
+		});
+
+		if (!response.ok) {
+			throw new Error((await response.json()).message);
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error verifying email:', error);
+		throw error;
+	}
+}
+
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists, verifyEmail };

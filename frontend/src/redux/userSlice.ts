@@ -23,8 +23,7 @@ const userSlice = createSlice({
             state.user_id = '';
             state.token = '';
 
-            localStorage.removeItem('user_id');
-            localStorage.removeItem('jwt_token');
+            localStorage.clear();
         }
     }
 });

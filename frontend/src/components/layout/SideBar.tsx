@@ -2,26 +2,28 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactLogo from '@assets/react.svg';
 
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import { getStoredMaterials, getStoredLessons } from "@/utils/storeMaterialsLessons";
 
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
-
 import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
-
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onToggleMinimize: (isMinimized: boolean) => void}) => {
     const navigate = useNavigate();
     const userId = localStorage.getItem('user_id') || '';
+    const [storedMaterials, setStoredMaterials] = useState(getStoredMaterials());
+    const [storedLessons, setStoredLessons] = useState(getStoredLessons());
+
+    const [isMaterialsOpen, setIsMaterialsOpen] = useState(false);
+    const [isLessonsOpen, setIsLessonsOpen] = useState(false);
 
     const handleMinimize = () => {
         onToggleMinimize(!isMinimized);
@@ -67,14 +69,46 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                             <RestoreOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
                             { !isMinimized && <span className="leading-[1.5]">Recently Viewed</span> }
                         </div>
-                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate(`/user/${userId}/materials`)}>
-                            <ArticleOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
-                            { !isMinimized && <span className="leading-[1.5]">My Materials</span> }
+                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] justify-between hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`}>
+                            <div className="flex gap-2" onClick={() => navigate(`/user/${userId}/materials`)}>
+                                <ArticleOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
+                                { !isMinimized && (
+                                    <span className="leading-[1.5]">My Materials</span>
+                                ) }
+                            </div>
+                            <ArrowDropDownIcon className={`transition-transform duration-300 ease-in-out ${isMaterialsOpen ? 'rotate-180' : ''}`} style={{fontSize: '1.3rem', color: 'inherit'}} onClick={(e) => {
+                                e.stopPropagation();
+                                setIsMaterialsOpen(!isMaterialsOpen);
+                            }}/>
                         </div>
-                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate(`/user/${userId}/lessons`)}>
-                            <FolderCopyOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
-                            { !isMinimized && <span className="leading-[1.5]">My Lessons</span> }
+                        <ul className={`ml-3 ${ isMaterialsOpen ? 'max-h-40 overflow-y-auto' : 'max-h-0'} scrollbar-hide overflow-hidden transition-all duration-300 ease-in-out`}>
+                            {/* Display 5 most recent materials */}
+                            {storedMaterials.slice(0, 5).map(material => (
+                                <li key={material.id} className="py-2 pl-4 border-l border-zinc-600">
+                                    <a href={material.url} className="text-sm text-zinc-500 hover:underline">{material.name.substring(0, 20)}...</a>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] justify-between hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`}>
+                            <div className="flex gap-2" onClick={() => navigate(`/user/${userId}/lessons`)}>
+                                <FolderCopyOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
+                                { !isMinimized && (
+                                    <span className="leading-[1.5]">My Lessons</span>
+                                ) }
+                            </div>
+                            <ArrowDropDownIcon className={`transition-transform duration-300 ease-in-out ${isLessonsOpen ? 'rotate-180' : ''}`} style={{fontSize: '1.3rem', color: 'inherit'}} onClick={(e) => {
+                                e.stopPropagation();
+                                setIsLessonsOpen(!isLessonsOpen);
+                            }}/>
                         </div>
+                        <ul className={`ml-3 ${ isLessonsOpen ? 'max-h-40 overflow-y-auto' : 'max-h-0'} scrollbar-hide overflow-hidden transition-all duration-300 ease-in-out`}>
+                            {/* Display 5 most recent lessons */}
+                            {storedLessons.slice(0, 5).map(lesson => (
+                                <li key={lesson.id} className="py-2 pl-4 border-l border-zinc-600">
+                                    <a href={lesson.url} className="text-sm text-zinc-500 hover:underline">{lesson.name.substring(0, 20)}...</a>
+                                </li>
+                            ))}
+                        </ul>
                     </li>
                 </ul>
 
