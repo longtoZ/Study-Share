@@ -3,14 +3,16 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import jwtConfig from '../config/jwt.js';
 import env from 'dotenv';
-import JobManager from '../utils/deleteUnverifiedAccount.js';
+import EmailJobManager from '../utils/deleteUnverifiedAccount.js';
+import PasswordResetJobManager from '../utils/verifyPasswordReset.js';
 import EmailService from '../utils/sendEmail.js';
 
 env.config();
 
 class UserService {
     constructor() {
-        this.jobManager = new JobManager();
+        this.jobManager = new EmailJobManager();
+        this.passwordResetJobManager = new PasswordResetJobManager();
         this.emailService = new EmailService();
     }
 
@@ -36,7 +38,7 @@ class UserService {
         delete userWithoutPasswordHash.password_hash;
 
         // Send verification email
-        await this.emailService.sendEmail(newUser.email, newUser.verification_code);
+        await this.emailService.sendEmail(newUser.email, newUser.verification_code, 'email_verification');
 
         // Start the job to delete unverified account
         this.jobManager.startJob(newUser.email);
@@ -113,6 +115,40 @@ class UserService {
         }
 
         await User.delete(user_id);
+    }
+
+    async notifyResetPassword(user_id) {
+        const user = await User.findByID(user_id, true);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        await User.updateInfo(user_id, { verification_code: verificationCode });
+
+        // Send password reset email
+        await this.emailService.sendEmail(user.email, verificationCode, 'password_reset');
+
+        // Start the job to clear the password reset code
+        this.passwordResetJobManager.startJob(user_id);
+    }
+
+    async verifyResetPassword(user_id, code, newPassword) {
+        const user = await User.findByID(user_id, false, true);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        if (user.verification_code !== code) {
+            throw new Error('Password reset code is incorrect or has expired.');
+        }
+
+        const saltRounds = 10;
+        const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+        await User.updateInfo(user_id, { password_hash: passwordHash, verification_code: null });
+
+        // Stop the job to clear the password reset code
+        this.passwordResetJobManager.stopJob(user_id);
     }
 }
 

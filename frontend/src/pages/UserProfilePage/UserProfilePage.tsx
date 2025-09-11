@@ -68,8 +68,8 @@ const UserProfilePage = () => {
 				setIsMaterialsLoading(true);
 				setIsLessonsLoading(true);
 				const materials = await retrieveMaterials(userId, 'newest', { from: 0, to: 5 });
-				setIsMaterialsLoading(false);
 				const lessons = await retrieveLessons(userId, 'newest', { from: 0, to: 5 });
+				setIsMaterialsLoading(false);
 				setIsLessonsLoading(false);
 				console.log('User Materials:', materials);
 				console.log('User Lessons:', lessons);

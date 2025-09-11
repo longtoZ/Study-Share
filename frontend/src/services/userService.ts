@@ -10,6 +10,8 @@ const SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT;
 const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;
 const CHECK_EMAIL_ENDPOINT = import.meta.env.VITE_CHECK_EMAIL_ENDPOINT;
 const VERIFY_EMAIL_ENDPOINT = import.meta.env.VITE_VERIFY_EMAIL_ENDPOINT;
+const NOTIFY_RESET_PASSWORD_ENDPOINT = import.meta.env.VITE_NOTIFY_RESET_PASSWORD_ENDPOINT;
+const VERIFY_RESET_PASSWORD_ENDPOINT = import.meta.env.VITE_VERIFY_RESET_PASSWORD_ENDPOINT;
 
 const retrieveUserData = async (userId: string, requireEmail: boolean = false): Promise<any> => {
 	try {
@@ -233,4 +235,50 @@ const verifyEmail = async (email: string, code: string): Promise<any> => {
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists, verifyEmail };
+const notifyResetPassword = async (): Promise<any> => {
+	const token = localStorage.getItem('jwt_token');
+
+	try {
+		const response = await fetch(NOTIFY_RESET_PASSWORD_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			}
+		});
+		if (!response.ok) {
+			throw new Error((await response.json()).message);
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error notifying reset password:', error);
+		throw error;
+	}
+}
+
+const verifyResetPassword = async (code: string, newPassword: string): Promise<any> => {
+	const token = localStorage.getItem('jwt_token');
+
+	try {
+		const response = await fetch(VERIFY_RESET_PASSWORD_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			},
+			body: JSON.stringify({ code, newPassword })
+		});
+		if (!response.ok) {
+			throw new Error((await response.json()).message);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error verifying reset password:', error);
+		throw error;
+	}
+}
+
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists, verifyEmail, notifyResetPassword, verifyResetPassword };

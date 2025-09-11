@@ -2,7 +2,7 @@ import supabase from "../config/database.js";
 import { TABLES } from "../constants/constant.js";
 import cron from 'node-cron';
 
-class JobManager {
+class EmailJobManager {
     constructor() {
         // Schedule the job to run every 2 minutes
         this.cronExpression = '*/2 * * * *';
@@ -35,7 +35,7 @@ class JobManager {
                 return;
             }
 
-            const { email, created_date, is_verified } = data;
+            const { created_date, is_verified } = data;
 
             if (!is_verified && (now - new Date(created_date)) > 2 * 60 * 1000) {
                 // Delete the user account
@@ -49,6 +49,9 @@ class JobManager {
                 } else {
                     console.log(`Successfully deleted unverified account ${email}`);
                 }
+
+                // Stop the job since it's no longer needed
+                this.stopJob(email);
             }
         });
 
@@ -75,4 +78,4 @@ class JobManager {
     }
 }
 
-export default JobManager;
+export default EmailJobManager;

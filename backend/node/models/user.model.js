@@ -11,22 +11,22 @@ class User {
         const { data, error } = await supabase
             .from(TABLES.USER)
             .insert([{
-            user_id: info.user_id,
-            email: info.email,
-            full_name: info.full_name,
-            gender: info.gender,
-            bio: info.bio,
-            profile_picture_url: info.profile_picture_url,
-            date_of_birth: info.date_of_birth,
-            address: info.address,
-            password_hash: info.password_hash,
-            created_date: info.created_date,
-            last_login: info.last_login,
-            is_admin: info.is_admin,
-            auth_provider: info.auth_provider || 'regular',
-            provider_id: info.provider_id || null,
-            is_verified: false,
-            verification_code: verificationCode
+                user_id: info.user_id,
+                email: info.email,
+                full_name: info.full_name,
+                gender: info.gender,
+                bio: info.bio,
+                profile_picture_url: info.profile_picture_url,
+                date_of_birth: info.date_of_birth,
+                address: info.address,
+                password_hash: info.password_hash,
+                created_date: info.created_date,
+                last_login: info.last_login,
+                is_admin: info.is_admin,
+                auth_provider: info.auth_provider || 'regular',
+                provider_id: info.provider_id || null,
+                is_verified: false,
+                verification_code: verificationCode
             }])
             .select()
             .single();
@@ -47,10 +47,10 @@ class User {
         return data;
     }
 
-    static async findByID(user_id, requireEmail = false) {
+    static async findByID(user_id, requireEmail = false, requireVerificationCode = false) {
         const { data, error } = await supabase
             .from(TABLES.USER)
-            .select(`user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url${requireEmail ? ', email' : ''}`)
+            .select(`user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url${requireEmail ? ', email' : ''}${requireVerificationCode ? ', verification_code' : ''}`)
             .eq('user_id', user_id)
             .single();
 

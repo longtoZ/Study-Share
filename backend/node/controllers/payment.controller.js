@@ -96,6 +96,20 @@ class PaymentController {
             res.status(500).json({ error: err.message });
         }
     }
+
+    static async getOrdersHistory(req, res) {
+        const userId = req.user.user_id;
+        const { filter } = req.body;
+
+        try {
+            const orders = await Payment.getOrdersByUserId(userId, filter || {});
+            res.status(200).json({ orders });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: err.message });
+        }
+
+    }
 }
 
 export default PaymentController;

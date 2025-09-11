@@ -64,7 +64,7 @@ export default function ChatPannel({
     }, [model]);
 
     return (
-        <div className={`sticky right-0 h-full bottom-0 z-50 flex justify-end p-2 ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
+        <div className={`sticky right-0 bottom-0 z-50 flex justify-end p-2 ${open ? "pointer-events-auto h-full " : "pointer-events-none h-0"}`}>
             {/* Overlay */}
             <div
                 className={`absolute inset-0 bg-[#00000080] bg-opacity-60 transition-all duration-300 ease-in-out ${open ? "opacity-100 backdrop-blur-xs" : "opacity-0 pointer-events-none"}`}

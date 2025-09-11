@@ -316,12 +316,12 @@ const MaterialViewPage = () => {
     }
 
     return (
-        <div className={`relative bg-gray-100 min-h-screen scrollbar-hide h-[100vh] ${ isChatOpen ? 'overflow-hidden' : 'overflow-y-auto' }`}>
+        <div className={`relative bg-gray-100 h-screen scrollbar-hide ${ isChatOpen ? 'overflow-hidden' : 'overflow-y-scroll' }`}>
             <div className="p-12 pb-36">
             {isAuthor && (
                 <div className="mb-6 flex justify-end">
                     <button 
-                        className="flex items-center gap-2 rounded-xl shadow-lg bg-white py-3 px-4 cursor-pointer hover:bg-zinc-100"
+                        className="flex items-center gap-2 rounded-xl py-3 px-4 cursor-pointer bg-gradient-to-r from-yellow-500 to-amber-500 text-white shadow-lg shadow-amber-300 hover:opacity-85 transition-opacity duration-100 ease"
                         onClick={() => navigate(`/material/${material?.material_id}/edit`)}>
                         <SettingsOutlinedIcon/>
                         <h3>Edit Material</h3>
@@ -367,8 +367,8 @@ const MaterialViewPage = () => {
 
                         <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
                             <button
-                                className={`flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl
-                         bg-gradient-to-r ${isMaterialPaid && userId !== user?.user_id ? 'from-lime-500 to-green-600' : 'from-blue-500 to-indigo-600'} focus:outline-none focus:ring-4 ${isMaterialPaid && userId !== user?.user_id ? 'focus:ring-green-300' : 'focus:ring-blue-300'} w-full sm:w-auto justify-center cursor-pointer`}
+                                className={`flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg
+                         bg-gradient-to-r ${isMaterialPaid && userId !== user?.user_id ? 'from-lime-500 to-green-600 shadow-lime-400' : 'from-blue-500 to-indigo-600 shadow-blue-300'} focus:outline-none focus:ring-4 ${isMaterialPaid && userId !== user?.user_id ? 'focus:ring-green-300' : 'focus:ring-blue-300'} w-full sm:w-auto justify-center cursor-pointer`}
                                 onClick={() => {
                                         if (isMaterialPaid && userId !== user?.user_id) {
                                             if (!user.stripe_account_id) {

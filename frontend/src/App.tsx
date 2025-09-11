@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import { Suspense, lazy, useState } from "react";
 
 // Lazy load page components
+const RootRedirectPage = lazy(() => import('@pages/RedirectPage/RootRedirectPage'));
 const UserProfilePage = lazy(() => import('@pages/UserProfilePage/UserProfilePage'));
 const UploadPage = lazy(() => import('@pages/UploadPage/UploadPage'));
 const LoginPage = lazy(() => import("@pages/LoginPage/LoginPage"));
@@ -18,6 +19,7 @@ const SearchPage = lazy(() => import("@pages/SearchPage/SearchPage"));
 const HistoryPage = lazy(() => import("@pages/HistoryPage/HistoryPage"));
 const StatisticsPage = lazy(() => import("@pages/StatisticsPage/StatisticsPage"));
 const PaymentHistoryPage = lazy(() => import("@pages/PaymentHistoryPage/PaymentHistoryPage"));
+const OrdersPage = lazy(() => import("@pages/OrdersPage/OrdersPage"));
 const RedirectToHomePage = lazy(() => import("@pages/RedirectPage/RedirectToHomePage"));
 
 // Layout components
@@ -52,6 +54,7 @@ function AppContent() {
                         </div>
                     }>
                         <Routes>
+                            <Route path="/" element={<RootRedirectPage />} />
                             <Route path="/user/:userId" element={<UserProfilePage />} />
                             <Route path="/upload" element={<UploadPage />} />
                             <Route path="/login" element={<LoginPage />} />
@@ -68,6 +71,7 @@ function AppContent() {
                             <Route path="/history" element={<HistoryPage />} />
                             <Route path="/statistics" element={<StatisticsPage />} />
                             <Route path="/payment-history" element={<PaymentHistoryPage />} />
+                            <Route path="/orders" element={<OrdersPage />} />
                             <Route path="/redirect-to-home" element={<RedirectToHomePage />} />
                         </Routes>
                     </Suspense>

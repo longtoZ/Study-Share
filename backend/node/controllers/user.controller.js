@@ -150,6 +150,34 @@ class UserController {
             res.status(500).json({ message: 'Internal server error while verifying email.' });
         }
     }
+
+    static async notifyResetPassword(req, res) {
+        const userId = req.user.user_id;
+
+        try {
+            await UserService.notifyResetPassword(userId);
+            res.status(200).json({ message: 'Password reset email sent successfully' });
+        } catch (error) {
+            console.error('Error sending password reset email:', error);
+            res.status(500).json({ message: 'Internal server error while sending password reset email.' });
+        }
+    }
+
+    static async verifyResetPassword(req, res) {
+        const userId = req.user.user_id;
+        const { code, newPassword } = req.body;
+
+        try {
+            await UserService.verifyResetPassword(userId, code, newPassword);
+            res.status(200).json({ message: 'Password reset successfully' });
+        } catch (error) {
+            console.error('Error resetting password:', error);
+            if (error.message.includes('incorrect or has expired')) {
+                return res.status(400).json({ message: error.message });
+            }
+            res.status(500).json({ message: 'Internal server error while resetting password.' });
+        }
+    }
 }
 
 export default UserController;

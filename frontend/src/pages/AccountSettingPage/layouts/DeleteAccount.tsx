@@ -76,7 +76,7 @@ const DeleteAccount = () => {
                 <p className='text-red-500 text-sm mb-8'>{confirmationTextError}</p>
 
                 <button 
-                    className='cursor-pointer bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-all duration-100 ease-in-out flex items-center'
+                    className='cursor-pointer bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-all duration-100 ease-in-out flex items-center shadow-lg shadow-red-200'
                     onClick={handleDeleteAccount}
                 >
                     {isDeleting ? <CircularProgress size={24} color='inherit'/> : 'Delete My Account'}

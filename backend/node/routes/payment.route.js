@@ -10,5 +10,6 @@ router.get('/success', PaymentController.paymentSuccess);
 router.get('/oauth/callback', PaymentController.accountAuthorizationCallback);
 router.get('/check-material-payment', AuthMiddleware.verifyUser, PaymentController.checkMaterialPayment);
 router.post('/payment-history', AuthMiddleware.verifyUser, PaymentController.getPaymentHistory);
+router.post('/orders-history', AuthMiddleware.verifyUser, PaymentController.getOrdersHistory);
 
 export default router;

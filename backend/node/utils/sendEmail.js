@@ -13,14 +13,25 @@ class EmailService {
                 pass: process.env.EMAIL_PASS,
             },
         });
+
+        this.type = {
+            'email_verification': {
+                subject: 'Email Verification',
+                html: (code) => `<p>Your verification code is: <strong>${code}</strong>. This code will expire in 2 minutes.</p>`
+            },
+            'password_reset': {
+                subject: 'Password Reset',
+                html: (code) => `<p>Your password reset code is: <strong>${code}</strong>. This code will expire in 2 minutes.</p>`
+            }
+        }
     }
 
-    async sendEmail(to, code) {
+    async sendEmail(to, code, type) {
         const mailOptions = {
             // from: process.env.EMAIL_FROM,
             to,
-            subject: 'Email Verification',
-            html: `<p>Your verification code is: <strong>${code}</strong>. This code will expire in 2 minutes.</p>`,
+            subject: this.type[type].subject,
+            html: this.type[type].html(code),
         };
         
         await this.transporter.sendMail(mailOptions);

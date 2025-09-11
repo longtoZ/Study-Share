@@ -1,6 +1,7 @@
 const REDIRECT_TO_CHECKOUT = import.meta.env.VITE_REDIRECT_TO_CHECKOUT;
 const CHECK_MATERIAL_PAYMENT = import.meta.env.VITE_CHECK_MATERIAL_PAYMENT;
 const PAYMENT_HISTORY = import.meta.env.VITE_PAYMENT_HISTORY;
+const ORDERS_HISTORY = import.meta.env.VITE_ORDERS_HISTORY;
 
 const makePayment = async (data: any) => {
     const token = localStorage.getItem('jwt_token');
@@ -59,4 +60,23 @@ const getPaymentHistory = async (filter: any) => {
     return (await response.json()).payments;
 };
 
-export { makePayment, checkMaterialPayment, getPaymentHistory };
+const getOrdersHistory = async (filter: any) => {
+    const token = localStorage.getItem('jwt_token');
+
+    const response = await fetch(ORDERS_HISTORY, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ filter }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch orders history');
+    }
+
+    return (await response.json()).orders;
+};
+
+export { makePayment, checkMaterialPayment, getPaymentHistory, getOrdersHistory };

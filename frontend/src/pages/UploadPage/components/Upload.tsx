@@ -38,7 +38,7 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
     }, [fileData]);
 
     return (
-        <div className='border border-primary rounded-xl p-6 mb-6'>
+        <div className='border border-primary rounded-xl p-6 mb-6 shadow-lg shadow-zinc-100'>
             <div className='flex w-full justify-between items-center' onClick={toggleExpand}>
                 <h3 className='text-header-small font-semibold'>{fileData.name}</h3>
                 <button className='hover:text-gray-700 transition-colors cursor-pointer'>
@@ -46,7 +46,7 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                 </button>
             </div>
             <form className={`space-y-4 mt-4 ${isExpanded ? 'block' : 'hidden'}`}>
-                <div>
+                <div className='mb-8'>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">
                         Name
                     </label>
@@ -60,7 +60,7 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                     />
                 </div>
 
-                <div>
+                <div className='mb-8'>
                     <label htmlFor="description" className="block text-sm font-medium mb-2">
                         Description
                     </label>
@@ -73,7 +73,7 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                     />
                 </div>
 
-                <div>
+                <div className='mb-8'>
                     <label className="block text-sm font-medium mb-2">
                         Subject
                     </label>
@@ -85,9 +85,12 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                     />
                 </div>
 
-                <div>
+                <div className='mb-8'>
                     <label className="block text-sm font-medium mb-2">
                         Price (in USD)
+                        <p className='text-xs text-gray-500 mt-1'>
+                            &#9432; You can set the price to 0 if you want to upload it for free. If you set a price greater than 0, users will need to pay to download this file.
+                        </p>
                     </label>
                     <input
                         type="number"
@@ -98,9 +101,12 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                     />
                 </div>
 
-                <div>
+                <div className='mb-8'>
                     <label htmlFor="filetype" className="block text-sm font-medium mb-2">
                         File Type
+                        <p className='text-xs text-gray-500 mt-1'>
+                            &#9432; This is automatically detected from the file you selected and cannot be changed.
+                        </p>
                     </label>
                     <input
                         type="text"
@@ -111,9 +117,12 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                     />
                 </div>
 
-                <div>
+                <div className='mb-8'>
                     <label htmlFor="filetype" className="block text-sm font-medium mb-2">
                         File Size
+                        <p className='text-xs text-gray-500 mt-1'>
+                            &#9432; This is automatically detected from the file you selected and cannot be changed.
+                        </p>
                     </label>
                     <input
                         type="text"
@@ -124,9 +133,12 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                     />
                 </div>
 
-                <div>
+                <div className='mb-8'>
                     <label htmlFor="filetype" className="block text-sm font-medium mb-2">
                         Upload Date
+                        <p className='text-xs text-gray-500 mt-1'>
+                            &#9432; This is automatically set to the current date and cannot be changed.
+                        </p>
                     </label>
                     <input
                         type="date"

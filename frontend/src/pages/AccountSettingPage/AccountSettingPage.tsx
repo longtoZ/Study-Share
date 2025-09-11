@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PersonalInfo from './layouts/PersonalInfo';
 import ConnectStripe from './layouts/ConnectStripe';
 import DeleteAccount from './layouts/DeleteAccount';
+import ResetPassword from './layouts/ResetPassword';
 
 import { verifyUser } from '@services/authService';
 
@@ -30,13 +31,8 @@ const AccountSettingPage: React.FC = () => {
                 return ( <PersonalInfo/> );
             case 'stripe':
                 return ( <ConnectStripe/> );
-            case 'billing':
-                return (
-                    <div className="bg-white p-6 rounded-lg shadow-sm">
-                        <h2 className="text-2xl font-semibold mb-6">Billing</h2>
-                        <p className="text-gray-500">Billing management functionality coming soon...</p>
-                    </div>
-                );
+            case 'reset-password':
+                return ( <ResetPassword/> );
             case 'delete':
                 return ( <DeleteAccount/> );
             default:
@@ -73,14 +69,14 @@ const AccountSettingPage: React.FC = () => {
                                 Stripe
                             </button>
                             <button
-                                onClick={() => setActiveTab('billing')}
+                                onClick={() => setActiveTab('reset-password')}
                                 className={`w-full text-left px-4 py-2 rounded-xl transition-colors ${
-                                    activeTab === 'billing'
+                                    activeTab === 'reset-password'
                                         ? 'bg-blue-100 text-blue-700'
                                         : 'text-gray-700 hover:bg-gray-100'
                                 }`}
                             >
-                                Billing
+                                Reset Password
                             </button>
                             <button
                                 onClick={() => setActiveTab('delete')}
