@@ -1,4 +1,4 @@
-import supabase from '../config/database.js';
+import supabase from '../config/database.config.js';
 import { TABLES, MAX_STAR_LEVEL, PDF_TO_WEBP_URL, DOCX_TO_WEBP_URL } from '../constants/constant.js';
 import fs from 'fs';
 import path from 'path';
@@ -161,7 +161,7 @@ class Material {
 
     static async getMaterialById(material_id) {
         const { data, error } = await supabase
-            .from(TABLES.MATERIAL)
+            .rpc('get_materials_user_info')
             .select('*')
             .eq('material_id', material_id)
             .single();
@@ -185,7 +185,7 @@ class Material {
     }
 
     static async getMaterialsByUserId(user_id, order, from, to) {
-        const { data, error } = await supabase
+        const { data: rawData, error } = await supabase
             .rpc('get_materials_user_info')
             .select('*', { count: 'exact' })
             .eq('user_id', user_id)
@@ -193,6 +193,9 @@ class Material {
             .range(from, to);
 
         if (error && error.code !== 'PGRST116') throw error;
+
+        // Exclude sensitive fields
+        const data = rawData ? rawData.map(({ user_stripe_account_id, ...rest }) => rest) : [];
 
         if (!data || data.length === 0) {
             return []; // No materials found for the user
@@ -312,8 +315,11 @@ class Material {
         if (subject_id) databaseQuery.eq('subject_id', subject_id);
         if (lesson_id) databaseQuery.eq('lesson_id', lesson_id);
 
-        const { data, error } = await databaseQuery
+        const { data: rawData, error } = await databaseQuery
             .order(sort_by, { ascending: order === 'asc' });
+        
+        // Exclude sensitive fields
+        const data = rawData ? rawData.map(({ user_stripe_account_id, ...rest }) => rest) : [];
 
         console.log('Search Material Data:', data);
 

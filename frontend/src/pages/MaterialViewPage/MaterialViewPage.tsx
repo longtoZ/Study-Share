@@ -1,14 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getMaterial } from "@services/materialService";
-import { retrieveUserData } from "@/services/userService";
-import { getSubject } from "@/services/subjectService";
 import { addEntry } from "@/services/historyService";
-import { useSelector } from "react-redux";
 import { verifyUser } from '@services/authService';
 import { v4 as uuidv4 } from 'uuid';
 
-import { createComment, deleteComment, getComments, voteComment, checkUpvoteRecord } from '@services/commentService';
+import { createComment, deleteComment, getComments, voteComment } from '@services/commentService';
 import { makePayment, checkMaterialPayment } from "@/services/paymentService";
 import { getMaterialUrl } from "@services/materialService";
 import { clearSession } from "../../services/aiChatService";
@@ -41,6 +38,8 @@ import {
     ChatBubble as ChatBubbleIcon
 } from "@mui/icons-material";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 const GET_MATERIAL_PAGE_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_PAGE_ENDPOINT;
 
 interface IImagePage {
@@ -61,12 +60,13 @@ const MaterialViewPage = () => {
 	const [commentOrder, setCommentOrder] = useState<string>("newest");
 	const [commentContent, setCommentContent] = useState<string>("");
 	const [allCommentsData, setAllCommentsData] = useState<any[]>([]);
+    const [commentsRange, setCommentsRange] = useState<{ start: number; end: number }>({ start: 0, end: 9 });
+    const [isNoMoreComments, setIsNoMoreComments] = useState<boolean>(false);
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
     const [isMaterialPaid, setIsMaterialPaid] = useState<boolean>(false);
     const [hasUserPaid, setHasUserPaid] = useState<boolean>(false);
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
-
-    const userState = useSelector((state: any) => state.user);
+    const [isPostingComment, setIsPostingComment] = useState<boolean>(false);
 
     const { materialId } = useParams();
     const userId = localStorage.getItem('user_id') || '';
@@ -118,21 +118,17 @@ const MaterialViewPage = () => {
             if (materialData) {
                 setMaterial(materialData);
                 setTotalPages(materialData.num_page);
+                setSubject(materialData.subject_name);
                 setAvgRating(
                     materialData.total_rating / materialData.rating_count || 0
                 );
+                setUser({
+                    full_name: materialData.user_name,
+                    profile_picture_url: materialData.profile_picture_url,
+                    user_id: materialData.user_id,
+                    stripe_account_id: materialData.user_stripe_account_id
+                })
                 setIsMaterialPaid(!!materialData.price || paymentData);
-            }
-
-            const subjectData = await getSubject(materialData.subject_id);
-            if (subjectData) {
-                setSubject(subjectData.name);
-            }
-
-            const userData = await retrieveUserData(materialData.user_id);
-            if (userData) {
-                console.log("User data retrieved:", userData);
-                setUser(userData);
             }
 
             try {
@@ -177,25 +173,29 @@ const MaterialViewPage = () => {
         const fetchComments = async () => {
             if (!materialId) return;
 
-            const comments = await getComments(materialId, commentOrder);
+            try {
+                const comments = await getComments(materialId, commentOrder, commentsRange);
 
-            for (const element of comments) {
-                const userOfComment = await retrieveUserData(element.user_id);
-                if (userOfComment) {
-                    const isUpvoted = await checkUpvoteRecord(userId, element.comment_id) ? true : false;
+                for (const element of comments) {
                     setAllCommentsData((prevComments) => {
-                        if (!prevComments.some((c) => c.comment.comment_id === element.comment_id)) {
-                            return [...prevComments, { comment: element, user: userOfComment, isUpvoted }];
+                        if (!prevComments.some((comment) => comment.comment_id === element.comment_id)) {
+                            return [...prevComments, element];
                         }
                         return prevComments;
                     });
                 }
+                setIsNoMoreComments(comments.length === 0);
+            } catch (error: any) {
+                if (error.message.includes("No comments found")) {
+                    setIsNoMoreComments(true);
+                } else {
+                    console.error("Error fetching comments:", error);
+                }
             }
-
         };
 
         fetchComments();
-    }, []);
+    }, [commentOrder, commentsRange]);
 
     useEffect(() => {
         const handleBeforeUnload = async (e: BeforeUnloadEvent) => {
@@ -261,7 +261,7 @@ const MaterialViewPage = () => {
     };
 
     const handleUpvote = async (commentId: string, vote: 'upvote' | 'cancel-upvote') => {
-        if (!userState.loggedIn) {
+        if (!userId) {
             alert("Please log in to vote on comments.");
             return;
         }
@@ -269,17 +269,17 @@ const MaterialViewPage = () => {
         console.log(`Voting on comment ${commentId} with action: ${vote}`);
         await voteComment(commentId, vote);
         setAllCommentsData((prevComments) =>
-            prevComments.map((c) => {
-                if (c.comment.comment_id === commentId) {
+            prevComments.map((comment) => {
+                if (comment.comment_id === commentId) {
                     console.log(`Updating comment ${commentId} upvote status to: ${vote === 'upvote'}`);
                     
                     // Deep copy to avoid mutation
-                    const newCommentData = { ...c, comment: { ...c.comment } }
-                    newCommentData.isUpvoted = vote === 'upvote';
-                    newCommentData.comment.upvote += vote === 'upvote' ? 1 : -1;
+                    const newCommentData = { ...comment}
+                    newCommentData.upvoted = vote === 'upvote';
+                    newCommentData.upvote += vote === 'upvote' ? 1 : -1;
                     return newCommentData;
                 }
-                return c;
+                return comment;
             })
         );
         console.log(allCommentsData);
@@ -593,11 +593,11 @@ const MaterialViewPage = () => {
 							<h3 className="text-xl font-bold text-gray-800 mb-2">
 								Comments
 							</h3>
-							<div className="flex justify-evenly p-1 bg-zinc-100 rounded-2xl">
+							<div className="flex gap-2 justify-evenly p-1 bg-zinc-100 rounded-2xl inset-shadow-sm">
 								<button
 									className={`px-4 py-2 rounded-2xl cursor-pointer ${
 										commentOrder === "newest"
-											? "bg-white"
+											? "bg-white shadow-sm"
 											: "text-zinc-800"
 									}`}
 									onClick={() => setCommentOrder("newest")}
@@ -607,7 +607,7 @@ const MaterialViewPage = () => {
 								<button
 									className={`px-4 py-2 rounded-2xl cursor-pointer ${
 										commentOrder === "popular"
-											? "bg-white"
+											? "bg-white shadow-sm"
 											: "text-zinc-800"
 									}`}
 									onClick={() => setCommentOrder("popular")}
@@ -639,11 +639,13 @@ const MaterialViewPage = () => {
 									className="mt-4 w-12 h-12 p-2 flex justify-center items-center button-primary ml-auto" 
 									style={{ borderRadius: 'calc(infinity * 1px)' }}
 									onClick={async () => {
+                                        setIsPostingComment(true);
 										await createComment(commentContent, materialId);
 										setCommentContent('');
+										setIsPostingComment(false);
 									}}
 								>
-									<SendOutlinedIcon />
+									{ isPostingComment ? <CircularProgress size={24} color="inherit" /> : <SendOutlinedIcon /> }
 								</button>
 							</div>
 						</div>
@@ -652,11 +654,11 @@ const MaterialViewPage = () => {
 
 						<div className="mt-4">
 							{allCommentsData.length > 0 ? (
-								allCommentsData.map((commentData) => (
-									<div key={commentData.comment.comment_id} className="py-4 flex gap-6">
+								allCommentsData.map((comment) => (
+									<div key={comment.comment_id} className="py-4 flex gap-6">
 										<img
 											src={
-												commentData.user.profile_picture_url ||
+												comment.profile_picture_url ||
 												"https://placehold.co/100x100/E5E7EB/4B5563?text=User"
 											}
 											alt="User Profile"
@@ -664,23 +666,23 @@ const MaterialViewPage = () => {
 										/>
 										<div className="flex-1">
 											<div className="flex gap-6 items-center text-xs text-zinc-400">
-												<a className="text-lg font-semibold text-zinc-800 hover:underline" href={`/user/${commentData.user.user_id}`} target="_blank">
-													{commentData.user.full_name}
+												<a className="text-lg font-semibold text-zinc-800 hover:underline" href={`/user/${comment.user_id}`} target="_blank">
+													{comment.user_name}
 												</a>
-												<span>{new Date(commentData.comment.created_date).toLocaleString()}</span>
+												<span>{new Date(comment.created_date).toLocaleString()}</span>
 											</div>
-											<p className="mt-2 text-sm text-zinc-600">{commentData.comment.content}</p>
+											<p className="mt-2 text-sm text-zinc-600">{comment.content}</p>
 											<div className="flex gap-4 mt-2">
 												<button 
                                                     className="flex items-center gap-1 text-zinc-500 hover:text-zinc-800 transition-colors duration-200" 
                                                     onClick={() => {
-                                                        handleUpvote(commentData.comment.comment_id, commentData.isUpvoted ? 'cancel-upvote' : 'upvote');
+                                                        handleUpvote(comment.comment_id, comment.upvoted ? 'cancel-upvote' : 'upvote');
                                                     }}
                                                 >
-													{ commentData.isUpvoted ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteBorderOutlinedIcon fontSize="small" /> }
-													<span>{commentData.comment.upvote}</span>
+													{ comment.upvoted ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteBorderOutlinedIcon fontSize="small" /> }
+													<span>{comment.upvote}</span>
 												</button>
-                                                <span className="ml-4 cursor-pointer" onClick={() => deleteComment(commentData.comment.comment_id, commentData.user.user_id)}>Delete</span>
+                                                { isAuthor && <span className="ml-4 cursor-pointer" onClick={() => deleteComment(comment.comment_id, comment.user_id)}>Delete</span> }
 											</div>
 										</div>
 									</div>
@@ -688,6 +690,15 @@ const MaterialViewPage = () => {
 							) : (
 								<p className="text-gray-500">No comments yet.</p>
 							)}
+                            { !isNoMoreComments ? (<button
+                                className="mt-4 w-full p-3 flex justify-center items-center cursor-pointer text-sm border border-zinc-300 bg-zinc-100 hover:bg-zinc-200 transition-colors duration-200"
+                                style={{ borderRadius: '20px'}}
+                                onClick={() => setCommentsRange({ start: commentsRange.end + 1, end: commentsRange.end + 10 })}
+                            >
+                                Load more comments
+                            </button> ) : (
+                                <p className="text-gray-500 text-center mt-4">No more comments.</p>
+                            ) }
 						</div>
 					</div>
                 </div>

@@ -72,7 +72,7 @@ const LessonViewPage = () => {
             {isAuthor && (
                 <div className="mb-6 flex justify-end">
                     <button 
-                        className="flex items-center gap-2 rounded-xl shadow-lg bg-white py-3 px-4 cursor-pointer hover:bg-zinc-100"
+                        className="flex items-center gap-2 rounded-xl py-3 px-4 cursor-pointer bg-gradient-to-r from-yellow-500 to-amber-500 text-white shadow-lg shadow-amber-300 hover:opacity-85 transition-opacity duration-100 ease"
                         onClick={() => navigate(`/lesson/${lessonId}/edit`)}>
                         <SettingsOutlinedIcon/>
                         <h3>Edit Lesson</h3>

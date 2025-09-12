@@ -1,4 +1,4 @@
-import { gemini } from "../config/ai.js";
+import { gemini } from "../config/ai.config.js";
 import MaterialSummary from "../models/material-summary.model.js";
 
 class AIChatService {

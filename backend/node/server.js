@@ -4,7 +4,7 @@ import cors from 'cors';
 import env from 'dotenv';
 import passport from 'passport';
 
-import configurePassport from './config/passport.js';
+import configurePassport from './config/passport.config.js';
 import userRoutes from './routes/user.route.js';
 import materialRoutes from './routes/material.route.js';
 import subjectRoutes from './routes/subject.route.js';

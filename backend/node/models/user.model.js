@@ -1,4 +1,4 @@
-import supabase from '../config/database.js';
+import supabase from '../config/database.config.js';
 import { TABLES } from '../constants/constant.js';
 import fs from 'fs';
 import path from 'path';

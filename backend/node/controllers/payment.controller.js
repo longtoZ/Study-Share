@@ -1,6 +1,6 @@
 import PaymentService from "../services/payment.service.js";
 import Payment from "../models/payment.model.js";
-import stripe from "../config/stripe.js";
+import stripe from "../config/stripe.config.js";
 
 class PaymentController {
     static async createConnectedAccount(req, res) {

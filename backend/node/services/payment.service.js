@@ -1,5 +1,5 @@
 import Payment from "../models/payment.model.js";
-import stripe from "../config/stripe.js";
+import stripe from "../config/stripe.config.js";
 import Material from "../models/material.model.js";
 
 class PaymentService {

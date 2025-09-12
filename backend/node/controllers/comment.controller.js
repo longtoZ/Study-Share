@@ -12,10 +12,10 @@ class CommentController {
 
     static async getCommentsByMaterialId(req, res) {
         const { material_id } = req.params;
-        const { order } = req.query;
+        const { order, start, end } = req.query;
 
         try {
-            const comments = await Comment.getCommentsByMaterialId(material_id, order);
+            const comments = await Comment.getCommentsByMaterialId(material_id, order, start, end);
             res.status(200).json({ message: "Comments retrieved successfully", comments });
         } catch (error) {
             res.status(500).json({ error: error.message });

@@ -30,6 +30,7 @@ const checkMaterialPayment = async (materialId: string) => {
     const response = await fetch(`${CHECK_MATERIAL_PAYMENT}?material_id=${materialId}`, {
         method: 'GET',
         headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         }
     });

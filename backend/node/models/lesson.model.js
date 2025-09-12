@@ -1,4 +1,4 @@
-import supabase from '../config/database.js';
+import supabase from '../config/database.config.js';
 import { TABLES } from '../constants/constant.js';
 
 class Lesson {
@@ -48,13 +48,16 @@ class Lesson {
             .eq('lesson_id', lesson_id)
             .single();
 
-        const { data, error } = await supabase
+        const { data: rawData, error } = await supabase
             .rpc('get_materials_user_info')
             .select('*')
             .eq('lesson_id', lesson_id)
             .order('upload_date', { ascending: order === 'oldest' });
 
         if (error) throw error;
+
+        // Exclude sensitive fields
+        const data = rawData ? rawData.map(({ user_stripe_account_id, ...rest }) => rest) : [];
 
         return {
             materials: data,

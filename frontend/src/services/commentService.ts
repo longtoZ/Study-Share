@@ -64,11 +64,11 @@ const deleteComment = async (commentId: string, authorId: string) => {
     }
 }
 
-const getComments = async (materialId: string, order: string) => {
+const getComments = async (materialId: string, order: string, range: { start: number; end: number }) => {
     if (!materialId) return;
 
     try {
-        const response = await fetch(`${GET_COMMENTS_ENDPOINT.replace("material-id", materialId)}?order=${order}`, {
+        const response = await fetch(`${GET_COMMENTS_ENDPOINT.replace("material-id", materialId)}?order=${order}&start=${range.start}&end=${range.end}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const getComments = async (materialId: string, order: string) => {
             console.log("Comments retrieved successfully:", comments);
             return comments.comments;
         } else {
-            console.error("Error retrieving comments:", response.statusText);
+            throw new Error((await response.json()).message);
         }
     } catch (error) {
         console.error("Error retrieving comments:", error);

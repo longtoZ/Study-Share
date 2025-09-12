@@ -1,4 +1,4 @@
-import supabase from '../config/database.js';
+import supabase from '../config/database.config.js';
 import { TABLES } from '../constants/constant.js';
 
 class Comment {
@@ -13,13 +13,15 @@ class Comment {
         return comment;
     }
 
-    static async getCommentsByMaterialId(material_id, order) {
+    static async getCommentsByMaterialId(material_id, order, start, end) {
+        // Order by newest
         if (order == 'newest') {
             const { data: comments, error } = await supabase
-                .from(TABLES.COMMENT)
+                .rpc('get_comments_user_info')
                 .select('*')
                 .eq('material_id', material_id)
-                .order('created_date', { ascending: false });
+                .order('created_date', { ascending: false })
+                .range(start, end);
 
             if (error) throw error;
             return comments;
@@ -27,9 +29,10 @@ class Comment {
 
         // Order by popularity
         const { data: comments, error } = await supabase
-            .from(TABLES.COMMENT)
+            .rpc('get_comments_user_info')
             .select('*')
             .eq('material_id', material_id)
+            .range(start, end);
 
         if (error) throw error;
 

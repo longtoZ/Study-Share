@@ -23,7 +23,7 @@ class StatisticsController {
 
     static async getTopContributors(req, res) {
         try {
-            const topContributors = await Statistics.getTopContributors();
+            const topContributors = await StatisticsService.getTopContributors();
             res.json(topContributors);
         } catch (error) {
             res.status(500).json({ error: error.message });

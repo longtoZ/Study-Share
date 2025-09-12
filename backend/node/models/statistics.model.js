@@ -1,4 +1,4 @@
-import supabase from '../config/database.js';
+import supabase from '../config/database.config.js';
 import { TABLES } from '../constants/constant.js';
 
 class Statistics {
@@ -97,6 +97,7 @@ class Statistics {
 
         return data || [];
     }
+
 };
 
 export default Statistics

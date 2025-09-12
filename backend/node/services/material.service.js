@@ -1,4 +1,5 @@
 import Material from '../models/material.model.js';
+import redisClient from '../config/redis.config.js';
 
 class MaterialService {
     static async uploadFile(info, file) {
@@ -37,6 +38,27 @@ class MaterialService {
             average_rating: averageRating 
         };
     }
+
+    // static async getMaterialById(material_id) {
+    //     // Check Redis cache first
+    //     const cachedMaterial = await redisClient.get(`material:${material_id}`);
+
+    //     if (cachedMaterial) {
+    //         console.log('Material fetched from cache');
+    //         return JSON.parse(cachedMaterial);
+    //     }
+
+    //     const material = await Material.getMaterialById(material_id);
+    //     // Cache the material in Redis for future requests
+    //     await redisClient.setEx(`material:${material_id}`, 3600, JSON.stringify(material)); // Cache for 1 hour
+    //     console.log('Material fetched from database and cached');
+
+    //     if (!material) {
+    //         throw new Error('Material not found');
+    //     }
+
+    //     return material;
+    // }
 
     static async getMaterialPage(material_id, page) {
         const materialPage = await Material.getMaterialPage(material_id, page);
