@@ -17,7 +17,7 @@ router.put('/:authorId', AuthMiddleware.verifyUser, upload.fields([
 router.delete('/:userId', AuthMiddleware.verifyUser, UserController.deleteUser);
 router.post('/login/google', UserController.googleLogin);
 router.post('/verify-email', UserController.verifyEmail);
-router.post('/reset-password', AuthMiddleware.verifyUser, UserController.notifyResetPassword);
-router.post('/reset-password/confirm', AuthMiddleware.verifyUser, UserController.verifyResetPassword);
+router.post('/reset-password', UserController.notifyResetPassword);
+router.post('/reset-password/confirm', UserController.verifyResetPassword);
 
 export default router;

@@ -114,6 +114,7 @@ const MaterialViewPage = () => {
         const fetchData = async () => {
             const materialData = await getMaterial(materialId);
             const paymentData = await checkMaterialPayment(materialId);
+            console.log('Payment data:', paymentData);
 
             if (materialData) {
                 setMaterial(materialData);
@@ -128,7 +129,7 @@ const MaterialViewPage = () => {
                     user_id: materialData.user_id,
                     stripe_account_id: materialData.user_stripe_account_id
                 })
-                setIsMaterialPaid(!!materialData.price || paymentData);
+                setIsMaterialPaid(paymentData && paymentData.status === 'paid' ? false : materialData.price > 0);
             }
 
             try {
@@ -368,7 +369,7 @@ const MaterialViewPage = () => {
                         <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
                             <button
                                 className={`flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg
-                         bg-gradient-to-r ${isMaterialPaid && userId !== user?.user_id ? 'from-lime-500 to-green-600 shadow-lime-400' : 'from-blue-500 to-indigo-600 shadow-blue-300'} focus:outline-none focus:ring-4 ${isMaterialPaid && userId !== user?.user_id ? 'focus:ring-green-300' : 'focus:ring-blue-300'} w-full sm:w-auto justify-center cursor-pointer`}
+                         bg-gradient-to-r ${isMaterialPaid && userId !== user?.user_id ? 'from-lime-500 to-green-600 shadow-lime-300' : 'from-blue-500 to-indigo-600 shadow-blue-300'} focus:outline-none focus:ring-4 ${isMaterialPaid && userId !== user?.user_id ? 'focus:ring-green-300' : 'focus:ring-blue-300'} w-full sm:w-auto justify-center cursor-pointer`}
                                 onClick={() => {
                                         if (isMaterialPaid && userId !== user?.user_id) {
                                             if (!user.stripe_account_id) {

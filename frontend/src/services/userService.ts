@@ -235,16 +235,15 @@ const verifyEmail = async (email: string, code: string): Promise<any> => {
 	}
 }
 
-const notifyResetPassword = async (): Promise<any> => {
-	const token = localStorage.getItem('jwt_token');
+const notifyResetPassword = async (email: string): Promise<any> => {
 
 	try {
 		const response = await fetch(NOTIFY_RESET_PASSWORD_ENDPOINT, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`
-			}
+			},
+			body: JSON.stringify({ email })
 		});
 		if (!response.ok) {
 			throw new Error((await response.json()).message);
@@ -258,17 +257,14 @@ const notifyResetPassword = async (): Promise<any> => {
 	}
 }
 
-const verifyResetPassword = async (code: string, newPassword: string): Promise<any> => {
-	const token = localStorage.getItem('jwt_token');
-
+const verifyResetPassword = async (email: string, code: string, newPassword: string): Promise<any> => {
 	try {
 		const response = await fetch(VERIFY_RESET_PASSWORD_ENDPOINT, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`
 			},
-			body: JSON.stringify({ code, newPassword })
+			body: JSON.stringify({ email, code, newPassword })
 		});
 		if (!response.ok) {
 			throw new Error((await response.json()).message);

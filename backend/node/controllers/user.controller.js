@@ -152,10 +152,10 @@ class UserController {
     }
 
     static async notifyResetPassword(req, res) {
-        const userId = req.user.user_id;
+        const email = req.body.email;
 
         try {
-            await UserService.notifyResetPassword(userId);
+            await UserService.notifyResetPassword(email);
             res.status(200).json({ message: 'Password reset email sent successfully' });
         } catch (error) {
             console.error('Error sending password reset email:', error);
@@ -164,11 +164,10 @@ class UserController {
     }
 
     static async verifyResetPassword(req, res) {
-        const userId = req.user.user_id;
-        const { code, newPassword } = req.body;
+        const { email, code, newPassword } = req.body;
 
         try {
-            await UserService.verifyResetPassword(userId, code, newPassword);
+            await UserService.verifyResetPassword(email, code, newPassword);
             res.status(200).json({ message: 'Password reset successfully' });
         } catch (error) {
             console.error('Error resetting password:', error);

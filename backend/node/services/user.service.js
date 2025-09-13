@@ -6,6 +6,7 @@ import env from 'dotenv';
 import EmailJobManager from '../utils/deleteUnverifiedAccount.js';
 import PasswordResetJobManager from '../utils/verifyPasswordReset.js';
 import EmailService from '../utils/sendEmail.js';
+import { auth } from 'googleapis/build/src/apis/abusiveexperiencereport/index.js';
 
 env.config();
 
@@ -65,9 +66,12 @@ class UserService {
             throw new Error("email doesn't exist.");
         }
 
-        const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
-        if (!isPasswordCorrect) {
-            throw new Error('Password is not correct.');
+        // If the user uses third-party auth, password check is not needed
+        if (auth_provider === 'regular') {
+            const isPasswordCorrect = await bcrypt.compare(password, user.password_hash);
+            if (!isPasswordCorrect) {
+                throw new Error('Password is not correct.');
+            }
         }
 
         const token = jwt.sign(
@@ -117,24 +121,24 @@ class UserService {
         await User.delete(user_id);
     }
 
-    async notifyResetPassword(user_id) {
-        const user = await User.findByID(user_id, true);
+    async notifyResetPassword(email) {
+        const user = await User.findByEmail(email);
         if (!user) {
             throw new Error('User not found');
         }
 
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-        await User.updateInfo(user_id, { verification_code: verificationCode });
+        await User.updateInfo(user.user_id, { verification_code: verificationCode });
 
         // Send password reset email
         await this.emailService.sendEmail(user.email, verificationCode, 'password_reset');
 
         // Start the job to clear the password reset code
-        this.passwordResetJobManager.startJob(user_id);
+        this.passwordResetJobManager.startJob(user.user_id);
     }
 
-    async verifyResetPassword(user_id, code, newPassword) {
-        const user = await User.findByID(user_id, false, true);
+    async verifyResetPassword(email, code, newPassword) {
+        const user = await User.findByEmail(email);
         if (!user) {
             throw new Error('User not found');
         }
@@ -145,10 +149,10 @@ class UserService {
 
         const saltRounds = 10;
         const passwordHash = await bcrypt.hash(newPassword, saltRounds);
-        await User.updateInfo(user_id, { password_hash: passwordHash, verification_code: null });
+        await User.updateInfo(user.user_id, { password_hash: passwordHash, verification_code: null });
 
         // Stop the job to clear the password reset code
-        this.passwordResetJobManager.stopJob(user_id);
+        this.passwordResetJobManager.stopJob(user.user_id);
     }
 }
 

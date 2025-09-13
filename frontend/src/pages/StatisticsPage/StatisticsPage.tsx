@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ArticleIcon from '@mui/icons-material/Article';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import GroupIcon from '@mui/icons-material/Group';
@@ -6,7 +6,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DropdownList from '@/components/common/DropdownList';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import { fetchGeneralStats, fetchTopContributors, fetchTopMaterials } from '@/services/statisticsService';
 
@@ -201,6 +200,7 @@ const StatisticsPage = () => {
                   <tr
                     key={index}
                     className="hover:bg-blue-50 transition-all ease duration-200"
+                    onClick={() => window.open(`/material/${item.material_id}`, '_blank')}
                   >
                     <td className="px-4 py-6 text-gray-800 font-medium">
                       <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700">
@@ -245,6 +245,7 @@ const StatisticsPage = () => {
                 <tr
                   key={index}
                   className={`rounded-xl border-gray-100 ${index < 3 ? rankStyles[index]?.background : ''} cursor-pointer hover:bg-zinc-50 transition-all duration-200 ease`}
+                  onClick={() => window.open(`/user/${user.user_id}`, '_blank')}
                 >
                   <td className="px-4 py-6 text-gray-800 font-medium">
                     <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full ${index < 3 ? rankStyles[index]?.number : 'bg-gray-100 text-gray-500'}`}>

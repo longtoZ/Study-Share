@@ -20,6 +20,7 @@ const MaterialEditPage: React.FC = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirmationText, setConfirmationText] = useState('');
+    const [successfulMessage, setSuccessfulMessage] = useState('');
     const defaultConfirmationText = "delete this material";
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -101,9 +102,12 @@ const MaterialEditPage: React.FC = () => {
                 name: materialData.name,
                 description: materialData.description,
                 subject_id: materialData.subject_id,
-                lesson_id: materialData.lesson_id
+                lesson_id: materialData.lesson_id,
+                price: materialData.price,
+                is_paid: materialData.price > 0 ? true : false,
             });
             console.log('Updated material:', updatedMaterial);
+            setSuccessfulMessage('Material updated successfully!');
         }
     };
 
@@ -164,10 +168,10 @@ const MaterialEditPage: React.FC = () => {
                                 <label className="block text-sm font-semibold">Rating</label>
                                 <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData? materialData.total_rating / (materialData.rating_count || 1) : 0}/5</p>
                             </div>
-                            <div>
+                            {/* <div>
                                 <label className="block text-sm font-semibold">Price</label>
                                 <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">${materialData?.price}</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className='border-b border-zinc-300 my-6'></div>
@@ -198,6 +202,18 @@ const MaterialEditPage: React.FC = () => {
                                     className="w-full h-40 px-3 py-2 border border-gray-300 rounded-md"
                                     style={{ resize: 'none'}}
                                     placeholder="Enter material description"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    value={materialData?.price}
+                                    onChange={handleInputChange}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                    placeholder="Enter material price"
                                 />
                             </div>
                             
@@ -253,6 +269,7 @@ const MaterialEditPage: React.FC = () => {
                             Save Changes
                         </button>
                     </div>
+                    {successfulMessage && <p className="text-green-600 mt-4">{successfulMessage}</p>}
                 </div>
             </div>
 

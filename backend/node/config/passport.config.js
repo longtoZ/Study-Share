@@ -1,5 +1,6 @@
 import passport from 'passport';
 import { Strategy } from 'passport-google-oauth20';
+import User from '../models/user.model.js';
 import userService from '../services/user.service.js';
 
 export default function configurePassport() {
@@ -30,8 +31,14 @@ export default function configurePassport() {
                 is_verified: true  // Google accounts are considered verified
             }
 
-            const { user } = await userService.signupUser(info, info.auth_provider);
-            console.log('User signed up via Google OAuth:', user);
+            // Check if user already exists
+            const existingUser = await User.findByEmail(info.email, info.auth_provider);
+
+            if (!existingUser) {
+                // If user doesn't exist, sign them up
+                const { user } = await userService.signupUser(info, info.auth_provider);
+                console.log('User signed up via Google OAuth:', user);
+            }
 
             // Login the user to create a jwt token
             const { user: loggedInUser, token } = await userService.loginUser(info.email, randomPassword, info.auth_provider);
@@ -40,6 +47,7 @@ export default function configurePassport() {
             info.token = token; // Attach token to user info for session
             done(null, info);
         } catch (error) {
+            console.error('Error during Google OAuth process:', error);
             done(null, false, { message: error.message });  // Pass error message to failureRedirect
         }
     }));

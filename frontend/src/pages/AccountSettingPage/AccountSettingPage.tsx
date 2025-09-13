@@ -10,6 +10,7 @@ import { verifyUser } from '@services/authService';
 const AccountSettingPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('personal');
     const userId = localStorage.getItem('user_id') || '';
+    const authProvider = localStorage.getItem('auth_provider') || '';
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -68,7 +69,7 @@ const AccountSettingPage: React.FC = () => {
                             >
                                 Stripe
                             </button>
-                            <button
+                            { (authProvider || authProvider === 'regular') && <button
                                 onClick={() => setActiveTab('reset-password')}
                                 className={`w-full text-left px-4 py-2 rounded-xl transition-colors ${
                                     activeTab === 'reset-password'
@@ -77,7 +78,7 @@ const AccountSettingPage: React.FC = () => {
                                 }`}
                             >
                                 Reset Password
-                            </button>
+                            </button> }
                             <button
                                 onClick={() => setActiveTab('delete')}
                                 className={`w-full text-left px-4 py-2 rounded-xl transition-colors ${

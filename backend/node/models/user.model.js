@@ -61,7 +61,7 @@ class User {
     static async findByEmail(email, auth_provider = 'regular') {
         const { data, error } = await supabase
             .from(TABLES.USER)
-            .select('*')
+            .select('user_id, email, auth_provider, password_hash')
             .eq('email', email)
             .maybeSingle();
 

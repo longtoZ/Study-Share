@@ -3,10 +3,8 @@ import { useRef, useState } from 'react';
 import { notifyResetPassword, verifyResetPassword } from '@/services/userService';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const ResetPassword = () => {
-	const [step, setStep] = useState<'email' | 'reset' | 'verify'>('email');
-	const [email, setEmail] = useState('');
-	const [emailError, setEmailError] = useState('');
+const ResetPassword = ({ email, setMode } : { email: string, setMode: (mode: string) => void }) => {
+	const [step, setStep] = useState<'reset' | 'verify'>('reset');
 	const [password, setPassword] = useState('');
 	const [retypePassword, setRetypePassword] = useState('');
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,18 +15,6 @@ const ResetPassword = () => {
 
 	const passwordValidRef = useRef<HTMLParagraphElement>(null);
 	const retypePasswordValidRef = useRef<HTMLParagraphElement>(null);
-
-	const validateEmail = () => {
-		if (!email) {
-			setEmailError('Email is required');
-			return false;
-		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			setEmailError('Invalid email address');
-			return false;
-		}
-		setEmailError('');
-		return true;
-	};
 
 	const validatePasswords = () => {
 		if (!password) {
@@ -65,19 +51,19 @@ const ResetPassword = () => {
 		return true;
 	};
 
-	const handleEmailSubmit = () => {
-		if (!validateEmail()) return;
-		setStep('reset');
-	};
-
 	const handleResetPassword = async () => {
 		if (!validatePasswords()) return;
 		setIsSubmitting(true);
 
         // Notify user about password reset
-        await notifyResetPassword(email);
-        setIsSubmitting(false);
-        setStep('verify');
+        try {
+            await notifyResetPassword(email);
+            setStep('verify');
+        } catch (error: any) {
+            setErrorMessage(error.message);
+        } finally {
+            setIsSubmitting(false);
+        }
             
 	};
 
@@ -123,33 +109,8 @@ const ResetPassword = () => {
 	};
 
 	return (
-		<div className="py-6 px-8">
-			<h2 className="text-xl font-semibold mb-6">Reset Password</h2>
-			<div className='border-b border-zinc-300 my-6'></div>
-			{step === 'email' && (
-				<div className='py-4 px-6'>
-					<label className='block mb-2 font-semibold' htmlFor='email'>Email Address</label>
-					<p className='text-gray-600 text-sm mb-4'>
-						Please enter the email address associated with your account. If it exists in our system, we will send you a verification code to reset your password.
-					</p>
-					<input
-						type='email'
-						id='email'
-						value={email}
-						onChange={e => setEmail(e.target.value)}
-						className='w-full p-2 border border-gray-300 rounded-md mb-2'
-						placeholder='Enter your email'
-						autoComplete='off'
-					/>
-					<p className='text-red-500 text-sm mb-4'>{emailError}</p>
-					<button
-						className='cursor-pointer bg-blue-500 shadow-lg shadow-blue-300 hover:opacity-85 text-white py-3 px-4 rounded-xl transition-all duration-100 ease-in-out flex items-center'
-						onClick={handleEmailSubmit}
-					>
-						Next
-					</button>
-				</div>
-			)}
+		<div className="bg-white p-8 rounded-2xl card-shadow">
+			<h2 className="text-2xl text-center font-semibold mb-6">Reset Password</h2>
 			{step === 'reset' && (
 				<div className='py-4 px-6'>
                     <div className='text-gray-600 text-sm mb-4'>
@@ -169,7 +130,7 @@ const ResetPassword = () => {
 						id='newPassword'
 						value={password}
 						onChange={e => setPassword(e.target.value)}
-						className='w-full p-2 border border-gray-300 rounded-md mb-2'
+						className='w-full p-2 border border-gray-300 rounded-md mb-2 shadow-lg shadow-zinc-100'
 						placeholder='Enter new password'
 						autoComplete='off'
 					/>
@@ -181,19 +142,25 @@ const ResetPassword = () => {
 						id='retypePassword'
 						value={retypePassword}
 						onChange={e => setRetypePassword(e.target.value)}
-						className='w-full p-2 border border-gray-300 rounded-md mb-2'
+						className='w-full p-2 border border-gray-300 rounded-md mb-2 shadow-lg shadow-zinc-100'
 						placeholder='Retype new password'
 						autoComplete='off'
 					/>
 					<p ref={retypePasswordValidRef} className='text-red-500 text-sm mb-8'></p>
 
-					<button
-						className='cursor-pointer bg-blue-500 shadow-lg shadow-blue-300 hover:opacity-85 text-white py-3 px-4 rounded-xl transition-all duration-100 ease-in-out flex items-center'
-						onClick={handleResetPassword}
-						disabled={isSubmitting}
-					>
-						{isSubmitting ? <CircularProgress size={24} color='inherit' /> : 'Confirm'}
-					</button>
+                    <div className='flex gap-2'>
+                        <button className='cursor-pointer border-2 border-zinc-300 shadow-lg shadow-zinc-300 hover:opacity-70 py-3 px-4 rounded-xl transition-all duration-100 ease-in-out' onClick={() => setMode('login')} disabled={isSubmitting}>
+                            Cancel
+                        </button>
+                        <button
+                            className='cursor-pointer bg-blue-500 shadow-lg shadow-blue-300 hover:opacity-85 text-white py-3 px-4 rounded-xl transition-all duration-100 ease-in-out flex items-center'
+                            onClick={handleResetPassword}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? <CircularProgress size={24} color='inherit' /> : 'Confirm'}
+                        </button>
+                    </div>
+
 				</div>
 			)}
 			{step === 'verify' && (
@@ -216,7 +183,7 @@ const ResetPassword = () => {
 					</div>
 					<p className='text-red-500 text-sm mb-6'>{verificationError}</p>
 					<button
-						className='cursor-pointer bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-all duration-100 ease-in-out flex items-center'
+						className='cursor-pointer bg-green-500 shadow-lg shadow-green-300 hover:opacity-85 text-white py-3 px-4 rounded-xl transition-all duration-100 ease-in-out flex items-center'
 						onClick={handleVerify}
 						disabled={isSubmitting}
 					>

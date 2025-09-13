@@ -285,7 +285,7 @@ class Material {
     }
 
     static async updateMaterial(material_id, updatedData) {
-        const allowed = ['name', 'description', 'subject_id', 'lesson_id'];
+        const allowed = ['name', 'description', 'subject_id', 'lesson_id', 'price', 'is_paid'];
         const payload = Object.fromEntries(
             Object.entries(updatedData).filter(([k]) => allowed.includes(k))
         );

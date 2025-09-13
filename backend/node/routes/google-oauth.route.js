@@ -12,7 +12,6 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 });
 
 router.get('/error', (req, res) => {
-    console.log(req)
     const errorMsg = req.session?.messages?.[0] || 'Authentication failed';
     res.redirect(`${process.env.FRONTEND_ORIGIN}/login?error=${encodeURIComponent(errorMsg)}`);
 });
