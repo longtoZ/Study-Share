@@ -1,14 +1,21 @@
-# StudyShare Project Structure
+
 ```
 StudyShare
 ├─ backend
 │  ├─ flask
 │  │  ├─ app
+│  │  │  ├─ config
+│  │  │  │  ├─ celery_worker.py
+│  │  │  │  └─ supabase_client.py
+│  │  │  ├─ constants
+│  │  │  │  └─ table.py
+│  │  │  ├─ models
+│  │  │  │  └─ material.py
 │  │  │  ├─ routes.py
 │  │  │  ├─ services
+│  │  │  │  ├─ celery_tasks.py
 │  │  │  │  ├─ file_content_extractor.py
-│  │  │  │  ├─ file_converter.py
-│  │  │  │  └─ supabase_client.py
+│  │  │  │  └─ file_converter.py
 │  │  │  └─ __init__.py
 │  │  ├─ instance
 │  │  ├─ output_pdf
@@ -79,7 +86,6 @@ StudyShare
 │     ├─ temp
 │     │  └─ files
 │     ├─ uploads
-│     │  └─ d7084098e4cf26793ce7629945f9c130
 │     └─ utils
 │        ├─ deleteUnverifiedAccount.js
 │        ├─ pdf.util.js
@@ -138,6 +144,9 @@ StudyShare
 │  │  │  ├─ LessonViewPage
 │  │  │  │  └─ LessonViewPage.tsx
 │  │  │  ├─ LoginPage
+│  │  │  │  ├─ components
+│  │  │  │  │  ├─ Login.tsx
+│  │  │  │  │  └─ ResetPassword.tsx
 │  │  │  │  ├─ images
 │  │  │  │  │  └─ login_background.jpeg
 │  │  │  │  └─ LoginPage.tsx
@@ -177,7 +186,6 @@ StudyShare
 │  │  │  │  └─ StatisticsPage.tsx
 │  │  │  ├─ UploadPage
 │  │  │  │  ├─ components
-│  │  │  │  │  ├─ Form.tsx
 │  │  │  │  │  └─ Upload.tsx
 │  │  │  │  └─ UploadPage.tsx
 │  │  │  └─ UserProfilePage
