@@ -6,7 +6,6 @@ import env from 'dotenv';
 import EmailJobManager from '../utils/deleteUnverifiedAccount.js';
 import PasswordResetJobManager from '../utils/verifyPasswordReset.js';
 import EmailService from '../utils/sendEmail.js';
-import { auth } from 'googleapis/build/src/apis/abusiveexperiencereport/index.js';
 
 env.config();
 

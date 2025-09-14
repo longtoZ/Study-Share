@@ -1,28 +1,18 @@
 import Material from '../models/material.model.js';
-import redisClient from '../config/redis.config.js';
 
 class MaterialService {
     static async uploadFile(info, file) {
         // Create material main file
         const fileUrl = await Material.createFileUrl(info.user_id, file);
+        console.log(fileUrl);
 
         info.num_page = fileUrl.totalPages; // Set the number of pages from the uploaded PDF
 
         delete fileUrl.totalPages;
         info.file_url = fileUrl;
 
-        // Create material pages
-        const { filePagesUrl, totalPages, content, usage } = await Material.createFilePagesUrl(info.material_id, file, info.file_type);
-        info.num_page = totalPages;
-
-        const newMaterial = await Material.createMaterialData(info);
-        await Material.createMaterialPagesData(info.material_id, filePagesUrl);
-        await Material.createSummaryRecord(info.user_id, info.material_id, content, usage);
-
-        // Create initial ratings for the new material
-        await Material.createMaterialRating(info.material_id);
-        
-        return { material: newMaterial };
+        const data = await Material.createMaterialRecord(info, file);
+        return data;
     }
 
     static async getStatistics(user_id) {
@@ -38,27 +28,6 @@ class MaterialService {
             average_rating: averageRating 
         };
     }
-
-    // static async getMaterialById(material_id) {
-    //     // Check Redis cache first
-    //     const cachedMaterial = await redisClient.get(`material:${material_id}`);
-
-    //     if (cachedMaterial) {
-    //         console.log('Material fetched from cache');
-    //         return JSON.parse(cachedMaterial);
-    //     }
-
-    //     const material = await Material.getMaterialById(material_id);
-    //     // Cache the material in Redis for future requests
-    //     await redisClient.setEx(`material:${material_id}`, 3600, JSON.stringify(material)); // Cache for 1 hour
-    //     console.log('Material fetched from database and cached');
-
-    //     if (!material) {
-    //         throw new Error('Material not found');
-    //     }
-
-    //     return material;
-    // }
 
     static async getMaterialPage(material_id, page) {
         const materialPage = await Material.getMaterialPage(material_id, page);

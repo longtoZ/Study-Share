@@ -79,16 +79,16 @@ class Material {
         }
     }
 
-    static async createFilePagesUrl(storageFilename, file, fileType) {
+    static async createMaterialRecord(info, file) {
         const fileBuffer = fs.readFileSync(file.path);
 
         const formData = new FormData();
         const blob = new Blob([fileBuffer], { type: file.mimetype });
         formData.append('file', blob, file.originalname);
-        formData.append('storage_filename', storageFilename);
+        formData.append('info', JSON.stringify(info));
 
         try {
-            const response = await fetch(fileType === 'pdf' ? PDF_TO_WEBP_URL : DOCX_TO_WEBP_URL, {
+            const response = await fetch(info.file_type === 'pdf' ? PDF_TO_WEBP_URL : DOCX_TO_WEBP_URL, {
                 method: 'POST',
                 body: formData,
             });
@@ -99,12 +99,7 @@ class Material {
 
             const data = await response.json();
             console.log(data)
-            return {
-                filePagesUrl: data.public_links,
-                totalPages: data.public_links[data.public_links.length - 1].page,
-                content: data.content,
-                usage: data.usage
-            };
+            return data;
         } catch (error) {
             console.error('Error converting PDF to WebP:', error);
             throw error;
