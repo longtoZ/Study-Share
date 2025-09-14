@@ -60,7 +60,7 @@ const MaterialsGrid = ({ materials } : { materials: MaterialExtended[] }) => {
                                 </div>
                                 <p className='text-subtitle text-sm'>{materials[index]?.description.length ? materials[index].description.substring(0, 100) + '...' : 'No description available'}</p>
                                 <div className='flex items-center gap-2 mt-4'>
-                                    <img src={materials[index]?.profile_picture_url} alt={materials[index]?.user_name} className='w-6 h-6 object-cover rounded-full'/>
+                                    <img referrerPolicy="no-referrer" src={materials[index]?.profile_picture_url} alt={materials[index]?.user_name} className='w-6 h-6 object-cover rounded-full'/>
                                     <span 
                                         className='cursor-pointer text-md font-semibold hover:text-blue-700 hover:underline transition-all ease-in-out duration-100' 
                                         onClick={() => navigate(`/user/${materials[index]?.user_id}`, )}>{materials[index]?.user_name}</span>

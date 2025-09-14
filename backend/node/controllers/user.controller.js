@@ -66,6 +66,19 @@ class UserController {
             res.status(500).json({ message: 'Internal server error while fetching user profile.' });
         }
     }
+
+    static async getUserStripeAccountId(req, res) {
+        const userId = req.user.user_id;
+
+        try {
+            const stripeAccountId = await User.getUserStripeAccountId(userId);
+            console.log('Stripe account ID for user:', userId, 'is:', stripeAccountId);
+            res.status(200).json({ stripe_account_id: stripeAccountId});
+        } catch (error) {
+            console.error('Error fetching Stripe account ID:', error);
+            res.status(500).json({ message: 'Internal server error while fetching Stripe account ID.' });
+        }
+    }
     
     static async updateUserProfile(req, res) {
         const { authorId } = req.params;

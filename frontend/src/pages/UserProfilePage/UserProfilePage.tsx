@@ -89,11 +89,11 @@ const UserProfilePage = () => {
 		<div className='p-12 min-h-screen w-full rounded-2xl overflow-y-auto scrollbar-hide h-[100vh] pb-36'>
 			<div className='rounded-3xl bg-primary overflow-hidden card-shadow pb-6'>
 				<div className='p-2'>
-					<img src={user?.background_image_url || PlaceholderBg} alt="" className='w-full rounded-3xl h-80 object-cover pointer-events-none'/>
+					<img referrerPolicy="no-referrer" src={user?.background_image_url || PlaceholderBg} alt="" className='w-full rounded-3xl h-80 object-cover pointer-events-none'/>
 				</div>
 				<div className='px-6'>
 					<div className='p-4 relative'>
-						<img src={user?.profile_picture_url || PlaceholderPfp} alt="Profile" className='absolute w-48 h-48 object-cover rounded-full border-6 border-white -top-34 left-6 pointer-events-none'/>
+						<img referrerPolicy="no-referrer" src={user?.profile_picture_url || PlaceholderPfp} alt="Profile" className='absolute w-48 h-48 object-cover rounded-full border-6 border-white -top-34 left-6 pointer-events-none'/>
 						
 						<div className='mt-12 flex justify-between items-center'>
 							<div>

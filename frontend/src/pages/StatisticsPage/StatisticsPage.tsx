@@ -254,6 +254,7 @@ const StatisticsPage = () => {
                   </td>
                   <td className="px-4 py-6 text-gray-800 flex items-center">
                     <img
+                      referrerPolicy="no-referrer"
                       src={user.profile_picture_url}
                       alt={user.full_name}
                       className="w-10 h-10 rounded-full mr-3 object-cover"

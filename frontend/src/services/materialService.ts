@@ -1,4 +1,5 @@
 const GET_MATERIAL_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_ENDPOINT;
+const GET_MATERIAL_PAGE_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_PAGE_ENDPOINT;
 const SEARCH_MATERIAL_ENDPOINT = import.meta.env.VITE_SEARCH_MATERIAL_ENDPOINT;
 const DOWNLOAD_MATERIAL_ENDPOINT = import.meta.env.VITE_DOWNLOAD_MATERIAL_ENDPOINT;
 
@@ -16,6 +17,33 @@ const getMaterial = async (materialId: string) => {
         return data.material;
     } catch (error) {
         console.error('Error fetching material:', error);
+    }
+
+    return null;
+};
+
+const getMaterialPage = async (materialId: string, page: number, isPaid: boolean) => {
+    console.log('Fetching material page:', page, 'for material ID:', materialId);
+    const getMaterialPageUrl = GET_MATERIAL_PAGE_ENDPOINT
+        .replace('material-id', materialId)
+        .replace('page-number', page.toString());
+
+    try {
+        const response = await fetch(getMaterialPageUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ isPaid })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch material page');
+        }
+
+        const data = await response.blob();
+        return URL.createObjectURL(data);
+    } catch (error) {
+        console.error('Error fetching material page:', error);
     }
 
     return null;
@@ -118,4 +146,4 @@ const deleteMaterial = async (materialId: string, authorId: string) => {
     return null;
 };
 
-export { getMaterial, updateMaterial, searchMaterial, getMaterialUrl, deleteMaterial };
+export { getMaterial, getMaterialPage, updateMaterial, searchMaterial, getMaterialUrl, deleteMaterial };

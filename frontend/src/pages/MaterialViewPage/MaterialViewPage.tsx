@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { createComment, deleteComment, getComments, voteComment } from '@services/commentService';
 import { makePayment, checkMaterialPayment } from "@/services/paymentService";
-import { getMaterialUrl } from "@services/materialService";
+import { getMaterialUrl, getMaterialPage } from "@services/materialService";
 import { clearSession } from "../../services/aiChatService";
 
 import type { History } from "@/interfaces/table";
@@ -64,7 +64,6 @@ const MaterialViewPage = () => {
     const [isNoMoreComments, setIsNoMoreComments] = useState<boolean>(false);
     const [isAuthor, setIsAuthor] = useState<boolean>(false);
     const [isMaterialPaid, setIsMaterialPaid] = useState<boolean>(false);
-    const [hasUserPaid, setHasUserPaid] = useState<boolean>(false);
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
     const [isPostingComment, setIsPostingComment] = useState<boolean>(false);
 
@@ -74,11 +73,9 @@ const MaterialViewPage = () => {
     const navigate = useNavigate();
 
     const getImagePage = async (pageNumber: number) => {
-        const imageUrl = GET_MATERIAL_PAGE_ENDPOINT.replace(
-            "material-id",
-            materialId
-        ).replace("page-number", pageNumber.toString());
-        console.log(`Fetching page ${pageNumber} from ${imageUrl}`);
+        const imageUrl = await getMaterialPage(materialId!, pageNumber, isMaterialPaid);
+
+        if (!imageUrl) return;
 
         try {
             setImagePages((prevImages) => {
@@ -339,6 +336,7 @@ const MaterialViewPage = () => {
                             </h1>
                             <div className="flex items-center gap-4 text-gray-600 mt-2">
                                 <img
+                                    referrerPolicy="no-referrer"
                                     src={
                                         user?.profile_picture_url ||
                                         "https://placehold.co/100x100/E5E7EB/4B5563?text=User"
@@ -474,9 +472,10 @@ const MaterialViewPage = () => {
                                         imagePages.map((page, index) => (
                                             <div
                                                 key={index}
-                                                className="w-full overflow-x-auto"
+                                                className="w-full overflow-x-auto relative"
                                             >
                                                 <img
+                                                    referrerPolicy="no-referrer"
                                                     src={page.imageUrl}
                                                     alt={`Page ${page.pageNumber}`}
                                                     className="object-contain h-auto my-4 mx-auto rounded-xl shadow-md"
@@ -485,6 +484,14 @@ const MaterialViewPage = () => {
                                                         maxWidth: "none",
                                                     }}
                                                 />
+                                                { isMaterialPaid && page.pageNumber > 2 && (
+                                                    <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+                                                        <div className="text-zinc-600 bg-white rounded-3xl py-6 px-12 flex flex-col items-center justify-center shadow-[0_0_20px_20px_rgba(255,255,255,1)]">
+                                                            <MonetizationOnOutlinedIcon className="mb-4" style={{color: '#ffdf2e', width: '48px', height: '48px'}}/>
+                                                            <h1 className="text-2xl text-center font-semibold mb-2">This page is blurred because it is paid content. Please purchase to access.</h1>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         ))
                                     ) : (
@@ -620,6 +627,7 @@ const MaterialViewPage = () => {
 
 						<div className="flex mt-4 gap-6">
 							<img
+                                referrerPolicy="no-referrer"
 								src={
 									user?.profile_picture_url ||
 									"https://placehold.co/100x100/E5E7EB/4B5563?text=User"
@@ -658,6 +666,7 @@ const MaterialViewPage = () => {
 								allCommentsData.map((comment) => (
 									<div key={comment.comment_id} className="py-4 flex gap-6">
 										<img
+                                            referrerPolicy="no-referrer"
 											src={
 												comment.profile_picture_url ||
 												"https://placehold.co/100x100/E5E7EB/4B5563?text=User"

@@ -2,3 +2,4 @@ roadmap/
 node_modules/
 *.env
 .VSCodeCounter/
+__pycache__/

@@ -77,7 +77,7 @@ const EmailVerification = ({ email } : { email: string}) => {
 
     return (
         <div className="w-full flex flex-col items-center justify-center">
-            <img src={MailIcon} alt="Mail Icon" className="w-36 h-36 mb-4" />
+            <img referrerPolicy="no-referrer" src={MailIcon} alt="Mail Icon" className="w-36 h-36 mb-4" />
             <h2 className="text-2xl font-semibold mb-4">Please verify your email</h2>
             <p className="mb-6 text-gray-600">Enter the 6-digit code sent to your email. This code will expire in <strong>{formatTime(timeLeft)}</strong> minutes.</p>
             <div className="flex gap-3 mb-6">

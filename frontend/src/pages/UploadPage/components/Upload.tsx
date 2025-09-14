@@ -4,6 +4,7 @@ import DropdownList from '@components/common/DropdownList';
 import type { Subject } from '@interfaces/table';
 import { useDispatch } from 'react-redux';
 import { setMaterial } from '@redux/materialSlice';
+import { getUserStripeAccountId } from '@/services/userService';
 
 const Upload = ({ file, material_id, subjects }: { file: File, material_id: string, subjects: Subject[] }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -26,6 +27,20 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
         user_id: `${localStorage.getItem('user_id') || ''}`,
         lesson_id: null, // Assuming lesson_id can be null
     });
+    const [userStripeAccountId, setUserStripeAccountId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchStripeAccountId = async () => {
+            try {
+                const accountId = await getUserStripeAccountId();
+                setUserStripeAccountId(accountId);
+            } catch (error) {
+                console.error('Error fetching Stripe account ID:', error);
+            }
+        };
+
+        fetchStripeAccountId();
+    }, []);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -88,16 +103,21 @@ const Upload = ({ file, material_id, subjects }: { file: File, material_id: stri
                 <div className='mb-8'>
                     <label className="block text-sm font-medium mb-2">
                         Price (in USD)
-                        <p className='text-xs text-gray-500 mt-1'>
+                        { userStripeAccountId ? <p className='text-xs text-gray-500 mt-1'>
                             &#9432; You can set the price to 0 if you want to upload it for free. If you set a price greater than 0, users will need to pay to download this file.
-                        </p>
+                        </p> : <p className='text-xs text-red-500 mt-1'>
+                            &#9432; You need to set up your Stripe account in your Account settings before you can charge for your materials.
+                        </p> }
                     </label>
                     <input
                         type="number"
-                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
+                        className={`w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400" ${!userStripeAccountId ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                        min={0}
+                        step={0.01}
                         placeholder="Enter price"
                         value={fileData.price}
                         onChange={(e) => setFileData({ ...fileData, price: Number(e.target.value) })}
+                        disabled={!userStripeAccountId}
                     />
                 </div>
 

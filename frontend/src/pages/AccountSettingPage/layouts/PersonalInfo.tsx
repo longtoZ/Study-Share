@@ -198,6 +198,7 @@ const PersonalInfo = () => {
                             src={profilePicture}
                             alt="Profile"
                             className="object-contain w-full h-full"
+                            referrerPolicy="no-referrer"
                         />
                         <div className='absolute top-2 right-2 flex justify-evenly'>
                             <button 
@@ -220,6 +221,7 @@ const PersonalInfo = () => {
                 { backgroundImage ? (
                     <div className='w-full h-64 border border-zinc-300 rounded-lg relative p-4'>
                         <img
+                            referrerPolicy="no-referrer"
                             src={backgroundImage}
                             alt="Background"
                             className="object-contain w-full h-full"

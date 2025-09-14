@@ -91,9 +91,12 @@ class MaterialController {
 
     static async getMaterialPage(req, res) {
         const { materialId, page } = req.params;
+        const { isPaid } = req.body;
+
+        console.log(`Fetching material page ${page} for material ${materialId} (Paid: ${isPaid})`);
 
         try {
-            const { contentType, imgBuffer } = await MaterialService.getMaterialPage(materialId, page);
+            const { contentType, imgBuffer } = await MaterialService.getMaterialPage(materialId, page, isPaid);
 
             const etag = crypto.createHash("md5").update(imgBuffer).digest("hex");
 

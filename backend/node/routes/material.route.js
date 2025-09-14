@@ -11,7 +11,7 @@ router.get('/statistics/:userId', MaterialController.getStatistics);
 router.get('/user/:userId', MaterialController.getMaterialsByUserId);
 router.get('/:materialId', MaterialController.getMaterialById);
 router.get('/url/:materialId', MaterialController.getMaterialUrlById);
-router.get('/:materialId/page/:page', MaterialController.getMaterialPage);
+router.post('/:materialId/page/:page', MaterialController.getMaterialPage);
 router.put('/:materialId', AuthMiddleware.verifyUser, MaterialController.updateMaterial);
 router.post('/search', MaterialController.searchMaterial);
 router.delete('/:materialId', AuthMiddleware.verifyUser, MaterialController.deleteMaterial);

@@ -168,6 +168,7 @@ const SignupPage: React.FC = () => {
             <>
                 <div className="flex w-1/2 flex-col justify-center items-center p-12 text-white relative mx-2 rounded-3xl overflow-hidden h-[98%]">
                     <img
+                        referrerPolicy="no-referrer"
                         src={BackgroundImage}
                         alt="Background"
                         className="absolute top-0 left-0 w-full h-full object-cover brightness-75"

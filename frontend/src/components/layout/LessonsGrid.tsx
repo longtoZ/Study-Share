@@ -29,7 +29,7 @@ const LessonsGrid = ({ lessons }: { lessons: LessonExtended[]}) => {
                             </div>
                             <p className='text-subtitle'>{lessons[index]?.description? lessons[index]?.description : 'No description available'}</p>
                             <div className='flex items-center gap-2 mt-4'>
-                                <img src={lessons[index]?.profile_picture_url} alt={lessons[index]?.user_name} className='w-6 h-6 object-cover rounded-full'/>
+                                <img referrerPolicy="no-referrer" src={lessons[index]?.profile_picture_url} alt={lessons[index]?.user_name}  className='w-6 h-6 object-cover rounded-full'/>
                                 <span 
                                     className='cursor-pointer text-md font-semibold hover:text-blue-700 hover:underline transition-all ease-in-out duration-100' 
                                     onClick={() => navigate(`/user/${lessons[index]?.user_id}`)}>{lessons[index]?.user_name}</span>

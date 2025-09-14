@@ -158,7 +158,7 @@ const HistoryPage = () => {
                                             <td className="py-3 px-4">{entry.type[0].toUpperCase() + entry.type.slice(1)}</td>
                                             <td className="py-3 px-4 hover:underline cursor-pointer" onClick={() => navigate(`/user/${entry.user_id}`)}>
                                                 <div className='flex items-center gap-2'>
-                                                    <img src={entry.material_author_profile_picture_url || entry.lesson_author_profile_picture_url || '/default_pfp.png'} alt={entry.material_author_name || entry.lesson_author_name || 'Unknown User'} className='w-7 h-7 object-cover rounded-full'/>
+                                                    <img referrerPolicy="no-referrer" src={entry.material_author_profile_picture_url || entry.lesson_author_profile_picture_url || '/default_pfp.png'} alt={entry.material_author_name || entry.lesson_author_name || 'Unknown User'} className='w-7 h-7 object-cover rounded-full'/>
                                                     <span>{entry.material_author_name || entry.lesson_author_name || 'Unknown User'}</span>
                                                 </div>
                                             </td>

@@ -20,6 +20,7 @@ const LoginPage = () => {
     return (
         <div className="min-h-screen flex items-center justify-center relative">
             <img
+                referrerPolicy="no-referrer"
                 src={BackgroundImage}
                 alt="Background"
                 className="absolute top-0 left-0 w-full h-full object-cover saturate-76"

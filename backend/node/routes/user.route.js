@@ -10,6 +10,7 @@ router.get('/exists', UserController.checkEmailExists);
 router.post('/signup', UserController.signup);
 router.post('/login', UserController.login);
 router.get('/:userId', UserController.getUserProfile);
+router.get('/stripe-account/id', AuthMiddleware.verifyUser, UserController.getUserStripeAccountId);
 router.put('/:authorId', AuthMiddleware.verifyUser, upload.fields([
     { name: 'profile_picture_file', maxCount: 1 },
     { name: 'background_image_file', maxCount: 1 }

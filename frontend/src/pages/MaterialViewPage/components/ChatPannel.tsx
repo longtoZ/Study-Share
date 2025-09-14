@@ -90,7 +90,7 @@ export default function ChatPannel({
                             <div key={idx} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                                 { msg.sender === 'ai' ? (
                                     <div className="flex items-start gap-2 max-w-[70%]">
-                                        <img src={ model === 'gemini-2.0-flash-lite' ? GeminiIcon : GptIcon} alt="AI" className="w-8 h-8 rounded-full mt-1"/>
+                                        <img referrerPolicy="no-referrer" src={ model === 'gemini-2.0-flash-lite' ? GeminiIcon : GptIcon} alt="AI" className="w-8 h-8 rounded-full mt-1"/>
                                         <div className={`px-4 py-2 rounded-2xl bg-zinc-100 text-zinc-800 ${isThinking && idx === messages.length - 1 ? "italic animate-pulse" : ""}`}>
                                             <Markdown>{msg.content}</Markdown>
                                         </div>

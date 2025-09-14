@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask
 
 # Import the routes to register them with the application
 from . import routes

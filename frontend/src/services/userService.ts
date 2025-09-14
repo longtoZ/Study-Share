@@ -12,6 +12,7 @@ const CHECK_EMAIL_ENDPOINT = import.meta.env.VITE_CHECK_EMAIL_ENDPOINT;
 const VERIFY_EMAIL_ENDPOINT = import.meta.env.VITE_VERIFY_EMAIL_ENDPOINT;
 const NOTIFY_RESET_PASSWORD_ENDPOINT = import.meta.env.VITE_NOTIFY_RESET_PASSWORD_ENDPOINT;
 const VERIFY_RESET_PASSWORD_ENDPOINT = import.meta.env.VITE_VERIFY_RESET_PASSWORD_ENDPOINT;
+const USER_STRIPE_ACCOUNT_ENDPOINT = import.meta.env.VITE_USER_STRIPE_ACCOUNT_ENDPOINT;
 
 const retrieveUserData = async (userId: string, requireEmail: boolean = false): Promise<any> => {
 	try {
@@ -277,4 +278,25 @@ const verifyResetPassword = async (email: string, code: string, newPassword: str
 	}
 }
 
-export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists, verifyEmail, notifyResetPassword, verifyResetPassword };
+const getUserStripeAccountId = async (): Promise<string | null> => {
+	const token = localStorage.getItem('jwt_token');
+
+	try {
+		const response = await fetch(USER_STRIPE_ACCOUNT_ENDPOINT, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${token}`
+			}
+		});
+		if (!response.ok) {
+			throw new Error('Failed to fetch Stripe account ID');
+		}
+		const data = await response.json();
+		return data.stripe_account_id || null;
+	} catch (error) {
+		console.error('Error fetching Stripe account ID:', error);
+		throw error;
+	}
+}
+
+export { retrieveAllSubjects, retrieveUserData, retrieveMaterials, retrieveLessons, calculateStatistics, updateUserProfile, deleteUserAccount, signupUser, loginUser, googleLogin, checkEmailExists, verifyEmail, notifyResetPassword, verifyResetPassword, getUserStripeAccountId };

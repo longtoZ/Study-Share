@@ -73,6 +73,18 @@ class User {
         return data;
     }
 
+    static async getUserStripeAccountId(user_id) {
+        const { data, error } = await supabase
+            .from(TABLES.USER)
+            .select('stripe_account_id')
+            .eq('user_id', user_id)
+            .maybeSingle();
+
+        if (error) throw error;
+
+        return data ? data.stripe_account_id : null;
+    }
+
     static async updateImage(metadata, profilePictureFile, backgroundImageFile) {
         console.log(metadata, profilePictureFile, backgroundImageFile);
         const bucketName = process.env.SUPABASE_BUCKET;

@@ -85,7 +85,7 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
                             onClick={handleProfileClick}
                             className="w-8 h-8 rounded-full cursor-pointer transition-all overflow-hidden"
                         >
-                            <img
+                            <img referrerPolicy="no-referrer"
                                 src={profilePictureUrl || 'https://avatar.iran.liara.run/public'}
                                 alt="Profile"
                                 className="w-full h-full object-cover"

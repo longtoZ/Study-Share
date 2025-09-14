@@ -1,4 +1,5 @@
 import Material from '../models/material.model.js';
+import sharp from 'sharp';
 
 class MaterialService {
     static async uploadFile(info, file) {
@@ -29,7 +30,7 @@ class MaterialService {
         };
     }
 
-    static async getMaterialPage(material_id, page) {
+    static async getMaterialPage(material_id, page, isPaid) {
         const materialPage = await Material.getMaterialPage(material_id, page);
 
         if (!materialPage) {
@@ -40,7 +41,14 @@ class MaterialService {
         if (!response.ok) {
             throw new Error('Failed to fetch material page');
         }
-        const buffer = await response.arrayBuffer();
+        let buffer = await response.arrayBuffer();
+
+        // If the material is paid, apply a blurring effect to pages beyond the second
+        if (isPaid && page > 2) {
+            buffer = await sharp(Buffer.from(buffer))
+                .blur(10)
+                .toBuffer();
+        }
 
         return {
             contentType: response.headers.get("content-type"),
