@@ -5,6 +5,7 @@ import ReactLogo from '@assets/react.svg';
 import { getStoredMaterials, getStoredLessons } from "@/utils/storeMaterialsLessons";
 
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
@@ -13,15 +14,16 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import SplitscreenIcon from '@mui/icons-material/Splitscreen';
 
 const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onToggleMinimize: (isMinimized: boolean) => void}) => {
     const navigate = useNavigate();
     const userId = localStorage.getItem('user_id') || '';
     const [storedMaterials, setStoredMaterials] = useState(getStoredMaterials());
     const [storedLessons, setStoredLessons] = useState(getStoredLessons());
+    const [isUploadDropdownOpen, setIsUploadDropdownOpen] = useState(false);
 
     const [isMaterialsOpen, setIsMaterialsOpen] = useState(false);
     const [isLessonsOpen, setIsLessonsOpen] = useState(false);
@@ -45,11 +47,48 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                     { !isMinimized && <h1 className="text-xl font-bold text-primary">StudyShare</h1> }
                 </div>
 
-                <button className='mt-6 w-full button-primary text-sm font-semibold py-3 px-4 flex items-center justify-center gap-2 shadow-[0_5px_10px_10px_rgba(67,45,215,0.2)] hover:shadow-[0_5px_10px_10px_rgba(67,45,215,0.4)] hover:scale-101 outline-transparent' style={{borderRadius:'calc(infinity * 1px)'}} onClick={() => {
-                    navigate('/upload');
-                }}>
-                    { isMinimized ? <CloudUploadOutlinedIcon className="text-white" style={{fontSize: '1.4rem'}} /> : <span>Upload New</span> }
-                </button>
+                <div className="relative">
+                    <button
+                        className={`mt-6 w-full button-primary text-sm font-semibold py-3 ${ !isMinimized ? 'pl-6 pr-4 justify-between' : 'justify-center'} flex items-center shadow-[0_5px_10px_10px_rgba(67,45,215,0.2)] hover:shadow-[0_5px_10px_10px_rgba(67,45,215,0.4)] hover:scale-101 outline-transparent`}
+                        style={{borderRadius:'16px'}}
+                        onClick={() => setIsUploadDropdownOpen((open) => !open)}
+                        tabIndex={0}
+                        onBlur={() => setTimeout(() => setIsUploadDropdownOpen(false), 150)}
+                    >
+                        { isMinimized
+                            ? <CloudUploadOutlinedIcon className="text-white" style={{fontSize: '1.4rem'}} />
+                            : <>
+                            <span>Upload New</span>
+                            <ArrowDropDownIcon className="" style={{fontSize: '1.5rem'}} />
+                            </>
+                        }
+                        
+                    </button>
+                    {isUploadDropdownOpen && (
+                        <div className="absolute left-0 mt-2 px-2 py-4 w-full bg-zinc-700 rounded-xl shadow-lg z-50 border border-zinc-700">
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-zinc-600 text-white text-sm rounded-xl cursor-pointer"
+                                onClick={() => {
+                                    setIsUploadDropdownOpen(false);
+                                    navigate('/upload');
+                                }}
+                            >
+                                <CloudUploadOutlinedIcon className="mr-2" style={{fontSize: '1.2rem', color: 'inherit'}}/>
+                                <span className="ml-2">Upload Material</span>
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-zinc-600 text-white text-sm rounded-xl cursor-pointer"
+                                onClick={() => {
+                                    setIsUploadDropdownOpen(false);
+                                    navigate('/create-lesson');
+                                }}
+                            >
+                                <CreateNewFolderOutlinedIcon className="mr-2" style={{fontSize: '1.2rem', color: 'inherit'}}/>
+                                <span className="ml-2">Create Lesson</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
                 <div className='border-t border-primary mt-4 pt-4'></div>
                 { !isMinimized && <h2 className="mb-2 text-secondary text-sm">Menu</h2> }
                 <ul>
@@ -127,7 +166,7 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                 </ul>
 
                 <div className='border-t border-primary mt-8 pt-4'></div>
-                { !isMinimized && <h2 className="mb-2 text-secondary text-sm">Account</h2> }
+                { !isMinimized && <h2 className="mb-2 text-secondary text-sm">Management</h2> }
                 <ul>
                     <li>
                         <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/payment-history')}>
@@ -138,9 +177,9 @@ const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onT
                             <ShoppingCartOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
                             { !isMinimized && <span className="leading-[1.5]">Orders</span> }
                         </div>
-                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/account-settings')}>
-                            <SettingsOutlinedIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
-                            { !isMinimized && <span className="leading-[1.5]">Settings</span> }
+                        <div className={`p-2 ${ isMinimized ? 'py-3' : ''} text-zinc-400 hover:bg-[#ffffff32] hover:text-white hover:font-semibold transition-all ease-in-out duration-200 rounded-xl cursor-pointer ${ isMinimized ? 'justify-center' : ''} flex gap-2`} onClick={() => navigate('/tasks')}>
+                            <SplitscreenIcon className="icon-primary" style={{fontSize: `${ isMinimized ? '1.6rem' : '1.3rem'}`, color: 'inherit'}}/>
+                            { !isMinimized && <span className="leading-[1.5]">Tasks</span> }
                         </div>
                     </li>
                 </ul>

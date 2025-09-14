@@ -17,6 +17,7 @@ import paymentRoutes from './routes/payment.route.js';
 import statisticsRoutes from './routes/statistics.route.js';
 import aiChatRoutes from './routes/ai-chat.route.js';
 import googleOAuthRoutes from './routes/google-oauth.route.js';
+import taskRoutes from './routes/task.route.js';
 
 env.config();
 
@@ -54,6 +55,7 @@ app.use('/api/payment', paymentRoutes);
 app.use('/api/statistics', statisticsRoutes);
 app.use('/api/ai-chat', aiChatRoutes);
 app.use('/auth', googleOAuthRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

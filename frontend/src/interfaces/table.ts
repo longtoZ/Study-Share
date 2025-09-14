@@ -81,4 +81,12 @@ interface PaymentExtended extends Payment {
     buyer_name: string;
 }
 
-export type { Subject, Material, User, Rating, History, HistoryExtended, Payment, PaymentExtended };
+interface Task {
+    task_id: string;
+    material_id: string;
+    created_date: Date;
+    status: string;
+    content: string;
+}
+
+export type { Subject, Material, User, Rating, History, HistoryExtended, Payment, PaymentExtended, Task };

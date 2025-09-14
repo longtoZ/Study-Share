@@ -15,6 +15,7 @@ interface TopBarProps {
 
 const ACTION_VIEW_PROFILE = 'view-profile';
 const ACTION_SWITCH_ACCOUNT = 'switch-account';
+const ACTION_SETTING = 'setting';
 const ACTION_LOGOUT = 'logout';
 
 const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
@@ -36,10 +37,14 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
         if (action == ACTION_LOGOUT) {
             console.log('Logging out...');
             dispatch(logout());
-            navigate('/login');
+            window.open('/login', '_blank')
         }
         else if (action == ACTION_VIEW_PROFILE) {
-            navigate(`/user/${userId}`);
+            window.open(`/user/${userId}`, '_blank');
+        } else if (action == ACTION_SWITCH_ACCOUNT) {
+            window.open('/switch-account', '_blank');
+        } else if (action == ACTION_SETTING) {
+            window.open('/account-settings', '_blank');
         }
     };
 
@@ -98,25 +103,43 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
 
                         {/* Profile dropdown menu */}
                         {isProfileMenuOpen && (
-                            <div className="absolute cursor-pointer right-0 mt-2 w-48 bg-zinc-700 text-zinc-200 rounded-xl shadow-xl p-1 z-50">
+                            <div className="absolute cursor-pointer right-0 mt-2 w-64 bg-zinc-700 text-zinc-200 rounded-xl shadow-xl p-2 z-50">
+                                <div className='flex items-center gap-2 px-4 py-6' onClick={() => handleMenuItemClick(ACTION_VIEW_PROFILE)}>
+                                    <img referrerPolicy="no-referrer"
+                                        src={profilePictureUrl || 'https://avatar.iran.liara.run/public'}
+                                        alt="Profile"
+                                        className="w-10 h-10 rounded-full"
+                                        onError={(e) => {
+                                            e.currentTarget.style.display = 'none';
+                                            e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                                        }}
+                                    />
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold">{localStorage.getItem('username') || 'User'}</span>
+                                        <span className="text-xs text-zinc-400">@{localStorage.getItem('user_id')?.substring(0, 18) + '...' || 'user_id'}</span>
+                                    </div>
+                                </div>
+                                <div className="border-b border-gray-600 my-1">
+                                </div>
+                                
                                 <button
-                                    onClick={() => handleMenuItemClick(ACTION_VIEW_PROFILE)}
+                                    onClick={() => handleMenuItemClick(ACTION_SETTING)}
                                     className="w-full px-4 py-2 text-left hover:bg-zinc-600 rounded-xl flex items-center space-x-2"
                                 >
-                                    <span>View Main Profile</span>
+                                    <span className='text-sm'>Account Setting</span>
                                 </button>
                                 <button
                                     onClick={() => handleMenuItemClick(ACTION_SWITCH_ACCOUNT)}
                                     className="w-full px-4 py-2 text-left hover:bg-zinc-600 rounded-xl flex items-center space-x-2"
                                 >
-                                    <span>Switch Account</span>
+                                    <span className='text-sm'>Switch Account</span>
                                 </button>
                                 <hr className="my-1 border-gray-200 dark:border-gray-600" />
                                 <button
                                     onClick={() => handleMenuItemClick(ACTION_LOGOUT)}
                                     className="w-full px-4 py-2 text-left text-red-500 hover:bg-red-100 rounded-xl flex items-center space-x-2"
                                 >
-                                    <span>Logout</span>
+                                    <span className='text-sm'>Logout</span>
                                 </button>
                             </div>
                         )}

@@ -1,6 +1,7 @@
 from ..config.supabase_client import SUPABASE_BUCKET, supabase
 import uuid
 from ..constants.table import TABLE
+from datetime import datetime
 
 class Material:
     @staticmethod
@@ -21,6 +22,7 @@ class Material:
         data = {
             "task_id": task_id,
             "material_id": material_id,
+            "created_date": datetime.now().isoformat(),
             "content": content,
             "status": status
         }
@@ -30,10 +32,11 @@ class Material:
         return response
 
     @staticmethod
-    def update_pending_task_record(task_id: str, material_id: str):
+    def update_pending_task_record(task_id: str, material_id: str, content: str):
         data = {
             "status": "pending",
-            "material_id": material_id
+            "material_id": material_id,
+            "content": content
         }
 
         response = supabase.table(TABLE.TASK.value).update(data).eq("task_id", task_id).eq("status", "pending").execute()

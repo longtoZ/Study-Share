@@ -323,13 +323,51 @@ class Material {
     }
 
     static async deleteMaterial(material_id) {
-        const { data, error } = await supabase
+        // Delete material record from table
+        const { data: tableData, error: tableError } = await supabase
             .from(TABLES.MATERIAL)
             .delete()
+            .eq('material_id', material_id)
+            .select();
+
+        if (tableError) throw tableError;
+        const deletedMaterial = tableData[0];
+        console.log('Deleted Material:', deletedMaterial);
+
+        // Delete material's file from storage
+        const bucketName = process.env.SUPABASE_BUCKET;
+        const filePath = decodeURIComponent(JSON.parse(deletedMaterial.file_url).publicUrl).split(`${bucketName}/`)[1].split('?')[0].replace('\\','/');
+        console.log('File Path to Delete:', filePath);
+
+        const { data: fileData, error: fileError } = await supabase
+            .storage
+            .from(bucketName)
+            .remove([filePath]);
+        
+        if (fileError) throw fileError;
+        
+        // Delete material pages from storage
+        const { data: pagesData, error: pagesError } = await supabase
+            .from(TABLES.MATERIAL_PAGE)
+            .select('url')
             .eq('material_id', material_id);
         
-        if (error) throw error;
-        return data;
+        if (pagesError) throw pagesError;
+
+        const pageFilePaths = pagesData.map(page => {
+            const url = decodeURIComponent(JSON.parse(page.url));
+            return url.split(`${bucketName}/`)[1].split('?')[0];
+        });
+        console.log('Page File Paths to Delete:', pageFilePaths);
+
+        const { data: pageFileData, error: pageFileError } = await supabase
+            .storage
+            .from(bucketName)
+            .remove(pageFilePaths);
+
+        if (pageFileError) throw pageFileError;
+
+        return { tableData, fileData, pageFileData };
     }
 }
 
