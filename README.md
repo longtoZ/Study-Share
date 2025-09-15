@@ -43,6 +43,7 @@ StudyShare
 │     │  ├─ rating.controller.js
 │     │  ├─ statistics.controller.js
 │     │  ├─ subject.controller.js
+│     │  ├─ task.controller.js
 │     │  └─ user.controller.js
 │     ├─ middleware
 │     │  └─ auth.middleware.js
@@ -56,6 +57,7 @@ StudyShare
 │     │  ├─ rating.model.js
 │     │  ├─ statistics.model.js
 │     │  ├─ subject.model.js
+│     │  ├─ task.model.js
 │     │  └─ user.model.js
 │     ├─ package-lock.json
 │     ├─ package.json
@@ -71,6 +73,7 @@ StudyShare
 │     │  ├─ rating.route.js
 │     │  ├─ statistics.route.js
 │     │  ├─ subject.route.js
+│     │  ├─ task.route.js
 │     │  └─ user.route.js
 │     ├─ server.js
 │     ├─ services
@@ -184,6 +187,8 @@ StudyShare
 │  │  │  │  └─ SignupPage.tsx
 │  │  │  ├─ StatisticsPage
 │  │  │  │  └─ StatisticsPage.tsx
+│  │  │  ├─ TasksPage
+│  │  │  │  └─ TasksPage.tsx
 │  │  │  ├─ UploadPage
 │  │  │  │  ├─ components
 │  │  │  │  │  └─ Upload.tsx
@@ -208,6 +213,7 @@ StudyShare
 │  │  │  ├─ ratingService.ts
 │  │  │  ├─ statisticsService.ts
 │  │  │  ├─ subjectService.ts
+│  │  │  ├─ taskService.ts
 │  │  │  └─ userService.ts
 │  │  ├─ styles
 │  │  │  └─ index.css

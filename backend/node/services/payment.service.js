@@ -31,8 +31,8 @@ class PaymentService {
                     destination: seller_stripe_account_id, // money goes to seller
                 },
             },
-            success_url: "http://localhost:3000/api/payment/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url: "http://localhost:3000/api/payment/cancel",
+            success_url: `${process.env.BACKEND_ORIGIN}/api/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.BACKEND_ORIGIN}/api/payment/cancel`,
         });
 
         return session;

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  react-frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - node-backend
+      - flask-backend
+    env_file:
+      - ./frontend/.env
+    
+  node-backend:
+    build: ./backend/node
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    env_file:
+      - ./backend/node/.env
+    
+  flask-backend:
+    build: ./backend/flask
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    env_file:
+      - ./backend/flask/.env
+  
+  celery-worker:
+    build: ./backend/flask
+    command: celery -A app.config.celery_worker worker --loglevel=info
+    depends_on:
+      - redis
+    env_file:
+      - ./backend/flask/.env
+  
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+  
+  
+    

@@ -1,0 +1,10 @@
+Flask
+Flask-Cors
+celery
+redis
+python-dotenv
+supabase
+requests
+gunicorn
+pillow
+PyPDF2
