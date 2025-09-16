@@ -3,7 +3,7 @@ import { fetchRecentTasks } from '@/services/taskService'
 import CircularProgress from '@mui/material/CircularProgress';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-import type { Task } from '@/interfaces/table'
+import type { Task } from '@/interfaces/table.d'
 
 const TasksPage = () => {
     const [tasks, setTasks] = useState<Task[]>([]);

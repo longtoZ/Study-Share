@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import { ENDPOINTS } from '@/constants/endpoints';
 
-const CREATE_LESSON_ENDPOINT = import.meta.env.VITE_CREATE_LESSON_ENDPOINT;
+const CREATE_LESSON_ENDPOINT = ENDPOINTS.CREATE_LESSON;
 
 const CreateLessonPage = () => {
 	const [lessonData, setLessonData] = useState({

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import { deleteEntry, bulkDeleteEntries, listEntries } from '@/services/historyService';
-import type { HistoryExtended } from '@/interfaces/table';
+import type { HistoryExtended } from '@/interfaces/table.d';
 
 import DropdownList from '@/components/common/DropdownList';
 import CircularProgress from '@mui/material/CircularProgress';

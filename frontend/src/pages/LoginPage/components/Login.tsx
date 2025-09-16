@@ -44,7 +44,7 @@ const Login = ({ email, setEmail, setMode } : { email: string, setEmail: (email:
         }
     };
 
-    const handleGoogleSuccess = async (credentialResponse: any) => {
+    const handleGoogleSuccess = async () => {
         // Handle Google login success
         try {
             const userData = await googleLogin();

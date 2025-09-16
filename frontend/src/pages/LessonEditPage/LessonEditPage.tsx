@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getLesson, updateLesson, deleteLesson } from '@/services/lessonService';
-import type { Lesson } from '@interfaces/userProfile';
+import type { Lesson } from '@interfaces/userProfile.d';
 
 import CircularProgress from '@mui/material/CircularProgress';
 

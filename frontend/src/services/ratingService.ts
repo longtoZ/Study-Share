@@ -1,8 +1,9 @@
-import type { Rating } from "@/interfaces/table";
+import type { Rating } from "@/interfaces/table.d";
+import { ENDPOINTS } from "@/constants/endpoints";
 
-const RATE_MATERIAL_ENDPOINT = import.meta.env.VITE_RATE_MATERIAL_ENDPOINT;
-const GET_MATERIAL_RATING_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_RATING_ENDPOINT;
-const CHECK_USER_RATING_ENDPOINT = import.meta.env.VITE_CHECK_USER_RATING_ENDPOINT;
+const RATE_MATERIAL_ENDPOINT = ENDPOINTS.RATE_MATERIAL;
+const GET_MATERIAL_RATING_ENDPOINT = ENDPOINTS.GET_MATERIAL_RATING;
+const CHECK_USER_RATING_ENDPOINT = ENDPOINTS.CHECK_USER_RATING;
 
 const rateMaterial = async (ratingData: Rating) => {
     try {

@@ -1,4 +1,4 @@
-import type { MaterialExtended, LessonExtended } from "@/interfaces/userProfile";
+import type { MaterialExtended, LessonExtended } from "@/interfaces/userProfile.d";
 
 const storeMaterials = (materials: MaterialExtended[]) => {
     localStorage.setItem('materials', JSON.stringify(materials.map(material => ({

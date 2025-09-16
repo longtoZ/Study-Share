@@ -1,6 +1,6 @@
 import os
 import json
-from ..config.celery_worker import celery
+from ..config.celery import celery
 from . import file_converter
 from werkzeug.utils import secure_filename
 from ..models.material import Material
@@ -25,7 +25,7 @@ def convert_pdf_to_webp(self, file_info, form):
     task_id = str(uuid.uuid4())
 
     # Create a pending task record in Supabase
-    task_record_content = "- Starting conversion task\n" # This content will be updated later
+    task_record_content = "- [Step 1/5] Starting conversion task\n" # This content will be updated later
     Material.create_task_record(task_id, info["material_id"], task_record_content, "pending")
     start_time = time.time()
 
@@ -51,7 +51,7 @@ def convert_pdf_to_webp(self, file_info, form):
         # Extract content from the PDF
         content = extract_all_pages_content(pdf_path, mime_type='application/pdf')
         print("Extracted Content:", content)
-        task_record_content += f"- Extracted content from PDF: {content.text[:100]}...\n"  # Preview of the content
+        task_record_content += f"- [Step 2/5] Extracted content from PDF: {content.text[:100]}...\n"  # Preview of the content
         Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
 
         # Convert PDF to WebP
@@ -59,7 +59,7 @@ def convert_pdf_to_webp(self, file_info, form):
             output_dir_webp = os.path.join(OUTPUT_WEBP_FOLDER, filename)
             prefix = filename
             file_converter.pdf_to_webp(pdf_path, output_dir_webp, prefix, quality)
-            task_record_content += f"- Converted PDF to WebP: {output_dir_webp}\n"
+            task_record_content += f"- [Step 3/5] Converted PDF to WebP: {output_dir_webp}\n"
             Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
 
             public_links = []
@@ -76,7 +76,7 @@ def convert_pdf_to_webp(self, file_info, form):
                     'url': public_link
                 })
 
-            task_record_content += f"- Uploaded {len(public_links)} WebP files to storage\n"
+            task_record_content += f"- [Step 4/5] Uploaded {len(public_links)} WebP files to storage\n"
             Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
 
             # Save records to Supabase
@@ -93,7 +93,7 @@ def convert_pdf_to_webp(self, file_info, form):
 
             # Update task record to success
             end_time = time.time()
-            task_record_content += f"- All steps completed successfully in {end_time - start_time:.2f} seconds\n"
+            task_record_content += f"- [Step 5/5] All steps completed successfully in {end_time - start_time:.2f} seconds\n"
             Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
             Material.create_task_record(task_id, info["material_id"], f"Processed in {end_time - start_time:.2f} seconds", "success")
 
@@ -123,7 +123,8 @@ def convert_docx_to_webp(self, file_info, form):
     task_id = str(uuid.uuid4())
 
     # Create a pending task record in Supabase
-    Material.create_task_record(task_id, "", "No content available", "pending")
+    task_record_content = "- [Step 1/5] Starting conversion task\n" # This content will be updated later
+    Material.create_task_record(task_id, info["material_id"], task_record_content, "pending")
     start_time = time.time()
 
     # If the user does not select a file, the browser submits an
@@ -153,12 +154,16 @@ def convert_docx_to_webp(self, file_info, form):
             # Extract content from the DOCX (via the converted PDF)
             content = extract_all_pages_content(pdf_filename, mime_type='application/pdf')
             print("Extracted Content:", content)
+            task_record_content += f"- [Step 2/5] Extracted content from PDF: {content.text[:100]}...\n"  # Preview of the content
+            Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
 
             # Convert PDF to WebP
             output_dir_webp = os.path.join('output_webp', filename)
             prefix = filename
             os.makedirs(output_dir_webp, exist_ok=True)
             file_converter.pdf_to_webp(pdf_filename, output_dir_webp, prefix)
+            task_record_content += f"- [Step 3/5] Converted PDF to WebP: {output_dir_webp}\n"
+            Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
             
             public_links = []
             files_list = sorted(os.listdir(output_dir_webp), key=lambda x: int(x.split('_')[-1].split('.')[0])) # Sort files by page number
@@ -173,6 +178,9 @@ def convert_docx_to_webp(self, file_info, form):
                     'page': i + 1,
                     'url': public_link
                 })
+            
+            task_record_content += f"- [Step 4/5] Uploaded {len(public_links)} WebP files to storage\n"
+            Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
 
             # Save records to Supabase
             info['num_page'] = public_links[-1]['page'] if public_links else 0
@@ -188,11 +196,12 @@ def convert_docx_to_webp(self, file_info, form):
 
             # Update task record to success
             end_time = time.time()
+            task_record_content += f"- [Step 5/5] All steps completed successfully in {end_time - start_time:.2f} seconds\n"
+            Material.update_pending_task_record(task_id, info["material_id"], task_record_content)
             Material.create_task_record(task_id, info["material_id"], f"Processed in {end_time - start_time:.2f} seconds", "success")
-            Material.update_pending_task_record(task_id, info["material_id"])
 
             return {
-                'message': 'PDF converted to WebP successfully',
+                'message': 'DOCX converted to WebP successfully',
                 'material_id': info["material_id"]
             }
         except Exception as e:

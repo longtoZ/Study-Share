@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import DropdownList from '@components/common/DropdownList';
-import type { Subject } from '@interfaces/table';
+import type { Subject } from '@interfaces/table.d';
 import { useDispatch } from 'react-redux';
 import { setMaterial } from '@redux/materialSlice';
 import { getUserStripeAccountId } from '@/services/userService';

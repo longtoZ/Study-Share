@@ -33,7 +33,6 @@ const exludePaths = ['/login', '/signup'];
 function AppContent() {
     const location = useLocation();
     const isExcludedPages = exludePaths.includes(location.pathname);
-
     const [ isSidebarMinimized, setIsSidebarMinimized ] = useState(false);
 
     return (

@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
+import { ENDPOINTS } from "@/constants/endpoints";
 
-const CREATE_COMMENT_ENDPOINT = import.meta.env.VITE_CREATE_COMMENT_ENDPOINT;
-const GET_COMMENTS_ENDPOINT = import.meta.env.VITE_GET_COMMENTS_ENDPOINT;
-const VOTE_COMMENT_ENDPOINT = import.meta.env.VITE_VOTE_COMMENT_ENDPOINT;
-const CHECK_UPVOTE_ENDPOINT = import.meta.env.VITE_CHECK_UPVOTE_ENDPOINT;
-const DELETE_COMMENT_ENDPOINT = import.meta.env.VITE_DELETE_COMMENT_ENDPOINT;
+const CREATE_COMMENT_ENDPOINT = ENDPOINTS.CREATE_COMMENT;
+const GET_COMMENTS_ENDPOINT = ENDPOINTS.GET_COMMENTS;
+const VOTE_COMMENT_ENDPOINT = ENDPOINTS.VOTE_COMMENT;
+const CHECK_UPVOTE_ENDPOINT = ENDPOINTS.CHECK_UPVOTE;
+const DELETE_COMMENT_ENDPOINT = ENDPOINTS.DELETE_COMMENT;
 
 const createComment = async (commentContent: string, materialId: string | undefined) => {
     if (!commentContent || !materialId) return;

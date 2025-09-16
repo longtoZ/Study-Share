@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom';
 import { retrieveLessons, retrieveAllSubjects } from '@/services/userService';
 import { updateMaterial, deleteMaterial } from '@services/materialService';
 
-import type { Subject } from '@interfaces/table';
-import type { Lesson } from '@interfaces/userProfile';
-import type { Material } from '@interfaces/table';
+import type { Subject } from '@interfaces/table.d';
+import type { Lesson } from '@interfaces/userProfile.d';
+import type { Material } from '@interfaces/table.d';
 
 import DropdownList from '@components/common/DropdownList';
 import CircularProgress from '@mui/material/CircularProgress';

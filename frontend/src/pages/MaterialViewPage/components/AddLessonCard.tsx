@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import type { Lesson } from '@/interfaces/userProfile';
+import type { Lesson } from '@/interfaces/userProfile.d';
 import { retrieveLessons } from '@/services/userService';
 import { addMaterialToLesson } from '@/services/lessonService';
 

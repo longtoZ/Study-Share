@@ -3,13 +3,14 @@ version: '3.8'
 services:
   react-frontend:
     build: ./frontend
+    env_file:
+      - ./frontend/.env
     ports:
       - "80:80"
     depends_on:
       - node-backend
       - flask-backend
-    env_file:
-      - ./frontend/.env
+
     
   node-backend:
     build: ./backend/node
@@ -31,7 +32,7 @@ services:
   
   celery-worker:
     build: ./backend/flask
-    command: celery -A app.config.celery_worker worker --loglevel=info
+    command: celery -A app.config.celery worker --loglevel=info
     depends_on:
       - redis
     env_file:

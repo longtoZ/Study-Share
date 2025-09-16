@@ -17,7 +17,7 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 
-import type { User, MaterialExtended, LessonExtended } from '@interfaces/userProfile';
+import type { User, MaterialExtended, LessonExtended } from '@interfaces/userProfile.d';
 import { retrieveMaterials, retrieveUserData, retrieveLessons, calculateStatistics} from '@services/userService';
 
 const UserProfilePage = () => {

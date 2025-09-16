@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { rateMaterial, getMaterialRating, checkUserRating } from '@/services/ratingService';
 
-import type { Rating } from '@/interfaces/table';
+import type { Rating } from '@/interfaces/table.d';
 
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarHalfIcon from '@mui/icons-material/StarHalf';

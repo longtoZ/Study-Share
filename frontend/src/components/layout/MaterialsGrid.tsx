@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { MaterialExtended } from '@interfaces/userProfile';
+import type { MaterialExtended } from '@interfaces/userProfile.d';
 import { subjectColors } from '@/constants/subjectColor';
 
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';

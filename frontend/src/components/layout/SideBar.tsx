@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ReactLogo from '@assets/react.svg';
 
 import { getStoredMaterials, getStoredLessons } from "@/utils/storeMaterialsLessons";
@@ -21,8 +21,8 @@ import SplitscreenIcon from '@mui/icons-material/Splitscreen';
 const SideBar = ({ isMinimized, onToggleMinimize } : { isMinimized: boolean, onToggleMinimize: (isMinimized: boolean) => void}) => {
     const navigate = useNavigate();
     const userId = localStorage.getItem('user_id') || '';
-    const [storedMaterials, setStoredMaterials] = useState(getStoredMaterials());
-    const [storedLessons, setStoredLessons] = useState(getStoredLessons());
+    const [storedMaterials] = useState(getStoredMaterials());
+    const [storedLessons] = useState(getStoredLessons());
     const [isUploadDropdownOpen, setIsUploadDropdownOpen] = useState(false);
 
     const [isMaterialsOpen, setIsMaterialsOpen] = useState(false);

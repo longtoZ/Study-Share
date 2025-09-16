@@ -1,4 +1,6 @@
-const RECENT_TASKS_ENDPOINT = import.meta.env.VITE_RECENT_TASKS_ENDPOINT;
+import { ENDPOINTS } from '@/constants/endpoints';
+
+const RECENT_TASKS_ENDPOINT = ENDPOINTS.RECENT_TASKS;
 
 const fetchRecentTasks = async (limit: number) => {
     const token = localStorage.getItem('jwt_token');

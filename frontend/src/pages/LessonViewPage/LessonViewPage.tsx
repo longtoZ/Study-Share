@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { MaterialExtended } from '@/interfaces/userProfile';
-import type { History } from '@/interfaces/table';
+import type { MaterialExtended } from '@/interfaces/userProfile.d';
+import type { History } from '@/interfaces/table.d';
 
 import { retrieveAllMaterials } from '@/services/lessonService';
-import { retrieveAllSubjects } from '@/services/userService';
 import { verifyUser } from '@services/authService';
 import { addEntry } from '@/services/historyService';
 import { v4 as uuidv4 } from 'uuid';

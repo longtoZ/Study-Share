@@ -9,7 +9,7 @@ import LessonsGrid from '@/components/layout/LessonsGrid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import SearchBar from '@/components/common/SearchBar';
-import type { LessonExtended, Statistic } from '@/interfaces/userProfile';
+import type { LessonExtended, Statistic } from '@/interfaces/userProfile.d';
 import { retrieveLessons, calculateStatistics } from '@/services/userService';
 import { verifyUser } from '@/services/authService';
 

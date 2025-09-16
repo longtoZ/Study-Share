@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from .config.celery_worker import celery
+from .config.celery import celery
 from .services.celery_tasks import convert_pdf_to_webp as celery_convert_pdf_to_webp
 from .services.celery_tasks import convert_docx_to_webp as celery_convert_docx_to_webp
 

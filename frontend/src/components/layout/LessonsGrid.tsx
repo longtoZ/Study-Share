@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { LessonExtended } from '@/interfaces/userProfile';
+import type { LessonExtended } from '@/interfaces/userProfile.d';
 
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';

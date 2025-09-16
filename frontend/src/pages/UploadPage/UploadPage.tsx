@@ -8,11 +8,12 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 import Upload from "./components/Upload";
-import type { Subject } from '@/interfaces/table';
-import type { Material } from '@/interfaces/table';
+import type { Subject } from '@/interfaces/table.d';
+import type { Material } from '@/interfaces/table.d';
+import { ENDPOINTS } from "@/constants/endpoints";
 
-const SUBJECTS_ENDPOINT = import.meta.env.VITE_GET_ALL_SUBJECTS_ENDPOINT;
-const UPLOAD_ENDPOINT = import.meta.env.VITE_UPLOAD_ENDPOINT;
+const SUBJECTS_ENDPOINT = ENDPOINTS.GET_ALL_SUBJECTS;
+const UPLOAD_ENDPOINT = ENDPOINTS.UPLOAD;
 
 interface FileData {
 	material_id: string;
@@ -21,7 +22,6 @@ interface FileData {
 
 const UploadPage = () => {
 	const [filesData, setFilesData] = useState<FileData[]>([]);
-	const [isDragging, setIsDragging] = useState(false);
 	const [subjects, setSubjects] = useState<Subject[]>([]);
 
 	const dropRef = useRef<HTMLDivElement>(null);
@@ -36,19 +36,16 @@ const UploadPage = () => {
 	const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
-		setIsDragging(true);
 	}
 
 	const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
-		setIsDragging(false);
 	}
 
 	const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
-		setIsDragging(false);
 		
 		if (event.dataTransfer.files) {
 			const droppedFiles = Array.from(event.dataTransfer.files) as File[];

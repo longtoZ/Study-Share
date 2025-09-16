@@ -1,4 +1,6 @@
-const VERIFY_USER_ENDPOINT = import.meta.env.VITE_VERIFY_USER_ENDPOINT;
+import { ENDPOINTS } from "@/constants/endpoints";
+
+const VERIFY_USER_ENDPOINT = ENDPOINTS.VERIFY_USER;
 
 const verifyUser = async (authorId: string) => {
     const token = localStorage.getItem('jwt_token');

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { Material } from '@/interfaces/table';
+import type { Material } from '@/interfaces/table.d';
 
 const materialSlice = createSlice({
     name: 'material',

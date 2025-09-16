@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import MaterialsGrid from '@components/layout/MaterialsGrid';
 import LessonsGrid from '@components/layout/LessonsGrid';
 
-import type { Subject } from '@/interfaces/table';
-import type { Material, Lesson, LessonExtended, MaterialExtended } from '@/interfaces/userProfile';
+import type { Subject } from '@/interfaces/table.d';
+import type { LessonExtended, MaterialExtended } from '@/interfaces/userProfile.d';
 
 import { retrieveAllSubjects } from '@/services/userService';
 import { retrieveLessons } from '@/services/userService';
@@ -47,7 +47,6 @@ const SearchPage: React.FC = () => {
 
     const [retrievedMaterials, setRetrievedMaterials] = useState<MaterialExtended[]>([]);
     const [retrievedLessons, setRetrievedLessons] = useState<LessonExtended[]>([]);
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     const materialSortOptions = [
         {id: 'upload_date', name: 'Date created'},

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { MaterialExtended, Statistic } from '@/interfaces/userProfile';
+import type { MaterialExtended, Statistic } from '@/interfaces/userProfile.d';
 
 import { retrieveMaterials, calculateStatistics } from '@/services/userService';
 import { verifyUser } from '@services/authService';

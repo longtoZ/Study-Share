@@ -1,7 +1,9 @@
-const REDIRECT_TO_CHECKOUT = import.meta.env.VITE_REDIRECT_TO_CHECKOUT;
-const CHECK_MATERIAL_PAYMENT = import.meta.env.VITE_CHECK_MATERIAL_PAYMENT;
-const PAYMENT_HISTORY = import.meta.env.VITE_PAYMENT_HISTORY;
-const ORDERS_HISTORY = import.meta.env.VITE_ORDERS_HISTORY;
+import { ENDPOINTS } from "@/constants/endpoints";
+
+const REDIRECT_TO_CHECKOUT = ENDPOINTS.REDIRECT_TO_CHECKOUT;
+const CHECK_MATERIAL_PAYMENT = ENDPOINTS.CHECK_MATERIAL_PAYMENT;
+const PAYMENT_HISTORY = ENDPOINTS.PAYMENT_HISTORY;
+const ORDERS_HISTORY = ENDPOINTS.ORDERS_HISTORY;
 
 const makePayment = async (data: any) => {
     const token = localStorage.getItem('jwt_token');

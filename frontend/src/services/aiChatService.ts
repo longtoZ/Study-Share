@@ -1,5 +1,7 @@
-const GENERATE_AI_RESPONSE_ENDPOINT = import.meta.env.VITE_GENERATE_AI_RESPONSE_ENDPOINT;
-const CLEAR_AI_SESSION_ENDPOINT = import.meta.env.VITE_CLEAR_AI_SESSION_ENDPOINT;
+import { ENDPOINTS } from "@/constants/endpoints";
+
+const GENERATE_AI_RESPONSE_ENDPOINT = ENDPOINTS.GENERATE_AI_RESPONSE;
+const CLEAR_AI_SESSION_ENDPOINT = ENDPOINTS.CLEAR_AI_SESSION;
 
 const generateResponse = async (userId: string, materialId: string, message: string, model: string | null) => {
     if (!model) {

@@ -1,4 +1,6 @@
-const GET_SUBJECT_ENDPOINT = import.meta.env.VITE_GET_SUBJECT_ENDPOINT;
+import { ENDPOINTS } from "@/constants/endpoints";
+
+const GET_SUBJECT_ENDPOINT = ENDPOINTS.GET_SUBJECT;
 
 const getSubject = async (subjectId: string) => {
     const getSubjectUrl = GET_SUBJECT_ENDPOINT.replace('subject-id', subjectId);

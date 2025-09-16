@@ -1,7 +1,7 @@
 import DropdownList from '@/components/common/DropdownList';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { PaymentExtended } from '@/interfaces/table';
+import type { PaymentExtended } from '@/interfaces/table.d';
 import { getOrdersHistory } from '@/services/paymentService';
 
 import CircularProgress from '@mui/material/CircularProgress';

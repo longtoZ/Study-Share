@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/userSlice';
 
@@ -24,7 +23,6 @@ const TopBar = ({ isDarkMode, onToggleDarkMode } : TopBarProps) => {
     const userId = localStorage.getItem('user_id') || '';
     const profilePictureUrl = localStorage.getItem('profile_picture_url');
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleProfileClick = () => {

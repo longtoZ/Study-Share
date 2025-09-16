@@ -10,7 +10,7 @@ import { makePayment, checkMaterialPayment } from "@/services/paymentService";
 import { getMaterialUrl, getMaterialPage } from "@services/materialService";
 import { clearSession } from "../../services/aiChatService";
 
-import type { History } from "@/interfaces/table";
+import type { History } from "@/interfaces/table.d";
 
 import MetadataCard from "./components/MetadataCard";
 import AddLessonCard from "./components/AddLessonCard";
@@ -39,8 +39,6 @@ import {
 } from "@mui/icons-material";
 
 import CircularProgress from "@mui/material/CircularProgress";
-
-const GET_MATERIAL_PAGE_ENDPOINT = import.meta.env.VITE_GET_MATERIAL_PAGE_ENDPOINT;
 
 interface IImagePage {
     pageNumber: number;
@@ -196,8 +194,8 @@ const MaterialViewPage = () => {
     }, [commentOrder, commentsRange]);
 
     useEffect(() => {
-        const handleBeforeUnload = async (e: BeforeUnloadEvent) => {
-            if (userId &&materialId) {
+        const handleBeforeUnload = async () => {
+            if (userId && materialId) {
                 try {
                     await clearSession(userId, materialId);
                     console.log("AI session cleared successfully on unload.");

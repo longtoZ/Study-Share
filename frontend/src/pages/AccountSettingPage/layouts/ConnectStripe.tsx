@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import StripeLogo from '../images/stripe_logo.png';
 
 import { retrieveUserData, updateUserProfile } from '@/services/userService';
+import { ENDPOINTS } from '@/constants/endpoints';
 
-const STRIPE_CLIENT_ID = import.meta.env.VITE_STRIPE_CLIENT_ID;
-const STRIPE_REDIRECT_URI = import.meta.env.VITE_STRIPE_REDIRECT_URI;
+const STRIPE_CLIENT_ID = window.env.VITE_STRIPE_CLIENT_ID;
+const STRIPE_REDIRECT_URI = ENDPOINTS.STRIPE_REDIRECT_URI;
 
 const ConnectStripe = () => {
     const userId = localStorage.getItem('user_id') || '';

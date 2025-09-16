@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { retrieveUserData } from '@/services/userService';
-import type { User } from '@/interfaces/table';
+import type { User } from '@/interfaces/table.d';
 import { updateUserProfile } from '@/services/userService';
 
 import ImageUpload from '../components/ImageUpload';
