@@ -23,6 +23,8 @@ interface FileData {
 const UploadPage = () => {
 	const [filesData, setFilesData] = useState<FileData[]>([]);
 	const [subjects, setSubjects] = useState<Subject[]>([]);
+	const [uploadSuccessMessage, setUploadSuccessMessage] = useState<string>('');
+	const [uploadErrorMessage, setUploadErrorMessage] = useState<string>('');
 
 	const dropRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -88,8 +90,10 @@ const UploadPage = () => {
 
 				const data = await response.json();
 				console.log('File uploaded successfully:', data);
+				setUploadSuccessMessage('Files uploaded successfully! Please check Tasks page to see the processing status.');
 			} catch (error) {
 				console.error('Error uploading file:', error);
+				setUploadErrorMessage('Failed to upload files. Please try again later.');
 			}
 		});
 
@@ -213,6 +217,17 @@ const UploadPage = () => {
 								Submit
 							</button>
 						</div>
+					</div>
+				)}
+
+				{uploadSuccessMessage && (
+					<div className="mx-20 mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+						{uploadSuccessMessage}
+					</div>
+				)}
+				{uploadErrorMessage && (
+					<div className="mx-20 mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+						{uploadErrorMessage}
 					</div>
 				)}
 			</div>

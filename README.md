@@ -3,9 +3,10 @@
 StudyShare
 ├─ backend
 │  ├─ flask
+│  │  ├─ .dockerignore
 │  │  ├─ app
 │  │  │  ├─ config
-│  │  │  │  ├─ celery_worker.py
+│  │  │  │  ├─ celery.py
 │  │  │  │  └─ supabase_client.py
 │  │  │  ├─ constants
 │  │  │  │  └─ table.py
@@ -17,12 +18,15 @@ StudyShare
 │  │  │  │  ├─ file_content_extractor.py
 │  │  │  │  └─ file_converter.py
 │  │  │  └─ __init__.py
+│  │  ├─ Dockerfile
 │  │  ├─ instance
 │  │  ├─ output_pdf
 │  │  ├─ output_webp
+│  │  ├─ requirements.txt
 │  │  ├─ run.py
 │  │  └─ uploads
 │  └─ node
+│     ├─ .dockerignore
 │     ├─ config
 │     │  ├─ ai.config.js
 │     │  ├─ database.config.js
@@ -45,6 +49,7 @@ StudyShare
 │     │  ├─ subject.controller.js
 │     │  ├─ task.controller.js
 │     │  └─ user.controller.js
+│     ├─ Dockerfile
 │     ├─ middleware
 │     │  └─ auth.middleware.js
 │     ├─ models
@@ -91,13 +96,70 @@ StudyShare
 │     ├─ uploads
 │     └─ utils
 │        ├─ deleteUnverifiedAccount.js
-│        ├─ pdf.util.js
 │        ├─ sendEmail.js
 │        ├─ validation.js
 │        └─ verifyPasswordReset.js
+├─ database
+│  └─ schema.sql
+├─ docker-compose.yaml
 ├─ frontend
+│  ├─ .dockerignore
+│  ├─ dist
+│  │  ├─ assets
+│  │  │  ├─ AccountSettingPage-Djy9CLOT.js
+│  │  │  ├─ AddOutlined-BgEXMUdo.js
+│  │  │  ├─ authService-B59WDbag.js
+│  │  │  ├─ chatgpt-icon-C6YNE-W2.png
+│  │  │  ├─ CreateLessonPage-C0GTrulZ.js
+│  │  │  ├─ DropdownList-DKfKLbmt.js
+│  │  │  ├─ google-gemini-icon-Det1WPRf.png
+│  │  │  ├─ HistoryPage-D9DCbjpl.js
+│  │  │  ├─ historyService-fbrr-Vzl.js
+│  │  │  ├─ index-BW4yPZh5.css
+│  │  │  ├─ index-C3mEZg5u.js
+│  │  │  ├─ LessonEditPage-BtBtqkPw.js
+│  │  │  ├─ lessonService-B_zuGj0R.js
+│  │  │  ├─ LessonsGrid-BClyHz-e.js
+│  │  │  ├─ LessonViewPage-DIvEeBUt.js
+│  │  │  ├─ LoginPage-wqgri6XJ.js
+│  │  │  ├─ login_background-0G9UPTMw.jpeg
+│  │  │  ├─ mail-JO9Py1yP.png
+│  │  │  ├─ MaterialEditPage-BZuB-V8z.js
+│  │  │  ├─ materialService-BPq0mk9J.js
+│  │  │  ├─ MaterialsGrid-6R497sY4.js
+│  │  │  ├─ MaterialViewPage-DMXfXBpZ.js
+│  │  │  ├─ MyLessonsPage-98QNFs9F.js
+│  │  │  ├─ MyMaterialsPage-CHKHPwsR.js
+│  │  │  ├─ OrdersPage-D4EN4mE6.js
+│  │  │  ├─ PaymentHistoryPage-h53WWksu.js
+│  │  │  ├─ paymentService-CG-xxyH1.js
+│  │  │  ├─ placeholder_bg-BpAUDY8u.png
+│  │  │  ├─ placeholder_pfp-CVNjPtsH.png
+│  │  │  ├─ react-CHdo91hT.svg
+│  │  │  ├─ RedirectToHomePage-DbXigBmr.js
+│  │  │  ├─ RootRedirectPage-DQDwMXH5.js
+│  │  │  ├─ SchoolOutlined-BkK7DGHL.js
+│  │  │  ├─ SearchBar-DJ5BKz-N.js
+│  │  │  ├─ SearchPage-CvIqRk0J.js
+│  │  │  ├─ SettingsOutlined-W_n-0WAv.js
+│  │  │  ├─ SignupPage-_83nTgOU.js
+│  │  │  ├─ signup_background-7p4cMfLt.jpeg
+│  │  │  ├─ Star-D4_1spQK.js
+│  │  │  ├─ StatisticsPage-IzYysfRU.js
+│  │  │  ├─ stripe_logo-BFE3AQX4.png
+│  │  │  ├─ TasksPage-DwD39Pjw.js
+│  │  │  ├─ UploadPage-CJ1xum1X.js
+│  │  │  ├─ UserProfilePage-Cqa3oLPD.js
+│  │  │  ├─ userService-DimIIyvM.js
+│  │  │  ├─ v4-BKrj-4V8.js
+│  │  │  └─ VisibilityOutlined-yiJ0blWH.js
+│  │  ├─ index.html
+│  │  └─ vite.svg
+│  ├─ Dockerfile
+│  ├─ entrypoint.sh
 │  ├─ eslint.config.js
 │  ├─ index.html
+│  ├─ nginx.conf
 │  ├─ package-lock.json
 │  ├─ package.json
 │  ├─ public
@@ -113,7 +175,6 @@ StudyShare
 │  │  ├─ components
 │  │  │  ├─ common
 │  │  │  │  ├─ DropdownList.tsx
-│  │  │  │  ├─ DropdownListRetrieve.tsx
 │  │  │  │  └─ SearchBar.tsx
 │  │  │  └─ layout
 │  │  │     ├─ LessonsGrid.tsx
@@ -121,10 +182,12 @@ StudyShare
 │  │  │     ├─ SideBar.tsx
 │  │  │     └─ TopBar.tsx
 │  │  ├─ constants
+│  │  │  ├─ endpoints.ts
 │  │  │  └─ subjectColor.ts
 │  │  ├─ interfaces
-│  │  │  ├─ table.ts
-│  │  │  └─ userProfile.ts
+│  │  │  ├─ config.d.ts
+│  │  │  ├─ table.d.ts
+│  │  │  └─ userProfile.d.ts
 │  │  ├─ main.tsx
 │  │  ├─ pages
 │  │  │  ├─ AccountSettingPage
@@ -159,8 +222,15 @@ StudyShare
 │  │  │  │  ├─ components
 │  │  │  │  │  ├─ AddLessonCard.tsx
 │  │  │  │  │  ├─ ChatPannel.tsx
+│  │  │  │  │  ├─ CommentSection.tsx
+│  │  │  │  │  ├─ ContentView.tsx
+│  │  │  │  │  ├─ HeaderSection.tsx
 │  │  │  │  │  ├─ MetadataCard.tsx
 │  │  │  │  │  └─ RatingCard.tsx
+│  │  │  │  ├─ hooks
+│  │  │  │  │  ├─ useComments.ts
+│  │  │  │  │  ├─ useMaterialContent.ts
+│  │  │  │  │  └─ useMaterialData.ts
 │  │  │  │  ├─ images
 │  │  │  │  │  ├─ chatgpt-icon.png
 │  │  │  │  │  └─ google-gemini-icon.png
@@ -180,12 +250,25 @@ StudyShare
 │  │  │  │  └─ SearchPage.tsx
 │  │  │  ├─ SignupPage
 │  │  │  │  ├─ components
-│  │  │  │  │  └─ EmailVerification.tsx
+│  │  │  │  │  ├─ AccountStep.tsx
+│  │  │  │  │  ├─ EmailVerification.tsx
+│  │  │  │  │  ├─ PersonalInfoStep.tsx
+│  │  │  │  │  └─ SignupHeader.tsx
+│  │  │  │  ├─ hooks
+│  │  │  │  │  └─ useSignup.ts
 │  │  │  │  ├─ images
 │  │  │  │  │  ├─ mail.png
 │  │  │  │  │  └─ signup_background.jpeg
 │  │  │  │  └─ SignupPage.tsx
 │  │  │  ├─ StatisticsPage
+│  │  │  │  ├─ components
+│  │  │  │  │  ├─ GeneralStats.tsx
+│  │  │  │  │  ├─ TopContributors.tsx
+│  │  │  │  │  └─ TopMaterials.tsx
+│  │  │  │  ├─ hooks
+│  │  │  │  │  ├─ useGeneralStats.ts
+│  │  │  │  │  ├─ useTopContributors.ts
+│  │  │  │  │  └─ useTopMaterials.ts
 │  │  │  │  └─ StatisticsPage.tsx
 │  │  │  ├─ TasksPage
 │  │  │  │  └─ TasksPage.tsx
@@ -194,6 +277,13 @@ StudyShare
 │  │  │  │  │  └─ Upload.tsx
 │  │  │  │  └─ UploadPage.tsx
 │  │  │  └─ UserProfilePage
+│  │  │     ├─ components
+│  │  │     │  ├─ AboutSection.tsx
+│  │  │     │  ├─ LessonsSection.tsx
+│  │  │     │  ├─ MaterialsSection.tsx
+│  │  │     │  └─ UserInfoSection.tsx
+│  │  │     ├─ hooks
+│  │  │     │  └─ useProfileData.ts
 │  │  │     ├─ images
 │  │  │     │  ├─ placeholder_bg.png
 │  │  │     │  └─ placeholder_pfp.png
