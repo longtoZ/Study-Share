@@ -9,6 +9,7 @@ redisClient.on('error', (err) => {
 });
 
 redisClient.on('connect', () => {
+  console.log('REDIS_URL:', process.env.REDIS_URL);
   console.log('Connected to Redis');
 });
 

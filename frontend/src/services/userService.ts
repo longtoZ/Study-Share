@@ -14,6 +14,7 @@ const VERIFY_EMAIL_ENDPOINT = ENDPOINTS.VERIFY_EMAIL;
 const NOTIFY_RESET_PASSWORD_ENDPOINT = ENDPOINTS.NOTIFY_RESET_PASSWORD;
 const VERIFY_RESET_PASSWORD_ENDPOINT = ENDPOINTS.VERIFY_RESET_PASSWORD;
 const USER_STRIPE_ACCOUNT_ENDPOINT = ENDPOINTS.USER_STRIPE_ACCOUNT;
+const GOOGLE_AUTH_ENDPOINT = ENDPOINTS.GOOGLE_AUTH;
 
 const retrieveUserData = async (userId: string, requireEmail: boolean = false): Promise<any> => {
 	try {
@@ -187,7 +188,7 @@ const loginUser = async (formData: any): Promise<any> => {
 
 const googleLogin = async (): Promise<any> => {
 	try {
-		window.location.href = 'http://localhost:3000/auth/google';
+		window.location.href = GOOGLE_AUTH_ENDPOINT;
 	} catch (error) {
 		console.error('Error logging in with Google:', error);
 		throw error;

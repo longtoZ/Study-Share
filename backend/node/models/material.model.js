@@ -87,6 +87,8 @@ class Material {
         formData.append('file', blob, file.originalname);
         formData.append('info', JSON.stringify(info));
 
+        console.log('PDF_TO_WEBP_URL:', PDF_TO_WEBP_URL);
+        console.log('DOCX_TO_WEBP_URL:', DOCX_TO_WEBP_URL);
         try {
             const response = await fetch(info.file_type === 'pdf' ? PDF_TO_WEBP_URL : DOCX_TO_WEBP_URL, {
                 method: 'POST',

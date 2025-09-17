@@ -58,5 +58,7 @@ app.use('/auth', googleOAuthRoutes);
 app.use('/api/tasks', taskRoutes);
 
 app.listen(PORT, () => {
+    console.log('process.env.FRONTEND_ORIGIN:', process.env.FRONTEND_ORIGIN);
+    console.log('process.env.BACKEND_ORIGIN:', process.env.BACKEND_ORIGIN);
     console.log(`Server is running on port ${PORT}`);
 });

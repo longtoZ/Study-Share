@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = window.env.VITE_API_BASE_URL;
 
 export const ENDPOINTS = {
     SIGNUP: `${API_BASE_URL}/user/signup`,
@@ -16,6 +16,8 @@ export const ENDPOINTS = {
     USER_STRIPE_ACCOUNT: `${API_BASE_URL}/user/stripe-account/id`,
     USER_STATISTICS: `${API_BASE_URL}/material/statistics`,
     VERIFY_USER: `${API_BASE_URL}/auth/verify`,
+
+    GOOGLE_AUTH: `${API_BASE_URL}/auth/google`,
 
     CREATE_LESSON: `${API_BASE_URL}/lesson/create-lesson`,
 

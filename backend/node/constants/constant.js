@@ -19,8 +19,8 @@ const TEMP_IMAGE_PATH = './temp/images/';
 
 const MAX_STAR_LEVEL = 5;
 
-const PDF_TO_WEBP_URL = 'http://localhost:5000/convert/pdf-to-webp';
-const DOCX_TO_WEBP_URL = 'http://localhost:5000/convert/docx-to-webp';
+const PDF_TO_WEBP_URL = `${process.env.FLASK_BACKEND_ORIGIN}/convert/pdf-to-webp`;
+const DOCX_TO_WEBP_URL = `${process.env.FLASK_BACKEND_ORIGIN}/convert/docx-to-webp`;
 
 const REDIS_TTL = 900; // 15 minutes
 

@@ -8,6 +8,11 @@ window.env = {
 };
 EOF
 
+# Log the environment variables for debugging
+echo "VITE_API_BASE_URL: ${VITE_API_BASE_URL}"
+echo "VITE_STRIPE_CLIENT_ID: ${VITE_STRIPE_CLIENT_ID}"
+echo "VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID}"
+
 # Inject <script> tag into index.html to load config.js
 sed -i '/<head>/a <script src="/config.js"></script>' /usr/share/nginx/html/index.html
 
