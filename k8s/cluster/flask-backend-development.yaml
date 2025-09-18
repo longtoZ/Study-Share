@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: flask-backend
-          image: longtoz/studyshare-flask-backend:v1.1
+          image: longtoz/studyshare-flask-backend:v1.12
           ports:
             - containerPort: 5000
           envFrom:

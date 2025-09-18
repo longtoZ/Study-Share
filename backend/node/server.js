@@ -5,6 +5,7 @@ import env from 'dotenv';
 import passport from 'passport';
 
 import configurePassport from './config/passport.config.js';
+import { register } from './config/prometheus.config.js';
 import userRoutes from './routes/user.route.js';
 import materialRoutes from './routes/material.route.js';
 import subjectRoutes from './routes/subject.route.js';
@@ -38,6 +39,12 @@ app.use(session({
 configurePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Expose a /metrics endpoint for Prometheus to scrape
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
 
 app.get('/', (req, res) => {
     res.send('Welcome to StudyShare API!');

@@ -9,3 +9,4 @@ gunicorn
 pdf2image
 docx2pdf
 google-genai
+prometheus_flask_exporter

@@ -7,6 +7,10 @@ from .services.celery_tasks import convert_docx_to_webp as celery_convert_docx_t
 # Create a Blueprint for the routes.
 bp = Blueprint('routes', __name__, url_prefix='/')
 
+@bp.route('/')
+def index():
+    return "Welcome to the File Conversion Service!"
+
 @bp.route('/convert/pdf-to-webp', methods=['POST'])
 def convert_pdf_to_webp():
     file = request.files['file']

@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: "node-backend-monitor"
+  namespace: monitoring  # Prometheus namespace
+  labels:
+    release: prometheus-stack  # Matches Helm selector
+spec:
+  selector:
+    matchLabels:
+      app: node-backend-service  # Your Node.js service label
+  endpoints:
+  - port: http  # Your service port name (e.g., where /metrics is exposed)
+    path: /metrics
+    interval: 30s
+  namespaceSelector:
+    matchNames:
+    - default  # Your app namespace
