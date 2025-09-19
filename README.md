@@ -23,8 +23,8 @@ StudyShare
 │  │  ├─ output_pdf
 │  │  ├─ output_webp
 │  │  ├─ requirements.txt
-│  │  ├─ run.py
-│  │  └─ uploads
+│  │  ├─ uploads
+│  │  └─ wsgi.py
 │  └─ node
 │     ├─ .dockerignore
 │     ├─ config
@@ -32,6 +32,7 @@ StudyShare
 │     │  ├─ database.config.js
 │     │  ├─ jwt.config.js
 │     │  ├─ passport.config.js
+│     │  ├─ prometheus.config.js
 │     │  ├─ redis.config.js
 │     │  └─ stripe.config.js
 │     ├─ constants
@@ -315,6 +316,25 @@ StudyShare
 │  ├─ tsconfig.json
 │  ├─ tsconfig.node.json
 │  └─ vite.config.ts
+├─ grafana
+│  ├─ flask-monitoring-model.json
+│  ├─ k8s-monitoring-model.json
+│  └─ node-monitoring-model.json
+├─ k8s
+│  ├─ cluster
+│  │  ├─ celery-worker-development.yaml
+│  │  ├─ flask-backend-development.yaml
+│  │  ├─ flask-backend-service.yaml
+│  │  ├─ node-backend-development.yaml
+│  │  ├─ node-backend-service.yaml
+│  │  ├─ react-frontend-development.yaml
+│  │  ├─ react-frontend-service.yaml
+│  │  ├─ redis-development.yaml
+│  │  └─ redis-service.yaml
+│  └─ prometheus
+│     ├─ flask-service-monitor.yaml
+│     ├─ node-service-monitor.yaml
+│     └─ redis-service-monitor.yaml
 └─ README.md
 
 ```

@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import { ENDPOINTS } from '@/constants/endpoints';
-
-const CREATE_LESSON_ENDPOINT = ENDPOINTS.CREATE_LESSON;
+import { createLesson } from '@/services/lessonService';
+import { useNavigate } from 'react-router-dom';
 
 const CreateLessonPage = () => {
 	const [lessonData, setLessonData] = useState({
@@ -15,24 +14,28 @@ const CreateLessonPage = () => {
 		user_id: `${localStorage.getItem('user_id') || ''}`,
 		is_public: false
 	});
+	const [lessonNameError, setLessonNameError] = useState('');
+	const [descriptionError, setDescriptionError] = useState('');
+	const [lessonCreationError, setLessonCreationError] = useState('');
+	const navigate = useNavigate();
 
 	const handleSubmit = async () => {
-		try {
-			const response = await fetch(CREATE_LESSON_ENDPOINT, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(lessonData),
-			});
-			if (!response.ok) {
-				throw new Error('Failed to create new lesson');
-			}
+		if (!lessonData.name) {
+			setLessonNameError('Lesson name is required');
+			return;
+		}
 
-			const data = await response.json();
-			console.log('New lesson created successfully!', data);
+		if (!lessonData.description) {
+			setDescriptionError('Description is required');
+			return;
+		}
+
+		try {
+			await createLesson(lessonData);
+			navigate(`/lessons/${lessonData.lesson_id}`);
 		} catch (error) {
-			console.error('Error creating new lesson!');
+			console.error('Error creating lesson:', error);
+			setLessonCreationError('Failed to create lesson. Please try again.');
 		}
 	}
 
@@ -52,9 +55,11 @@ const CreateLessonPage = () => {
 							type="text"
 							id="name"
 							className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
-							placeholder="Enter document name"
+							placeholder="Enter lesson name"
+							value={lessonData.name}
 							onChange={(e) => setLessonData({...lessonData, name: e.target.value})}
 						/>
+						{lessonNameError && <p className="text-red-500 text-sm mt-1">{lessonNameError}</p>}
 					</div>
 
 					<div>
@@ -65,9 +70,11 @@ const CreateLessonPage = () => {
 							id="description"
 							rows={4}
 							className="w-full p-2 border border-gray-300 rounded-lg focus:outline-zinc-400"
-							placeholder="Enter document description"
+							placeholder="Enter lesson description"
+							value={lessonData.description}
 							onChange={(e) => setLessonData({...lessonData, description: e.target.value})}
 						/>
+						{descriptionError && <p className="text-red-500 text-sm mt-1">{descriptionError}</p>}
 					</div>
 
 					<div>
@@ -112,13 +119,30 @@ const CreateLessonPage = () => {
 				</form>
 
 				<div className='flex justify-center mt-8'>
-					<button className='button-outline mr-4 px-4 py-3 w-40'>
+					<button className='button-outline mr-4 px-4 py-3 w-40' onClick={() => {
+						setLessonData({
+							lesson_id: `${localStorage.getItem('user_id') || ''}-${uuidv4()}`,
+							name: '',
+							description: '',
+							created_date: new Date().toISOString(),
+							last_update: null,
+							material_count: 0,
+							user_id: `${localStorage.getItem('user_id') || ''}`,
+							is_public: false
+						});
+					}}>
 						Clear
 					</button>
 					<button className='button-primary px-4 py-3 w-40' onClick={handleSubmit}>
 						Create lesson
 					</button>
 				</div>
+
+				{lessonCreationError && 
+					<div className="mx-20 mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+						{lessonCreationError}
+					</div>
+				}
 
 			</div>
 		</div>

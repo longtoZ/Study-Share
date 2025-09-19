@@ -4,7 +4,7 @@ import type { MaterialExtended } from '@/interfaces/userProfile.d';
 import type { History } from '@/interfaces/table.d';
 
 import { retrieveAllMaterials } from '@/services/lessonService';
-import { verifyUser } from '@services/authService';
+import { verifyUser } from '@/services/authService';
 import { addEntry } from '@/services/historyService';
 import { v4 as uuidv4 } from 'uuid';
 

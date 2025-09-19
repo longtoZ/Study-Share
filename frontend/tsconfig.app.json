@@ -36,6 +36,7 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@constants/*": ["src/constants/*"]
     },
+    "types": ["vitest/globals"]
   },
-  "include": ["src"]
+  "include": ["src"],
 }

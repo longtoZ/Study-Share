@@ -1,5 +1,6 @@
 import { ENDPOINTS } from "@/constants/endpoints";
 
+const CREATE_LESSON_ENDPOINT = ENDPOINTS.CREATE_LESSON;
 const ALL_MATERIALS_LESSON_ENDPOINT = ENDPOINTS.ALL_MATERIALS_LESSON;
 const ADD_MATERIAL_LESSON_ENDPOINT = ENDPOINTS.ADD_MATERIAL_LESSON;
 const GET_LESSON_ENDPOINT = ENDPOINTS.GET_LESSON;
@@ -21,6 +22,27 @@ const retrieveAllMaterials = async (lessonId: string, order: "newest" | "oldest"
         console.error('Error fetching materials:', error);
     }
 };
+
+const createLesson = async (lessonData: any) => {
+    try {
+        const response = await fetch(CREATE_LESSON_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(lessonData),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to create new lesson');
+        }
+
+        const data = await response.json();
+        console.log('New lesson created successfully!', data);
+        return data;
+    } catch (error) {
+        console.error('Error creating new lesson:', error);
+    }
+}
 
 const addMaterialToLesson = async (lessonId: string, materialId: string) => {
     try {
@@ -132,4 +154,4 @@ const deleteLesson = async (lessonId: string, authorId: string) => {
     return null;
 }
 
-export { getLesson, updateLesson, searchLesson, deleteLesson };
+export { createLesson, getLesson, updateLesson, searchLesson, deleteLesson };

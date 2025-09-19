@@ -20,6 +20,8 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+
+    "types": ["vitest/globals"]
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts"],
 }

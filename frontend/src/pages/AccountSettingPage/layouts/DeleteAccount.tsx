@@ -34,6 +34,10 @@ const DeleteAccount = () => {
         try {
             setIsDeleting(true);
             await deleteUserAccount(userId, confirmPassword);
+
+            // Clear local storage and redirect to homepage after successful deletion
+            localStorage.clear();
+            window.location.href = '/';
         } catch (error: any) {
             if (error.message.includes('Incorrect password')) {
                 setConfirmPasswordError('Incorrect password. Please try again.');
