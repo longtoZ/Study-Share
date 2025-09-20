@@ -308,6 +308,55 @@ StudyShare
 │  │  │  └─ userService.ts
 │  │  ├─ styles
 │  │  │  └─ index.css
+│  │  ├─ tests
+│  │  │  ├─ AccountSettingPage
+│  │  │  │  ├─ ConnectStripe.test.tsx
+│  │  │  │  ├─ DeleteAccount.test.tsx
+│  │  │  │  ├─ PersonalInfo.test.tsx
+│  │  │  │  └─ ResetPassword.test.tsx
+│  │  │  ├─ CreateLessonPage
+│  │  │  │  └─ CreateLessonPage.test.tsx
+│  │  │  ├─ HistoryPage
+│  │  │  │  └─ HistoryPage.test.tsx
+│  │  │  ├─ LessonEditPage
+│  │  │  │  └─ LessonEditPage.test.tsx
+│  │  │  ├─ LessonViewPage
+│  │  │  │  └─ LessonViewPage.test.tsx
+│  │  │  ├─ LoginPage
+│  │  │  │  └─ LoginPage.test.tsx
+│  │  │  ├─ MaterialEditPage.test
+│  │  │  │  └─ MaterialEditPage.test.tsx
+│  │  │  ├─ MaterialViewPage
+│  │  │  │  ├─ AddLessonCard.test.tsx
+│  │  │  │  ├─ ChatPannel.test.tsx
+│  │  │  │  ├─ CommentSection.test.tsx
+│  │  │  │  ├─ ContentView.test.tsx
+│  │  │  │  ├─ HeaderSection.test.tsx
+│  │  │  │  ├─ MetadataCard.test.tsx
+│  │  │  │  └─ RatingCard.test.tsx
+│  │  │  ├─ MyLessonsPage
+│  │  │  │  └─ MyLessonsPage.test.tsx
+│  │  │  ├─ SearchPage
+│  │  │  │  └─ SearchPage.test.tsx
+│  │  │  ├─ setup.ts
+│  │  │  ├─ SignupPage
+│  │  │  │  ├─ AccountStep.test.tsx
+│  │  │  │  ├─ EmailVerification.test.tsx
+│  │  │  │  ├─ PersonalInfoStep.test.tsx
+│  │  │  │  └─ SignupHeader.test.tsx
+│  │  │  ├─ StatisticsPage
+│  │  │  │  ├─ GeneralStats.test.tsx
+│  │  │  │  ├─ TopContributors.test.tsx
+│  │  │  │  └─ TopMaterials.test.tsx
+│  │  │  ├─ UploadPage
+│  │  │  │  └─ UploadPage.test.tsx
+│  │  │  └─ UserProfilePage
+│  │  │     ├─ components
+│  │  │     │  ├─ AboutSection.test.tsx
+│  │  │     │  ├─ LessonsSection.test.tsx
+│  │  │     │  ├─ MaterialsSection.test.tsx
+│  │  │     │  └─ UserInfoSection.test.tsx
+│  │  │     └─ UserProfilePage.test.tsx
 │  │  ├─ utils
 │  │  │  └─ storeMaterialsLessons.ts
 │  │  └─ vite-env.d.ts
@@ -315,7 +364,8 @@ StudyShare
 │  ├─ tsconfig.app.json
 │  ├─ tsconfig.json
 │  ├─ tsconfig.node.json
-│  └─ vite.config.ts
+│  ├─ vite.config.ts
+│  └─ vitest.config.ts
 ├─ grafana
 │  ├─ flask-monitoring-model.json
 │  ├─ k8s-monitoring-model.json

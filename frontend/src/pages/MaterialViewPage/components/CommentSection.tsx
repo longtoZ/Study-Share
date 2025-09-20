@@ -1,10 +1,8 @@
 
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-    SendOutlined as SendOutlinedIcon,
-    FavoriteBorderOutlined as FavoriteBorderOutlinedIcon,
-    FavoriteOutlined as FavoriteOutlinedIcon,
-} from "@mui/icons-material";
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 
 interface CommentSectionProps {
     user: any;

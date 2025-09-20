@@ -12,8 +12,9 @@ import type { Subject } from '@/interfaces/table.d';
 import type { Material } from '@/interfaces/table.d';
 import { ENDPOINTS } from "@/constants/endpoints";
 
+import { uploadMaterial } from "@/services/materialService";
+
 const SUBJECTS_ENDPOINT = ENDPOINTS.GET_ALL_SUBJECTS;
-const UPLOAD_ENDPOINT = ENDPOINTS.UPLOAD;
 
 interface FileData {
 	material_id: string;
@@ -49,7 +50,7 @@ const UploadPage = () => {
 		event.preventDefault();
 		event.stopPropagation();
 		
-		if (event.dataTransfer.files) {
+		if (event.dataTransfer?.files) {
 			const droppedFiles = Array.from(event.dataTransfer.files) as File[];
 			const fileDataArray = droppedFiles.map(file => ({
 				material_id: `${localStorage.getItem('user_id') || ''}-${uuidv4()}`,
@@ -81,19 +82,12 @@ const UploadPage = () => {
 			console.log('Submitting material:', formData);
 
 			try {
-				const response = await fetch(UPLOAD_ENDPOINT, {
-					method: 'POST',
-					body: formData
-				});
-
-				if (!response.ok) throw new Error('Failed to upload file');
-
-				const data = await response.json();
-				console.log('File uploaded successfully:', data);
+				await uploadMaterial(formData);
 				setUploadSuccessMessage('Files uploaded successfully! Please check Tasks page to see the processing status.');
+				setUploadErrorMessage('');
 			} catch (error) {
-				console.error('Error uploading file:', error);
 				setUploadErrorMessage('Failed to upload files. Please try again later.');
+				setUploadSuccessMessage('');
 			}
 		});
 
@@ -155,7 +149,7 @@ const UploadPage = () => {
 							</div>
 							
 							<div className="space-y-2">
-								<h3 className="text-xl font-semibold text-gray-700">Drop your files here</h3>
+								<h3 className="text-xl font-semibold text-gray-700">Drag and drop your files here</h3>
 								<p className="text-gray-500">or click to browse</p>
 							</div>
 							
@@ -170,6 +164,7 @@ const UploadPage = () => {
 								accept=".pdf,.doc,.docx"
 								onChange={handleFileSelect}
 								className="hidden" 
+								placeholder="Browse files"
 							/>
 						</div>
 					</div>
@@ -211,7 +206,7 @@ const UploadPage = () => {
 								setFilesData([]);
 								if (inputRef.current) inputRef.current.value = '';
 							}}>
-								Clear
+								Clear All
 							</button>
 							<button className="button-primary w-36 text-white px-8 py-3 font-medium transition-colors duration-200" onClick={handleSubmit}>
 								Submit

@@ -78,7 +78,7 @@ export default function ChatPannel({
                         <AutoAwesomeOutlinedIcon/>
                         AI Chat
                     </div>
-                    <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
+                    <button onClick={onClose} className="text-gray-500 hover:text-gray-800" aria-label="close chat">
                         <CloseIcon />
                     </button>
                 </div>
@@ -121,6 +121,7 @@ export default function ChatPannel({
                                 className="button-primary rounded-xl w-10 h-10 p-4 flex items-center justify-center"
                                 onClick={handleSend}
                                 style={{ borderRadius: '50%' }}
+                                aria-label="send message"
                             >
                                 <SendIcon fontSize="small" />
                             </button>

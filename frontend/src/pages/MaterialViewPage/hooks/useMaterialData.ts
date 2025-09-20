@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getMaterial } from "@services/materialService";
+import { getMaterial } from "@/services/materialService";
 import { addEntry } from "@/services/historyService";
-import { verifyUser } from '@services/authService';
+import { verifyUser } from '@/services/authService';
 import { v4 as uuidv4 } from 'uuid';
 import { checkMaterialPayment } from "@/services/paymentService";
 import type { History } from "@/interfaces/table.d";

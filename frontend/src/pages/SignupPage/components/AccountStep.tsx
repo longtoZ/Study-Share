@@ -99,7 +99,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
                     className="font-semibold hover:underline cursor-pointer"
                     onClick={() => navigate('/login')}
                 >
-                    Log in
+                    Login
                 </span>
             </p>
         </div>

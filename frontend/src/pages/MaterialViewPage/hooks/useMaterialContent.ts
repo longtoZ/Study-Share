@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from "react";
-import { getMaterialPage } from "@services/materialService";
+import { getMaterialPage } from "@/services/materialService";
 
 interface IImagePage {
     pageNumber: number;

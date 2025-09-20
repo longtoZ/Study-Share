@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { createComment, getComments, voteComment, deleteComment } from '@services/commentService';
+import { createComment, getComments, voteComment, deleteComment } from '@/services/commentService';
 
 export const useComments = (materialId: string | undefined, userId: string, isAuthor: boolean) => {
     const [commentOrder, setCommentOrder] = useState<string>("newest");

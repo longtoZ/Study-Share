@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import MaterialsGrid from '@components/layout/MaterialsGrid';
-import LessonsGrid from '@components/layout/LessonsGrid';
+import MaterialsGrid from '@/components/layout/MaterialsGrid';
+import LessonsGrid from '@/components/layout/LessonsGrid';
 
 import type { Subject } from '@/interfaces/table.d';
 import type { LessonExtended, MaterialExtended } from '@/interfaces/userProfile.d';
@@ -10,7 +10,7 @@ import { retrieveLessons } from '@/services/userService';
 import { searchMaterial } from '@/services/materialService';
 import { searchLesson } from '@/services/lessonService';
 
-import DropdownList from '@components/common/DropdownList';
+import DropdownList from '@/components/common/DropdownList';
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
@@ -211,6 +211,7 @@ const SearchPage: React.FC = () => {
                                         ? setMaterialFilters((f) => ({ ...f, from: e.target.value }))
                                         : setLessonFilters((f) => ({ ...f, from: e.target.value }))
                                 }
+                                placeholder='From date'
                                 className="p-2 rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
@@ -227,6 +228,7 @@ const SearchPage: React.FC = () => {
                                         ? setMaterialFilters((f) => ({ ...f, to: e.target.value }))
                                         : setLessonFilters((f) => ({ ...f, to: e.target.value }))
                                 }
+                                placeholder='To date'
                                 className="p-2 rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>

@@ -1,6 +1,7 @@
 import { ENDPOINTS } from "@/constants/endpoints";
 
 const GET_MATERIAL_ENDPOINT = ENDPOINTS.GET_MATERIAL;
+const UPLOAD_ENDPOINT = ENDPOINTS.UPLOAD;
 const GET_MATERIAL_PAGE_ENDPOINT = ENDPOINTS.GET_MATERIAL_PAGE;
 const SEARCH_MATERIAL_ENDPOINT = ENDPOINTS.SEARCH_MATERIAL;
 const DOWNLOAD_MATERIAL_ENDPOINT = ENDPOINTS.DOWNLOAD_MATERIAL;
@@ -121,6 +122,24 @@ const getMaterialUrl = async (materialId: string) => {
     return null;
 }
 
+const uploadMaterial = async (formData: FormData) => {
+    try {
+        const response = await fetch(UPLOAD_ENDPOINT, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Failed to upload file');
+
+        const data = await response.json();
+        console.log('File uploaded successfully:', data);
+        return data;
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        throw error;
+    }
+}
+
 const deleteMaterial = async (materialId: string, authorId: string) => {
     console.log('Deleting material with ID:', materialId);
     const deleteMaterialUrl = GET_MATERIAL_ENDPOINT.replace('material-id', materialId);
@@ -148,4 +167,4 @@ const deleteMaterial = async (materialId: string, authorId: string) => {
     return null;
 };
 
-export { getMaterial, getMaterialPage, updateMaterial, searchMaterial, getMaterialUrl, deleteMaterial };
+export { getMaterial, uploadMaterial, getMaterialPage, updateMaterial, searchMaterial, getMaterialUrl, deleteMaterial };

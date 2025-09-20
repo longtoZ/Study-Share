@@ -1,17 +1,15 @@
 
 import { useState } from "react";
 import MetadataCard from "./MetadataCard";
-import {
-    SchoolOutlined as SchoolOutlinedIcon,
-    DescriptionOutlined as DescriptionOutlinedIcon,
-    CloudDownloadOutlined as CloudDownloadOutlinedIcon,
-    VisibilityOutlined as VisibilityOutlinedIcon,
-    SubjectOutlined as SubjectOutlinedIcon,
-    AttachMoneyOutlined as AttachMoneyOutlinedIcon,
-    ZoomInOutlined as ZoomInOutlinedIcon,
-    ZoomOutOutlined as ZoomOutOutlinedIcon,
-    MonetizationOnOutlined as MonetizationOnOutlinedIcon,
-} from "@mui/icons-material";
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import SubjectOutlinedIcon from '@mui/icons-material/SubjectOutlined';
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import ZoomInOutlinedIcon from '@mui/icons-material/ZoomInOutlined';
+import ZoomOutOutlinedIcon from '@mui/icons-material/ZoomOutOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
 interface ContentViewProps {
     material: any;
@@ -49,6 +47,7 @@ const ContentView = ({
                              : "text-gray-500 hover:text-gray-800"
                      }`}
                     onClick={() => setCurrentView("content")}
+                    aria-label="Content View"
                 >
                     Content
                 </button>
@@ -60,6 +59,7 @@ const ContentView = ({
                              : "text-gray-500 hover:text-gray-800"
                      }`}
                     onClick={() => setCurrentView("about")}
+                    aria-label="About View"
                 >
                     About
                 </button>
@@ -116,12 +116,14 @@ const ContentView = ({
                         <button
                             className="text-gray-500 hover:text-gray-800 transition-colors duration-200 cursor-pointer"
                             onClick={handleZoomIn}
+                            aria-label="Zoom In"
                         >
                             <ZoomInOutlinedIcon />
                         </button>
                         <button
                             className="text-gray-500 hover:text-gray-800 transition-colors duration-200 cursor-pointer"
                             onClick={handleZoomOut}
+                            aria-label="Zoom Out"
                         >
                             <ZoomOutOutlinedIcon />
                         </button>

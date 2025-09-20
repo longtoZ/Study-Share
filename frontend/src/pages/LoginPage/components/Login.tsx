@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
-import { login } from '@redux/userSlice';
+import { login } from '@/redux/userSlice';
 import { loginUser, googleLogin } from '@/services/userService';
 
 import CircularProgress from '@mui/material/CircularProgress';
@@ -22,6 +22,16 @@ const Login = ({ email, setEmail, setMode } : { email: string, setEmail: (email:
         e.preventDefault();
         setEmailErrorMessage('');
         setPasswordErrorMessage('');
+
+        if (email.length === 0) {
+            setEmailErrorMessage('Email is required');
+            return;
+        }
+
+        if (password.length === 0) {
+            setPasswordErrorMessage('Password is required');
+            return;
+        }
         
         try {
             setIsLoading(true);
@@ -97,8 +107,8 @@ const Login = ({ email, setEmail, setMode } : { email: string, setEmail: (email:
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        placeholder='Enter your email'
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-zinc-500"
-                        required
                     />
                 </div>
                 {emailErrorMessage && (
@@ -114,8 +124,9 @@ const Login = ({ email, setEmail, setMode } : { email: string, setEmail: (email:
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(e); }}
+                        placeholder='Enter your password'
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-zinc-500"
-                        required
                     />
                 </div>
                 {passwordErrorMessage && (

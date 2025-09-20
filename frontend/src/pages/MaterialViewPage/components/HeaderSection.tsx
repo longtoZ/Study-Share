@@ -1,16 +1,13 @@
-
 import { useNavigate } from "react-router-dom";
-import {
-    FileDownloadOutlined as FileDownloadOutlinedIcon,
-    Star as StarIcon,
-    ShareOutlined as ShareOutlinedIcon,
-    DateRangeOutlined as DateRangeOutlinedIcon,
-    SettingsOutlined as SettingsOutlinedIcon,
-    MonetizationOnOutlined as MonetizationOnOutlinedIcon,
-} from "@mui/icons-material";
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import StarIcon from '@mui/icons-material/Star';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import AddLessonCard from "./AddLessonCard";
 import { makePayment } from "@/services/paymentService";
-import { getMaterialUrl } from "@services/materialService";
+import { getMaterialUrl } from "@/services/materialService";
 
 interface HeaderSectionProps {
     material: any;

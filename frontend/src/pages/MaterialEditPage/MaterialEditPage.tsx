@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getMaterial } from '@services/materialService';
+import { getMaterial } from '@/services/materialService';
 import { useParams } from 'react-router-dom';
 
 import { retrieveLessons, retrieveAllSubjects } from '@/services/userService';
-import { updateMaterial, deleteMaterial } from '@services/materialService';
+import { updateMaterial, deleteMaterial } from '@/services/materialService';
 
 import type { Subject } from '@interfaces/table.d';
 import type { Lesson } from '@interfaces/userProfile.d';
 import type { Material } from '@interfaces/table.d';
 
-import DropdownList from '@components/common/DropdownList';
+import DropdownList from '@/components/common/DropdownList';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const MaterialEditPage: React.FC = () => {
@@ -21,6 +21,7 @@ const MaterialEditPage: React.FC = () => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirmationText, setConfirmationText] = useState('');
     const [successfulMessage, setSuccessfulMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const defaultConfirmationText = "delete this material";
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -96,18 +97,26 @@ const MaterialEditPage: React.FC = () => {
     }
 
     const handleSave = async () => {
-        // Save logic here
-        if (materialId && materialData) {
-            const updatedMaterial = await updateMaterial(materialId, materialData.user_id, {
-                name: materialData.name,
-                description: materialData.description,
-                subject_id: materialData.subject_id,
-                lesson_id: materialData.lesson_id,
-                price: materialData.price,
-                is_paid: materialData.price > 0 ? true : false,
-            });
-            console.log('Updated material:', updatedMaterial);
-            setSuccessfulMessage('Material updated successfully!');
+        setSuccessfulMessage('');
+        setErrorMessage('');
+
+        try {
+            // Save logic here
+            if (materialId && materialData) {
+                const updatedMaterial = await updateMaterial(materialId, materialData.user_id, {
+                    name: materialData.name,
+                    description: materialData.description,
+                    subject_id: materialData.subject_id,
+                    lesson_id: materialData.lesson_id,
+                    price: materialData.price,
+                    is_paid: materialData.price > 0 ? true : false,
+                });
+                console.log('Updated material:', updatedMaterial);
+                setSuccessfulMessage('Material updated successfully!');
+            }
+        } catch (error) {
+            console.error('Error updating material:', error);
+            setErrorMessage('Failed to update material');
         }
     };
 
@@ -158,7 +167,7 @@ const MaterialEditPage: React.FC = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Upload Date</label>
-                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData ? new Date(materialData?.upload_date).toLocaleDateString() : ''}</p>
+                                <p className="text-zinc-400 bg-white px-3 py-2 rounded-lg cursor-not-allowed">{materialData ? new Date(materialData?.upload_date).toLocaleString() : ''}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold">Downloads</label>
@@ -235,6 +244,7 @@ const MaterialEditPage: React.FC = () => {
                                         placeholder={lessons.find((lesson: Lesson) => lesson.lesson_id === materialData?.lesson_id)?.name}
                                     />
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -258,6 +268,7 @@ const MaterialEditPage: React.FC = () => {
                         <button
                             type="button"
                             className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onClick={() => navigate(-1)}
                         >
                             Cancel
                         </button>
@@ -270,6 +281,7 @@ const MaterialEditPage: React.FC = () => {
                         </button>
                     </div>
                     {successfulMessage && <p className="text-green-600 mt-4">{successfulMessage}</p>}
+                    {errorMessage && <p className="text-red-600 mt-4">{errorMessage}</p>}
                 </div>
             </div>
 
