@@ -2,10 +2,11 @@ import supabase from '../config/database.config.js';
 import { TABLES } from '../constants/constant.js';
 
 class Task {
-    static async getRecentTasks(limit = 5) {
+    static async getRecentTasks(userId, limit = 5) {
         const { data, error } = await supabase
             .from(TABLES.TASK)
             .select('*')
+            .eq('user_id', userId)
             .order('created_date', { ascending: false })
             .limit(limit);
 

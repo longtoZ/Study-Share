@@ -23,13 +23,19 @@ const OrdersPage = () => {
 		const fetchOrders = async () => {
             setLoading(true);
             setOrders([]);
-            const ordersData = await getOrdersHistory({
-                ...filter,
-                from: new Date(new Date(filter.from).setHours(0, 0, 0, 0)),
-                to: new Date(new Date(filter.to).setHours(23, 59, 59, 999))
-            });
-            setOrders(ordersData);
-            setLoading(false);
+
+			try {
+				const ordersData = await getOrdersHistory({
+					...filter,
+					from: new Date(new Date(filter.from).setHours(0, 0, 0, 0)),
+					to: new Date(new Date(filter.to).setHours(23, 59, 59, 999))
+				});
+				setOrders(ordersData);
+			} catch (error) {
+				console.error('Error fetching orders history:', error);
+			} finally {
+				setLoading(false);
+			}
         }
 
         setFilter((prev) => ({ ...prev, order: sortOrder }));
@@ -106,16 +112,16 @@ const OrdersPage = () => {
                                         </td>
                                     </tr>
                                 ) : 
-								orders.length > 0 ? orders.map((order) => (
+								orders && orders.length > 0 ? orders.map((order) => (
 									<tr key={order.payment_id} className="border-b border-zinc-100 hover:bg-gray-50">
                                         <td className="py-4 px-4">{orders.indexOf(order) + 1}</td>
 										<td className="py-3 px-4 text-blue-500 font-semibold hover:underline cursor-pointer" onClick={() => navigate(`/material/${order.material_id}`)}>{order.material_name}</td>
 										<td className="py-3 px-4" onClick={() => navigate(`/user/${order.buyer_id}`)}>{order.buyer_name}</td>
-										<td className="py-3 px-4"><strong>${order.amount.toFixed(2)}</strong></td>
+										<td className="py-3 px-4"><strong>${order.amount?.toFixed(2) || 0}</strong></td>
 										<td className="py-3 px-4">{new Date(order.created_date).toLocaleString(undefined, { timeZone: 'UTC' })}</td>
                                         <td className="py-3 px-4 capitalize">
                                             <span className={`px-4 py-2 rounded-xl bg-gradient-to-r shadow-lg ${order.status === 'paid' ? 'from-emerald-500 to-lime-500 shadow-green-200' : order.status === 'pending' ? 'from-yellow-500 to-amber-500 shadow-yellow-200' : 'from-red-500 to-amber-500 shadow-red-200'} text-white font-semibold`}>
-                                                {order.status[0].toUpperCase() + order.status.slice(1)}
+                                                { order.status && order.status[0].toUpperCase() + order.status.slice(1)}
                                             </span>
                                         </td>
 									</tr>

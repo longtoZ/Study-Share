@@ -61,11 +61,10 @@ class History {
             throw error;
         }
 
-        console.log('Delete result:', data);
     }
 
     static async bulkDeleteHistory(history_ids) {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from(TABLES.HISTORY)
             .delete()
             .in('history_id', history_ids);
@@ -74,7 +73,6 @@ class History {
             throw error;
         }
 
-        return data;
     }
 
     static async listEntries(user_id, filter, pageRange) {

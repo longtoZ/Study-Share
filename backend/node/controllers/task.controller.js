@@ -6,7 +6,7 @@ class TaskController {
         const limit = parseInt(req.query.limit) || 5;
 
         try {
-            const tasks = await Task.getRecentTasks(limit);
+            const tasks = await Task.getRecentTasks(userId, limit);
             res.status(200).json({ tasks });
         } catch (err) {
             console.error(err);

@@ -7,7 +7,7 @@ class AIChatController {
             const response = await aiChatService.generateResponse(userId, materialId, message, model);
             res.json({ response });
         } catch (error) {
-            console.error("Error generating AI response:", error);
+            console.error("Error generating AI response:", error.message);
             res.status(500).json({ error: "Failed to generate AI response" });
         }
     }
@@ -18,7 +18,7 @@ class AIChatController {
             aiChatService.clearSession(userId, materialId);
             res.json({ message: "Session cleared successfully" });
         } catch (error) {
-            console.error("Error clearing session:", error);
+            console.error("Error clearing session:", error.message);
             res.status(500).json({ error: "Failed to clear session" });
         }
     }

@@ -29,7 +29,7 @@ class UserController {
             if (error.message.includes('email already exists')) {
                 return res.status(409).json({ message: error.message });
             }
-            console.error('Sign up error:', error);
+            console.error('Sign up error:', error.name);
             res.status(500).json({ message: 'Internal server error during signing up.' });
         }
     }

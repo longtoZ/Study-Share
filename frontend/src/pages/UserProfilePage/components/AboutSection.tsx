@@ -10,7 +10,7 @@ interface UserProps {
         total_lessons: number;
         total_downloads: number;
         average_rating: number;
-    };
+    } | null;
 }
 
 const AboutSection = ({ user } : { user: UserProps }) => {
@@ -29,7 +29,7 @@ const AboutSection = ({ user } : { user: UserProps }) => {
                 </div>
                 </div>
                 <div>
-                <p className='text-3xl font-bold'>{user?.statistics.total_materials}</p>
+                <p className='text-3xl font-bold'>{user?.statistics?.total_materials || 0}</p>
                 <h2 className='mt-1 font-semibold'>Study Materials</h2>
                 <p className='text-xs mt-1 opacity-80'>Documents, Notes & Guides</p>
                 </div>
@@ -42,7 +42,7 @@ const AboutSection = ({ user } : { user: UserProps }) => {
                 </div>
                 </div>
                 <div>
-                <p className='text-3xl font-bold'>{user?.statistics.total_lessons}</p>
+                <p className='text-3xl font-bold'>{user?.statistics?.total_lessons || 0}</p>
                 <h2 className='mt-1 font-semibold'>Learning Lessons</h2>
                 <p className='text-xs mt-1 opacity-80'>Curated Content Collections</p>
                 </div>
@@ -55,7 +55,7 @@ const AboutSection = ({ user } : { user: UserProps }) => {
                 </div>
                 </div>
                 <div>
-                <p className='text-3xl font-bold'>{user?.statistics.total_downloads}</p>
+                <p className='text-3xl font-bold'>{user?.statistics?.total_downloads || 0}</p>
                 <h2 className='mt-1 font-semibold'>Total Downloads</h2>
                 <p className='text-xs mt-1 opacity-80'>By Other Students</p>
                 </div>
@@ -68,7 +68,7 @@ const AboutSection = ({ user } : { user: UserProps }) => {
                 </div>
                 </div>
                 <div>
-                <p className='text-3xl font-bold'>{user?.statistics.average_rating}</p>
+                <p className='text-3xl font-bold'>{user?.statistics?.average_rating || 0}</p>
                 <h2 className='mt-1 font-semibold'>Community Ratings</h2>
                 <p className='text-xs mt-1 opacity-80'>Feedback Received</p>
                 </div>

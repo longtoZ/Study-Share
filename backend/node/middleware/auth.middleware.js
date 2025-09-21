@@ -11,6 +11,10 @@ class AuthMiddleware {
 
         const token = authHeader.split(' ')[1];
 
+        if (!token) {
+            return res.status(401).json({ message: 'Token is missing.' });
+        }
+
         try {
             const decoded = jwt.verify(token, jwtConfig.secret);
 
@@ -24,8 +28,8 @@ class AuthMiddleware {
             if (error.name === 'JsonWebTokenError') {
                 return res.status(401).json({ message: 'Token is not valid.' });
             }
-
-            console.error('JWT verification error:', error);
+            
+            console.error('JWT verification error:', error.message);
             res.status(500).json({ message: 'Server error during token verification.' });
         }
     }

@@ -19,7 +19,7 @@ const LessonsSection = ({ userId, lessons, isLessonsLoading, navigate }: Lessons
                 <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                     <CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
                     <h1 className='mt-2 text-lg'>Fetching lessons...</h1>
-                </div> : lessons.length === 0 ? (
+                </div> : !lessons || lessons.length === 0 ? (
                     <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                         <h1 className='mt-2 text-lg'>No lessons found.</h1>
                     </div>

@@ -18,7 +18,7 @@ const MaterialsSection = ({ userId, materials, isMaterialsLoading, navigate }: M
                 <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                     <CircularProgress sx={{color: '#9f9fa9'}} size='30px'/>
                     <h1 className='mt-2 text-lg'>Fetching materials...</h1>
-                </div> : materials.length === 0 ? (
+                </div> : !materials || materials.length === 0 ? (
                     <div className='flex justify-center items-center flex-col mt-10 text-gray-600'>
                         <h1 className='mt-2 text-lg'>No materials found.</h1>
                     </div>
