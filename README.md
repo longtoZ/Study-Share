@@ -92,8 +92,19 @@ StudyShare
 │     │  ├─ statistics.service.js
 │     │  ├─ subject.service.js
 │     │  └─ user.service.js
-│     ├─ temp
-│     │  └─ files
+│     ├─ tests
+│     │  ├─ ai-chat.test.js
+│     │  ├─ auth.test.js
+│     │  ├─ comment.test.js
+│     │  ├─ history.test.js
+│     │  ├─ lesson.test.js
+│     │  ├─ material.test.js
+│     │  ├─ payment.test.js
+│     │  ├─ rating.test.js
+│     │  ├─ statistics.test.js
+│     │  ├─ subject.test.js
+│     │  ├─ task.test.js
+│     │  └─ user.test.js
 │     ├─ uploads
 │     └─ utils
 │        ├─ deleteUnverifiedAccount.js
@@ -105,57 +116,6 @@ StudyShare
 ├─ docker-compose.yaml
 ├─ frontend
 │  ├─ .dockerignore
-│  ├─ dist
-│  │  ├─ assets
-│  │  │  ├─ AccountSettingPage-Djy9CLOT.js
-│  │  │  ├─ AddOutlined-BgEXMUdo.js
-│  │  │  ├─ authService-B59WDbag.js
-│  │  │  ├─ chatgpt-icon-C6YNE-W2.png
-│  │  │  ├─ CreateLessonPage-C0GTrulZ.js
-│  │  │  ├─ DropdownList-DKfKLbmt.js
-│  │  │  ├─ google-gemini-icon-Det1WPRf.png
-│  │  │  ├─ HistoryPage-D9DCbjpl.js
-│  │  │  ├─ historyService-fbrr-Vzl.js
-│  │  │  ├─ index-BW4yPZh5.css
-│  │  │  ├─ index-C3mEZg5u.js
-│  │  │  ├─ LessonEditPage-BtBtqkPw.js
-│  │  │  ├─ lessonService-B_zuGj0R.js
-│  │  │  ├─ LessonsGrid-BClyHz-e.js
-│  │  │  ├─ LessonViewPage-DIvEeBUt.js
-│  │  │  ├─ LoginPage-wqgri6XJ.js
-│  │  │  ├─ login_background-0G9UPTMw.jpeg
-│  │  │  ├─ mail-JO9Py1yP.png
-│  │  │  ├─ MaterialEditPage-BZuB-V8z.js
-│  │  │  ├─ materialService-BPq0mk9J.js
-│  │  │  ├─ MaterialsGrid-6R497sY4.js
-│  │  │  ├─ MaterialViewPage-DMXfXBpZ.js
-│  │  │  ├─ MyLessonsPage-98QNFs9F.js
-│  │  │  ├─ MyMaterialsPage-CHKHPwsR.js
-│  │  │  ├─ OrdersPage-D4EN4mE6.js
-│  │  │  ├─ PaymentHistoryPage-h53WWksu.js
-│  │  │  ├─ paymentService-CG-xxyH1.js
-│  │  │  ├─ placeholder_bg-BpAUDY8u.png
-│  │  │  ├─ placeholder_pfp-CVNjPtsH.png
-│  │  │  ├─ react-CHdo91hT.svg
-│  │  │  ├─ RedirectToHomePage-DbXigBmr.js
-│  │  │  ├─ RootRedirectPage-DQDwMXH5.js
-│  │  │  ├─ SchoolOutlined-BkK7DGHL.js
-│  │  │  ├─ SearchBar-DJ5BKz-N.js
-│  │  │  ├─ SearchPage-CvIqRk0J.js
-│  │  │  ├─ SettingsOutlined-W_n-0WAv.js
-│  │  │  ├─ SignupPage-_83nTgOU.js
-│  │  │  ├─ signup_background-7p4cMfLt.jpeg
-│  │  │  ├─ Star-D4_1spQK.js
-│  │  │  ├─ StatisticsPage-IzYysfRU.js
-│  │  │  ├─ stripe_logo-BFE3AQX4.png
-│  │  │  ├─ TasksPage-DwD39Pjw.js
-│  │  │  ├─ UploadPage-CJ1xum1X.js
-│  │  │  ├─ UserProfilePage-Cqa3oLPD.js
-│  │  │  ├─ userService-DimIIyvM.js
-│  │  │  ├─ v4-BKrj-4V8.js
-│  │  │  └─ VisibilityOutlined-yiJ0blWH.js
-│  │  ├─ index.html
-│  │  └─ vite.svg
 │  ├─ Dockerfile
 │  ├─ entrypoint.sh
 │  ├─ eslint.config.js
@@ -336,6 +296,8 @@ StudyShare
 │  │  │  │  └─ RatingCard.test.tsx
 │  │  │  ├─ MyLessonsPage
 │  │  │  │  └─ MyLessonsPage.test.tsx
+│  │  │  ├─ OrdersPage
+│  │  │  │  └─ OrdersPage.test.tsx
 │  │  │  ├─ SearchPage
 │  │  │  │  └─ SearchPage.test.tsx
 │  │  │  ├─ setup.ts
@@ -351,12 +313,10 @@ StudyShare
 │  │  │  ├─ UploadPage
 │  │  │  │  └─ UploadPage.test.tsx
 │  │  │  └─ UserProfilePage
-│  │  │     ├─ components
-│  │  │     │  ├─ AboutSection.test.tsx
-│  │  │     │  ├─ LessonsSection.test.tsx
-│  │  │     │  ├─ MaterialsSection.test.tsx
-│  │  │     │  └─ UserInfoSection.test.tsx
-│  │  │     └─ UserProfilePage.test.tsx
+│  │  │     ├─ AboutSection.test.tsx
+│  │  │     ├─ LessonsSection.test.tsx
+│  │  │     ├─ MaterialsSection.test.tsx
+│  │  │     └─ UserInfoSection.test.tsx
 │  │  ├─ utils
 │  │  │  └─ storeMaterialsLessons.ts
 │  │  └─ vite-env.d.ts
