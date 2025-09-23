@@ -17,11 +17,11 @@ sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}-celery-worker:.*|image: ${DOCKER
 
 # Apply and rollout
 kubectl apply -f .
-kubectl rollout status deployment/react-frontend-development --context=minikube
-kubectl rollout status deployment/node-backend-development --context=minikube
-kubectl rollout status deployment/flask-backend-development --context=minikube
-kubectl rollout status deployment/celery-worker-development --context=minikube
-kubectl rollout status deployment/redis-development --context=minikube
+kubectl rollout status deployment/react-frontend-deployment --context=minikube
+kubectl rollout status deployment/node-backend-deployment --context=minikube
+kubectl rollout status deployment/flask-backend-deployment --context=minikube
+kubectl rollout status deployment/celery-worker-deployment --context=minikube
+kubectl rollout status deployment/redis-deployment --context=minikube
 
 # Helm setup
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
