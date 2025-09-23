@@ -52,7 +52,7 @@ const renderWithProviders = (component: React.ReactElement) => {
     const store = createMockStore();
     return render(
         <Provider store={store}>
-            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <GoogleOAuthProvider clientId={window.env.VITE_GOOGLE_CLIENT_ID}>
                 <BrowserRouter>
                     {component}
                 </BrowserRouter>
