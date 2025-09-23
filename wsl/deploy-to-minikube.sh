@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Start Minikube if not running
-minikube status || minikube start
+# Start Minikube
+minikube start
 
 # Change to the Kubernetes cluster directory
 cd ~/studyshare/k8s/cluster

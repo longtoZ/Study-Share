@@ -55,7 +55,7 @@ pipeline {
             steps {
                 sshagent(['wsl-ssh-creds']) {
                     script {
-                        bat 'ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/wsl/deploy-to-minikube.sh"'
+                        bat 'ssh -o StrictHostKeyChecking=no $WSL_USERNAME@$WSL_HOST "bash ~/wsl/deploy-to-minikube.sh"'
                     }
                 }
             }
@@ -65,7 +65,7 @@ pipeline {
             steps {
                 sshagent(['wsl-ssh-creds']) {
                     script {
-                        bat 'ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/wsl/get-app-url.sh"'
+                        bat 'ssh -o StrictHostKeyChecking=no $WSL_USERNAME@$WSL_HOST "bash ~/wsl/get-app-url.sh"'
                     }
                 }
             }
