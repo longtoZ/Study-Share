@@ -6,12 +6,6 @@ minikube start
 # Change to the Kubernetes cluster directory
 cd ~/studyshare/k8s/cluster
 
-# Check for manifest files
-test -f react-frontend-deployment.yaml && echo 'Found react-frontend-deployment.yaml' || { echo 'react-frontend-deployment.yaml missing'; exit 1; }
-test -f node-backend-deployment.yaml && echo 'Found node-backend-deployment.yaml' || { echo 'node-backend-deployment.yaml missing'; exit 1; }
-test -f flask-backend-deployment.yaml && echo 'Found flask-backend-deployment.yaml' || { echo 'flask-backend-deployment.yaml missing'; exit 1; }
-test -f celery-worker-deployment.yaml && echo 'Found celery-worker-deployment.yaml' || { echo 'celery-worker-deployment.yaml missing'; exit 1; }
-
 # Update image tags
 sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}-react-frontend:.*|image: ${DOCKER_REGISTRY}/${APP_NAME}-react-frontend:${IMAGE_TAG}|g" react-frontend-deployment.yaml
 sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}-node-backend:.*|image: ${DOCKER_REGISTRY}/${APP_NAME}-node-backend:${IMAGE_TAG}|g" node-backend-deployment.yaml
