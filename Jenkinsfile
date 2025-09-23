@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         WSL_USERNAME = 'longto'
-        WSL_HOST = ''  // Set dynamically in stage
+        WSL_HOST = credentials('wsl-host-ip')  // Use Jenkins secret
         IMAGE_TAG = 'v2.0.0'
         DOCKER_REGISTRY = 'longtoz'
         APP_NAME = 'studyshare'
@@ -11,16 +11,6 @@ pipeline {
     }
 
     stages {
-        stage('Get WSL IP') {
-            steps {
-                script {
-                    // Dynamically fetch WSL IP
-                    env.WSL_HOST = bat(script: 'wsl hostname -I', returnStdout: true).trim().split()[0]
-                    echo "WSL IP: ${WSL_HOST}"
-                }
-            }
-        }
-
         stage('Checkout') {
             steps {
                 checkout scm
