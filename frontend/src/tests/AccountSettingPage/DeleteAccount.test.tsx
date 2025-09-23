@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import DeleteAccount from '@/pages/AccountSettingPage/layouts/DeleteAccount';
 import { deleteUserAccount } from '@/services/userService';
 

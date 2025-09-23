@@ -43,7 +43,7 @@ const createMockStore = () => {
     return configureStore({
         reducer: {
             // Add minimal reducer for testing
-            auth: (state = { isAuthenticated: false, user: null }, action: any) => state,
+            auth: (state = { isAuthenticated: false, user: null }) => state,
         },
     });
 };
