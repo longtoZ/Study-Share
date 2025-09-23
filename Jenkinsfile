@@ -47,7 +47,10 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'wsl-host-ip', variable: 'WSL_HOST')]) {
                     sshagent(['wsl-ssh-creds']) {
-                        bat "ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} \"bash ~/wsl/deploy-to-minikube.sh\""
+                        bat """
+                            scp -o StrictHostKeyChecking=no ./wsl/deploy-to-minikube.sh ${WSL_USERNAME}@${WSL_HOST}:~/wsl/deploy-to-minikube.sh
+                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/wsl/deploy-to-minikube.sh"
+                        """
                     }
                 }
             }
@@ -57,7 +60,10 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'wsl-host-ip', variable: 'WSL_HOST')]) {
                     sshagent(['wsl-ssh-creds']) {
-                        bat "ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} \"bash ~/wsl/get-app-url.sh\""
+                        bat """
+                            scp -o StrictHostKeyChecking=no ./wsl/get-app-url.sh ${WSL_USERNAME}@${WSL_HOST}:~/wsl/get-app-url.sh
+                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/wsl/get-app-url.sh"
+                        """
                     }
                 }
             }
