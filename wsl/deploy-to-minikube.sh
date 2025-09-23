@@ -5,6 +5,9 @@ minikube start
 
 # Change to the Kubernetes cluster directory
 cd ~/studyshare/k8s/cluster
+echo "Current directory: $(pwd)"
+echo "Files in directory:"
+ls -la
 
 # Update image tags
 sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}-react-frontend:.*|image: ${DOCKER_REGISTRY}/${APP_NAME}-react-frontend:${IMAGE_TAG}|g" react-frontend-deployment.yaml
