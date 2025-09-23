@@ -56,20 +56,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Get App URL') {
-            steps {
-                withCredentials([string(credentialsId: 'wsl-host-ip', variable: 'WSL_HOST')]) {
-                    sshagent(['wsl-ssh-creds']) {
-                        bat """
-                            scp -o StrictHostKeyChecking=no ./wsl/get-app-url.sh ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/wsl/get-app-url.sh
-                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "sed -i 's/\\r//g' ~/studyshare/wsl/get-app-url.sh"
-                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/studyshare/wsl/get-app-url.sh"
-                        """
-                    }
-                }
-            }
-        }
     }
 
     post {

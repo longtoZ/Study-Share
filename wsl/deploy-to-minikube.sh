@@ -17,11 +17,11 @@ sed -i "s|image: ${DOCKER_REGISTRY}/${APP_NAME}-celery-worker:.*|image: ${DOCKER
 
 # Apply and rollout
 kubectl apply -f .
-kubectl rollout status deployment/react-frontend --context=minikube
-kubectl rollout status deployment/node-backend --context=minikube
-kubectl rollout status deployment/flask-backend --context=minikube
-kubectl rollout status deployment/celery-worker --context=minikube
-kubectl rollout status deployment/redis --context=minikube
+kubectl rollout status deployment/react-frontend-development --context=minikube
+kubectl rollout status deployment/node-backend-development --context=minikube
+kubectl rollout status deployment/flask-backend-development --context=minikube
+kubectl rollout status deployment/celery-worker-development --context=minikube
+kubectl rollout status deployment/redis-development --context=minikube
 
 # Helm setup
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -36,4 +36,4 @@ helm upgrade --install grafana grafana/grafana --namespace monitoring
 cd ~/studyshare/k8s/prometheus
 kubectl apply -f .
 kubectl get secret --namespace monitoring grafana -o jsonpath='{.data.admin-password}' | base64 --decode
-kubectl port-forward service/grafana 3001:80 -n monitoring
+kubectl port-forward service/grafana 3001:80 -n monitoring &
