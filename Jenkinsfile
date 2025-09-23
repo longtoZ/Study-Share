@@ -48,8 +48,9 @@ pipeline {
                 withCredentials([string(credentialsId: 'wsl-host-ip', variable: 'WSL_HOST')]) {
                     sshagent(['wsl-ssh-creds']) {
                         bat """
-                            scp -o StrictHostKeyChecking=no ./wsl/deploy-to-minikube.sh ${WSL_USERNAME}@${WSL_HOST}:~/wsl/deploy-to-minikube.sh
-                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/wsl/deploy-to-minikube.sh"
+                            scp -o StrictHostKeyChecking=no ./wsl/deploy-to-minikube.sh ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/wsl/deploy-to-minikube.sh
+                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "sed -i 's/\\r//g' ~/studyshare/wsl/deploy-to-minikube.sh"
+                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/studyshare/wsl/deploy-to-minikube.sh"
                         """
                     }
                 }
@@ -61,8 +62,9 @@ pipeline {
                 withCredentials([string(credentialsId: 'wsl-host-ip', variable: 'WSL_HOST')]) {
                     sshagent(['wsl-ssh-creds']) {
                         bat """
-                            scp -o StrictHostKeyChecking=no ./wsl/get-app-url.sh ${WSL_USERNAME}@${WSL_HOST}:~/wsl/get-app-url.sh
-                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/wsl/get-app-url.sh"
+                            scp -o StrictHostKeyChecking=no ./wsl/get-app-url.sh ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/wsl/get-app-url.sh
+                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "sed -i 's/\\r//g' ~/studyshare/wsl/get-app-url.sh"
+                            ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "bash ~/studyshare/wsl/get-app-url.sh"
                         """
                     }
                 }
