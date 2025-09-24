@@ -43,13 +43,15 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
 # Install Prometheus and Grafana
-helm upgrade --install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace
+helm --install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
 helm upgrade --install grafana grafana/grafana --namespace monitoring
 
 # Apply Prometheus config and get Grafana password
 cd ~/studyshare/k8s/prometheus
 kubectl apply -f .
+echo "Grafana admin password:"
 kubectl get secret --namespace monitoring grafana -o jsonpath='{.data.admin-password}' | base64 --decode
+kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090 &
 kubectl port-forward service/grafana 3001:80 -n monitoring &
 
 # Create network route
