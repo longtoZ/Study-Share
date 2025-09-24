@@ -3,6 +3,17 @@
 # Start Minikube
 minikube start
 
+# Create necessary directories
+mkdir -p ~/studyshare/secrets
+mkdir -p ~/studyshare/k8s/cluster
+mkdir -p ~/studyshare/k8s/prometheus
+
+# Create secret for images if it doesn't exist
+cd ~/studyshare/secrets
+kubectl create secret generic react-frontend-secret --from-env-file=.react.env --context=minikube
+kubectl create secret generic node-backend-secret --from-env-file=.node.env --context=minikube
+kubectl create secret generic flask-backend-secret --from-env-file=.flask.env --context=minikube
+
 # Change to the Kubernetes cluster directory
 cd ~/studyshare/k8s/cluster
 echo "Current directory: $(pwd)"
@@ -37,3 +48,4 @@ cd ~/studyshare/k8s/prometheus
 kubectl apply -f .
 kubectl get secret --namespace monitoring grafana -o jsonpath='{.data.admin-password}' | base64 --decode
 kubectl port-forward service/grafana 3001:80 -n monitoring &
+echo "Grafana is accessible at http://localhost:3001 with the above password."
