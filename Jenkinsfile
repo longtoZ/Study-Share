@@ -48,6 +48,9 @@ pipeline {
                 withCredentials([string(credentialsId: 'wsl-host-ip', variable: 'WSL_HOST')]) {
                     sshagent(['wsl-ssh-creds']) {
                         bat """
+                            scp -o StrictHostKeyChecking=no ./frontend/.env ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/secrets/.react.env
+                            scp -o StrictHostKeyChecking=no ./backend/node/.env ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/secrets/.node.env
+                            scp -o StrictHostKeyChecking=no ./backend/flask/.env ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/secrets/.flask.env
                             scp -r -o StrictHostKeyChecking=no ./k8s ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/
                             scp -o StrictHostKeyChecking=no ./wsl/deploy-to-minikube.sh ${WSL_USERNAME}@${WSL_HOST}:~/studyshare/wsl/deploy-to-minikube.sh
                             ssh -o StrictHostKeyChecking=no ${WSL_USERNAME}@${WSL_HOST} "sed -i 's/\\r//g' ~/studyshare/wsl/deploy-to-minikube.sh"

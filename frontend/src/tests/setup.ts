@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
   meta: {
     env: {
       VITE_STRIPE_CLIENT_ID: 'ca_test_12345',
-      VITE_API_BASE_URL: 'http://localhost:8000'
+      VITE_API_BASE_URL: 'http://127.0.0.1:3000'
     }
   }
 };

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Delete existing Minikube cluster
+minikube delete
+
 # Start Minikube
 minikube start
 
@@ -48,4 +51,9 @@ cd ~/studyshare/k8s/prometheus
 kubectl apply -f .
 kubectl get secret --namespace monitoring grafana -o jsonpath='{.data.admin-password}' | base64 --decode
 kubectl port-forward service/grafana 3001:80 -n monitoring &
-echo "Grafana is accessible at http://localhost:3001 with the above password."
+
+# Create network route
+minikube tunnel &
+
+# Access the React frontend
+echo "React frontend is accessible at http://127.0.0.1:5173"
