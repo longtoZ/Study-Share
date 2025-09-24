@@ -51,6 +51,10 @@ cd ~/studyshare/k8s/prometheus
 kubectl apply -f .
 echo "Grafana admin password:"
 kubectl get secret --namespace monitoring prometheus-stack-grafana -o jsonpath='{.data.admin-password}' | base64 --decode
+
+# Wait for Prometheus pod to be ready
+kubectl wait --for=condition=Ready pod -l app.kubernetes.io/name=prometheus --namespace monitoring --timeout=120s
+
 kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090 &
 kubectl port-forward service/prometheus-stack-grafana -n monitoring 3001:80 &
 
