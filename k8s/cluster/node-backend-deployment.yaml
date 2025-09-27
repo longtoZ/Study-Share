@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: node-backend-container
-          image: longtoz/studyshare-node-backend:v1.23
+          image: longtoz/studyshare-node-backend:v2.0.0
           ports:
             - containerPort: 3000
           envFrom:

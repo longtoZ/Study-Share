@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: react-frontend-container
-          image: longtoz/studyshare-react-frontend:v1.1
+          image: longtoz/studyshare-react-frontend:v2.0.0
           ports:
             - containerPort: 80
           envFrom:

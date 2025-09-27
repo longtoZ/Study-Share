@@ -330,21 +330,24 @@ StudyShare
 │  ├─ flask-monitoring-model.json
 │  ├─ k8s-monitoring-model.json
 │  └─ node-monitoring-model.json
+├─ Jenkinsfile
 ├─ k8s
 │  ├─ cluster
-│  │  ├─ celery-worker-development.yaml
-│  │  ├─ flask-backend-development.yaml
+│  │  ├─ celery-worker-deployment.yaml
+│  │  ├─ flask-backend-deployment.yaml
 │  │  ├─ flask-backend-service.yaml
-│  │  ├─ node-backend-development.yaml
+│  │  ├─ node-backend-deployment.yaml
 │  │  ├─ node-backend-service.yaml
-│  │  ├─ react-frontend-development.yaml
+│  │  ├─ react-frontend-deployment.yaml
 │  │  ├─ react-frontend-service.yaml
-│  │  ├─ redis-development.yaml
+│  │  ├─ redis-deployment.yaml
 │  │  └─ redis-service.yaml
 │  └─ prometheus
 │     ├─ flask-service-monitor.yaml
 │     ├─ node-service-monitor.yaml
 │     └─ redis-service-monitor.yaml
-└─ README.md
+├─ README.md
+└─ wsl
+   └─ deploy-to-kubernetes.sh
 
 ```

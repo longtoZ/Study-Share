@@ -9,6 +9,6 @@ spec:
     app: react-frontend
   ports:
     - protocol: TCP
-      port: 5173 # The port the service will expose
+      port: 80 # The port the service will expose
       targetPort: 80 # The port on the container to forward traffic to
-  type: LoadBalancer
+  type: ClusterIP

@@ -11,10 +11,11 @@ run npm run build
 # Stage 2: Serve the React application with Nginx
 from nginx:alpine
 
-copy --from=build /app/dist /usr/share/nginx/html
-
 # Copy a custom Nginx configuration (optional, for flexibility)
 copy nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy the built React app from the previous stage
+copy --from=build /app/dist /usr/share/nginx/html
 
 # Create a script to generate config.js at runtime
 copy entrypoint.sh /entrypoint.sh

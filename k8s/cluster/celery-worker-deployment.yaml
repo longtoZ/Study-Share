@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: celery-worker-container
-          image: longtoz/studyshare-celery-worker:v1.0
+          image: longtoz/studyshare-celery-worker:v2.0.0
           command: ["celery", "-A", "app.config.celery", "worker", "--loglevel=info"]
           envFrom:
             - secretRef:
