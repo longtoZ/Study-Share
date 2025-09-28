@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 # Generate config.js with runtime environment variables
 cat << EOF > /usr/share/nginx/html/config.js
 window.env = {

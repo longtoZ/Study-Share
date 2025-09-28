@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-backend-deployment
-  labels:
-    app: flask-backend
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: flask-backend
-  template:
-    metadata:
-      labels:
+    name: flask-backend-deployment
+    labels:
         app: flask-backend
-    spec:
-      containers:
-        - name: flask-backend
-          image: longtoz/studyshare-flask-backend:v2.0.0
-          ports:
-            - containerPort: 5000
-          envFrom:
-            - secretRef:
-                name: flask-backend-secret
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: flask-backend
+    template:
+        metadata:
+            labels:
+                app: flask-backend
+        spec:
+            containers:
+                - name: flask-backend
+                  image: longtoz/studyshare-flask-backend:v2.0.1
+                  ports:
+                      - containerPort: 5000
+                  envFrom:
+                      - secretRef:
+                            name: flask-backend-secret

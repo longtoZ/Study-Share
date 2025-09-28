@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         WSL_USERNAME = 'longto'
-        IMAGE_TAG = 'v2.0.0'
+        IMAGE_TAG = 'v2.0.1'
         DOCKER_REGISTRY = 'longtoz'
         APP_NAME = 'studyshare'
     }

@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-backend-deployment
-  labels:
-    app: node-backend
-spec:
-  replicas: 1 # You can scale this up later
-  selector:
-    matchLabels:
-      app: node-backend
-  template:
-    metadata:
-      labels:
+    name: node-backend-deployment
+    labels:
         app: node-backend
-    spec:
-      containers:
-        - name: node-backend-container
-          image: longtoz/studyshare-node-backend:v2.0.0
-          ports:
-            - containerPort: 3000
-          envFrom:
-            - secretRef:
-                name: node-backend-secret
+spec:
+    replicas: 1 # You can scale this up later
+    selector:
+        matchLabels:
+            app: node-backend
+    template:
+        metadata:
+            labels:
+                app: node-backend
+        spec:
+            containers:
+                - name: node-backend-container
+                  image: longtoz/studyshare-node-backend:v2.0.1
+                  ports:
+                      - containerPort: 3000
+                  envFrom:
+                      - secretRef:
+                            name: node-backend-secret

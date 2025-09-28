@@ -1,23 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: celery-worker-deployment
-  labels:
-    app: celery-worker
-spec:
-  replicas: 1 # You can scale this up later
-  selector:
-    matchLabels:
-      app: celery-worker
-  template:
-    metadata:
-      labels:
+    name: celery-worker-deployment
+    labels:
         app: celery-worker
-    spec:
-      containers:
-        - name: celery-worker-container
-          image: longtoz/studyshare-celery-worker:v2.0.0
-          command: ["celery", "-A", "app.config.celery", "worker", "--loglevel=info"]
-          envFrom:
-            - secretRef:
-                name: flask-backend-secret
+spec:
+    replicas: 1 # You can scale this up later
+    selector:
+        matchLabels:
+            app: celery-worker
+    template:
+        metadata:
+            labels:
+                app: celery-worker
+        spec:
+            containers:
+                - name: celery-worker-container
+                  image: longtoz/studyshare-celery-worker:v2.0.1
+                  command:
+                      [
+                          "celery",
+                          "-A",
+                          "app.config.celery",
+                          "worker",
+                          "--loglevel=info",
+                      ]
+                  envFrom:
+                      - secretRef:
+                            name: flask-backend-secret

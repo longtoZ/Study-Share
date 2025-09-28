@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: react-frontend-deployment
-  labels:
-    app: react-frontend
-spec:
-  replicas: 1 # You can scale this up later
-  selector:
-    matchLabels:
-      app: react-frontend
-  template:
-    metadata:
-      labels:
+    name: react-frontend-deployment
+    labels:
         app: react-frontend
-    spec:
-      containers:
-        - name: react-frontend-container
-          image: longtoz/studyshare-react-frontend:v2.0.0
-          ports:
-            - containerPort: 80
-          envFrom:
-            - secretRef:
-                name: react-frontend-secret
+spec:
+    replicas: 1 # You can scale this up later
+    selector:
+        matchLabels:
+            app: react-frontend
+    template:
+        metadata:
+            labels:
+                app: react-frontend
+        spec:
+            containers:
+                - name: react-frontend-container
+                  image: longtoz/studyshare-react-frontend:v2.0.1
+                  ports:
+                      - containerPort: 80
+                  envFrom:
+                      - secretRef:
+                            name: react-frontend-secret
