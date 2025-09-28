@@ -9,7 +9,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: a429b448efda74254b6bc3a55930daab-1432915012.ap-southeast-2.elb.amazonaws.com
+    http:
       paths:
       # API backend with regex to strip /api
       - path: /api/(.*)
