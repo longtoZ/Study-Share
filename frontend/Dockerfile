@@ -1,28 +1,34 @@
 # Stage 1: Build the React application
-from node:22-alpine as build
+FROM node:22-alpine AS build
 
-workdir /app
+WORKDIR /app
 
-copy package.json package-lock.json ./
-run npm install
-copy . .
-run npm run build
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
 # Stage 2: Serve the React application with Nginx
-from nginx:alpine
+FROM nginx:alpine
 
 # Copy a custom Nginx configuration (optional, for flexibility)
-copy nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the built React app from the previous stage
-copy --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Create a script to generate config.js at runtime
-copy entrypoint.sh /entrypoint.sh
-run chmod +x /entrypoint.sh
+# --- FIX: Convert CRLF to LF line endings using dos2unix ---
+COPY entrypoint.sh /entrypoint.sh
 
-expose 80
+# Install dos2unix, convert the script, and uninstall dosa2unix
+RUN apk add --no-cache dos2unix && \
+    dos2unix /entrypoint.sh && \
+    apk del dos2unix
+
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 80
 
 # Use the entrypoint script to inject variables and start Nginx
-entrypoint ["/entrypoint.sh"]
-cmd ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
