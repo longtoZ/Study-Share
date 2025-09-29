@@ -1,6 +1,7 @@
 
 ```
 StudyShare
+├─ ARCHITECTURE.md
 ├─ backend
 │  ├─ flask
 │  │  ├─ .dockerignore
@@ -330,6 +331,9 @@ StudyShare
 │  ├─ flask-monitoring-model.json
 │  ├─ k8s-monitoring-model.json
 │  └─ node-monitoring-model.json
+├─ images
+│  ├─ stripe-dashboard.png
+│  └─ stripe-payment-flow.png
 ├─ Jenkinsfile
 ├─ k8s
 │  ├─ cluster
@@ -349,6 +353,7 @@ StudyShare
 │     ├─ node-service-monitor.yaml
 │     └─ redis-service-monitor.yaml
 ├─ README.md
+├─ TREE.md
 └─ wsl
    ├─ deploy-to-kubernetes.sh
    └─ deploy-to-minikube.sh
