@@ -1,0 +1,29 @@
+# .github/workflows/test.yml - For Testing
+name: Testing Pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+        working-directory: ./frontend
+      - run: npm test
+        working-directory: ./frontend
+
+  test-nodejs-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+        working-directory: ./backend/node
+      - run: npm test
+        working-directory: ./backend/node
