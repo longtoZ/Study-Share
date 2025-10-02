@@ -4,6 +4,8 @@
 
 StudyShare is a modern, full-stack web application designed as an educational document sharing platform, similar to Studocu. The platform enables students to upload, share, and access academic materials while leveraging AI-powered features for enhanced learning experiences. Built with a microservices architecture, the application ensures scalability, maintainability, and high performance.
 
+![Architecture Diagram](./images/architecture-diagram.png)
+
 ## 2. Key Features
 ### 2.1. User Authorization
 Allow basic user registration and login or via Google OAuth 2.0 (via Passport.js). The flow process is as follows:
@@ -63,7 +65,7 @@ Implement Stripe payment gateway for selling and purchasing premium documents. T
 
     ![Stripe Dashboard](./images/stripe-dashboard.png)
     
-### 2.4. OTP Verification
+### 2.5. OTP Verification
 Implement OTP verification for sensitive actions like password reset and email change. The OTP verification process is as follows:
 
 - User requests OTP for a specific action (e.g., password reset).
@@ -102,45 +104,83 @@ Provide a comprehensive statistics dashboard for users to view our platform's pe
 
 ### 3. Page Structure
 The application consists of the following main pages:
+- **User Profile Page**: View and manage user profile details.
+    ![User Profile Page](./images/user-profile-page.png)
+- **Signup Page**: User registration interface with options for regular and Google OAuth authentication.
+    ![Signup Page](./images/signup-page.png)
+- **Login Page**: User login interface with options for regular and Google OAuth authentication.
+    ![Login Page](./images/login-page.png)
+- **Upload Page**: Upload new educational documents with metadata.
+    ![Upload Page](./images/upload-page.png)
+- **Material View Page**: View material pages (premium materials require purchase to view all pages or download), download original file, rate and comment on materials, and interact with the AI chatbot.
+    ![Material View Page](./images/material-view-page.png)
+- **Material Edit Page**: Edit material details and manage uploads.
+    ![Material Edit Page](./images/material-edit-page.png)
+- **Lesson View Page**: View lesson details and associated materials.
+    ![Lesson View Page](./images/lesson-view-page.png)
+- **Lesson Edit Page**: Edit existing lessons.
+    ![Lesson Edit Page](./images/lesson-edit-page.png)
+- **Statistics Dashboard Page**: View platform performance metrics.
+    ![Statistics Dashboard Page](./images/statistics-dashboard-page.png)
 - **Account Settings Page**: Manage user profile, change password, and update email.
     ![Account Settings Page](./images/account-settings-page.png)
 - **Create Lesson Page**: Create and manage lessons with associated materials.
     ![Create Lesson Page](./images/create-lesson-page.png)
 - **History Page**: View user's viewed materials.
     ![History Page](./images/history-page.png)
-- **Lesson Edit Page**: Edit existing lessons.
-    ![Lesson Edit Page](./images/lesson-edit-page.png)
-- **Lesson View Page**: View lesson details and associated materials.
-    ![Lesson View Page](./images/lesson-view-page.png)
-- **Login Page**: User login interface with options for regular and Google OAuth authentication.
-    ![Login Page](./images/login-page.png)
-- **Material Edit Page**: Edit material details and manage uploads.
-    ![Material Edit Page](./images/material-edit-page.png)
-- **Material View Page**: View material pages (premium materials require purchase to view all pages or download), download original file, rate and comment on materials, and interact with the AI chatbot.
-    ![Material View Page](./images/material-view-page.png)
-- **User's Lesson Page**: View lessons created by a specific user.
-    ![User's Lesson Page](./images/user-lesson-page.png)
 - **User's Material Page**: View materials uploaded by a specific user.
     ![User's Material Page](./images/user-material-page.png)
+- **User's Lesson Page**: View lessons created by a specific user.
+    ![User's Lesson Page](./images/user-lesson-page.png)
 - **Orders Page**: View user's purchase history.
     ![Orders Page](./images/orders-page.png)
 - **Payment Page**: View payment history of owned materials as a seller.
     ![Payment Page](./images/payment-page.png)
 - **Search Page**: Search for materials and lessons with filters.
     ![Search Page](./images/search-page.png)
-- **Signup Page**: User registration interface with options for regular and Google OAuth authentication.
-    ![Signup Page](./images/signup-page.png)
-- **Statistics Dashboard Page**: View platform performance metrics.
-    ![Statistics Dashboard Page](./images/statistics-dashboard-page.png)
 - **Task Log Page**: View background job logs for material processing.
     ![Task Log Page](./images/task-log-page.png)
-- **Upload Page**: Upload new educational documents with metadata.
-    ![Upload Page](./images/upload-page.png)
-- **User Profile Page**: View and manage user profile details.
-    ![User Profile Page](./images/user-profile-page.png)
 
-## 4. Pipeline Workflow
-### 4.1. Development Environment
+## 4. Database Schema
+
+![Database Schema](./images/database-schema.png)
+
+The database schema is designed to support the application's features and ensure data integrity. The main tables are grouped by functionality:
+
+### 4.1. User Management
+- **User**: Manages user accounts, authentication, and profile information for both regular and Google OAuth users
+
+### 4.2. Content Management
+- **Material**: Stores educational documents with metadata, pricing, and access control
+
+- **MaterialPage**: Stores URLs for individual pages of processed documents for optimized loading
+
+- **MaterialSummary**: Contains AI-generated summaries for each document to enhance chatbot interactions
+  
+- **Subject**: Categorizes materials by academic subjects for better organization
+
+### 4.3. Learning Organization
+- **Lesson**: Groups related materials into structured learning units or courses
+
+### 4.4. User Interaction
+- **Comment**: Enables user feedback and discussions on educational materials
+
+- **Rating**: Tracks user ratings for materials to build reputation and quality metrics
+
+- **RatingLog**: Prevents duplicate ratings and maintains rating integrity
+
+- **Upvote**: Tracks comment popularity through user voting system
+
+### 4.5. Activity Tracking
+- **History**: Records user viewing history for personalized recommendations and analytics
+
+- **Task**: Monitors background job processing status for document analysis and AI tasks
+
+### 4.6. Financial Transactions
+- **Payment**: Records financial transactions for premium content purchases through Stripe integration
+
+## 5. Pipeline Workflow
+### 5.1. Development Environment
 - **Frontend**: React with TypeScript, Redux Toolkit for state management, React Router DOM for navigation, and Tailwind CSS for styling.
 - **Node.js Backend**: Express with ES Modules for RESTful API, JWT authentication, and business logic.
 - **Flask Backend**: Python Flask with Celery for AI-related tasks and asynchronous document processing.
@@ -149,15 +189,21 @@ The application consists of the following main pages:
 - **Message Queue**: Redis for Celery task queuing and temporary data storage.
 - **AI Integration**: Google Generative AI (Gemini 2.5 Pro) for document summarization and chatbot functionality.
 
-### 4.2. Build & Containerization
+### 5.2. Jenkins Automation
+- **Source Webhook**: Trigger builds on code push to the main branch.
+- **Jenkins**: CI/CD server to automate build, test, and deployment processes.
+  
+### 5.3. Build & Containerization
 - **Docker**: Multi-stage builds for optimized container images
   - Frontend: Node.js build environment with Vite bundler. Nginx is used to serve the built static files.
   - Node.js Backend: Alpine Linux base for lightweight production images
   - Flask Backend: Python slim image with required dependencies
+  - Celery Worker: Separate container for background job processing
+  - Redis: Official Redis image for message brokering
 - **Container Registry**: Docker images stored and versioned for deployment
 - **Environment Configuration**: Separate environment files for development, staging, and production
 
-### 4.3. Testing Strategy
+### 5.5. Testing Strategy
 - **Frontend Testing**: 
   - Unit Tests: Vitest and React Testing Library
   - Component Testing: Material-UI component integration tests
@@ -166,12 +212,8 @@ The application consists of the following main pages:
   - Unit Tests: Jest framework with Supertest for HTTP endpoint testing
   - Integration Tests: Database operations and external API integrations
   - Authentication Tests: JWT token validation and OAuth flow testing
-- **Flask Backend Testing**: 
-  - Unit Tests: PyTest for individual service functions
-  - Celery Task Tests: Background job processing validation
-  - AI Integration Tests: Gemini API response handling
 
-### 4.4. Deployment Infrastructure
+### 5.5. Deployment Infrastructure
 - **Container Orchestration**: Self-managed Kubernetes cluster on AWS EC2 instances
 - **Cloud Integration**: 
   - AWS Cloud Controller Manager for external IP exposure and cloud service integration
@@ -181,7 +223,7 @@ The application consists of the following main pages:
   - NGINX Ingress Controller for internal service routing and SSL termination
 - **Service Discovery**: Kubernetes native service discovery with DNS resolution
 
-### 4.5. Monitoring & Observability
+### 5.6. Monitoring & Observability
 - **Metrics Collection**: 
   - Prometheus for metrics aggregation from all services
   - Node.js: prom-client for custom application metrics
@@ -190,29 +232,120 @@ The application consists of the following main pages:
 - **Health Checks**: Kubernetes liveness and readiness probes for service health monitoring
 - **Log Aggregation**: Centralized logging for debugging and audit trails
 
-### 4.6. CI/CD Pipeline
-- **Source Control**: Git-based workflow with feature branches and pull requests
-- **Webhook Integration**: GitHub webhooks trigger Jenkins automation on code commits and pull requests
-- **Jenkins Automation Pipeline**:
-  - **Build Triggers**: Automatic pipeline execution on GitHub events (push, pull request, merge)
-  - **Webhook Configuration**: GitHub repository configured with Jenkins webhook URL for real-time notifications
-  - **Multi-Branch Pipeline**: Jenkins detects and builds all branches automatically
-- **Continuous Integration**: 
-  - **Automated Testing**: 
-    - Frontend tests (Vitest, React Testing Library) run on every commit
-    - Node.js backend tests (Jest, Supertest) for API validation
-  - **Build Process**:
-    - Docker image building for all microservices (Frontend, Node.js, Flask, Celery, Redis)
-- **Continuous Deployment**: 
-  - **Environment Promotion**:
-    - Development → Staging → Production pipeline stages
-    - Automated deployment to Kubernetes cluster after successful tests
-    - Environment-specific configuration management
-  - **Deployment Strategy**:
-    - Rolling updates with zero-downtime deployment
-    - Blue-green deployment capability for critical updates
-    - Automatic rollback on deployment failure
-  - **Infrastructure Management**:
-    - Kubernetes manifest updates and application of changes
-    - Secret management and environment variable injection
-    - Health checks validation post-deployment
+## 6. Technology Stack
+
+### Frontend Technologies
+
+#### Core Framework & Language
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 19.1.0 | Main UI framework |
+| TypeScript | 5.8.3 | Type-safe development |
+| Vite | 7.0.4 | Build tool and dev server |
+
+#### Styling & UI Components
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Tailwind CSS | 4.1.11 | Utility-first CSS framework |
+| Material-UI (MUI) | 7.2.0 | React component library |
+| Emotion | 11.14.0 | CSS-in-JS styling |
+
+#### State Management & Routing
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Redux Toolkit | 2.8.2 | State management |
+| React Redux | 9.2.0 | React-Redux integration |
+| React Router DOM | 7.6.3 | Client-side routing |
+
+#### Additional Frontend Libraries
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React Markdown | 10.1.0 | Markdown content rendering |
+| Google OAuth | 0.12.2 | Social authentication |
+| Stripe.js | 7.9.0 | Payment processing integration |
+| UUID | 11.1.0 | Unique identifier generation |
+
+### Backend Technologies
+
+#### Node.js Backend Service
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Express | 5.1.0 | Web application framework |
+| Node.js | Latest | JavaScript runtime |
+
+#### Python Flask Backend Service
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Flask | Latest | Lightweight web framework |
+| Celery | Latest | Distributed task queue |
+| Gunicorn | Latest | WSGI HTTP server |
+
+#### Authentication & Security
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| JSON Web Tokens (JWT) | 9.0.2 | Token-based authentication |
+| Passport.js | 0.7.0 | Authentication middleware |
+| Google OAuth 2.0 | Latest | Social login integration |
+| bcrypt | 6.0.0 | Password hashing and security |
+
+#### Database & Storage Solutions
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Supabase | Latest | Backend-as-a-Service platform |
+| PostgreSQL | Latest | Primary relational database |
+| Redis | 5.8.2 | Caching and session management |
+
+#### AI & Machine Learning Integration
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Google Generative AI (Gemini) | 1.16.0 | AI-powered content analysis and generation |
+
+#### File Processing Capabilities
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Multer | 2.0.2 | File upload handling |
+| Sharp | 0.34.3 | Image processing and optimization |
+| pdf2image | Latest | PDF to image conversion |
+| docx2pdf | Latest | Word document to PDF conversion |
+
+#### External Services Integration
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Stripe | 18.5.0 | Payment gateway and subscription management |
+| Nodemailer | 7.0.6 | Email service integration |
+| Node-cron | 4.2.1 | Task scheduling and automation |
+
+### DevOps & Infrastructure
+
+#### Containerization & Orchestration
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Docker | Latest | Application containerization |
+| Docker Compose | Latest | Multi-container development |
+| Kubernetes | Latest | Production orchestration (manually installed) |
+| AWS Cloud Controller Manager | Latest | External IP exposure and cloud integration |
+| AWS Load Balancer Controller | Latest | AWS ELB integration for load balancing |
+| NGINX Ingress | Latest | Application-level routing and traffic management |
+
+#### CI/CD & Development Tools
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Jenkins | Latest | Continuous integration and deployment |
+| Git | Latest | Version control and collaboration |
+| WSL | Latest | Windows development environment |
+
+#### Monitoring & Observability
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Prometheus | Latest | Metrics collection and monitoring |
+| Grafana | Latest | Data visualization and dashboards |
+| prometheus_flask_exporter | Latest | Flask application metrics |
+| prom-client | 15.1.3 | Node.js application metrics |
+
+#### Testing Frameworks
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Vitest | Latest | Frontend unit testing |
+| Jest | 30.1.3 | Backend JavaScript testing |
+| Testing Library | Latest | React component testing |
+| Supertest | 7.1.4 | HTTP endpoint testing |
