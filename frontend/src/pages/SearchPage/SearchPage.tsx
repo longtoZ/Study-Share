@@ -122,10 +122,14 @@ const SearchPage: React.FC = () => {
         setRetrievedMaterials([]);
         setRetrievedLessons([]);
 
-        const materials = await searchMaterial(queryInput, materialFilters);
-        const lessons = await searchLesson(queryInput, lessonFilters);
-        setRetrievedMaterials(materials);
-        setRetrievedLessons(lessons);
+        try {
+            const materials = await searchMaterial(queryInput, materialFilters);
+            const lessons = await searchLesson(queryInput, lessonFilters);
+            setRetrievedMaterials(materials);
+            setRetrievedLessons(lessons);
+        } catch (error) {
+            console.error("Error searching:", error);
+        }
     };
 
     return (

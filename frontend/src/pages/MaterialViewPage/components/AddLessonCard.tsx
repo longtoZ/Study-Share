@@ -20,15 +20,23 @@ const AddLessonCard = ({ user_id, material_id, className = '', hideSearch = fals
 
     const handleAddMaterialToLesson = async () => {
         if (selectedLesson && material_id && user_id) {
-            const result = await addMaterialToLesson(selectedLesson.lesson_id, material_id);
-            console.log('Material added to lesson:', result);
+            try {
+                const result = await addMaterialToLesson(selectedLesson.lesson_id, material_id);
+                console.log('Material added to lesson:', result);
+            } catch (error) {
+                console.error("Error adding material to lesson:", error);
+            }
         }
     };
 
     useEffect(() => {
         const fetchLessons = async () => {
-            const data = await retrieveLessons(user_id, 'newest', { from: 0, to: 99 });
-            setLessons(data);
+            try {
+                const data = await retrieveLessons(user_id, 'newest', { from: 0, to: 99 });
+                setLessons(data);
+            } catch (error) {
+                console.error("Error fetching lessons:", error);
+            }
         };
         
         const handleClickOutside = (event: MouseEvent) => {

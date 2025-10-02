@@ -41,15 +41,22 @@ const HistoryPage = () => {
         setFilter((prev) => ({ ...prev, type: view as FilterType }));
 
         setIsLoading(true);
-        const fetchedEntries = await listEntries(userId, {
-            type: view,
-            from: new Date(new Date(filter.from).setHours(0, 0, 0, 0)),
-            to: new Date(new Date(filter.to).setHours(23, 59, 59, 999))
-        }, pageRange);
-        setIsLoading(false);
-        console.log('Fetched entries:', fetchedEntries);
-        setEntries(fetchedEntries);
-        setIsEndPage(fetchedEntries.length === 0);
+        try {
+            const fetchedEntries = await listEntries(userId, {
+                type: view,
+                from: new Date(new Date(filter.from).setHours(0, 0, 0, 0)),
+                to: new Date(new Date(filter.to).setHours(23, 59, 59, 999))
+            }, pageRange);
+            console.log('Fetched entries:', fetchedEntries);
+            setEntries(fetchedEntries);
+            setIsEndPage(fetchedEntries.length === 0);
+        } catch (error) {
+            console.error("Error fetching entries:", error);
+            setEntries([]);
+            setIsEndPage(true);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {

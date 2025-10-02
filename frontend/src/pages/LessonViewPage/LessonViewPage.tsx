@@ -36,17 +36,22 @@ const LessonViewPage = () => {
             }
 
             setIsLoading(true);
-            const data = await retrieveAllMaterials(lessonId, materialOrder);
-            console.log('Retrieved materials:', data!.materials);
-            setMaterials(data!.materials);
-            setLessonName(data!.lessonName || '');
-            setIsLoading(false);
-
             try {
-                await verifyUser(data!.authorId);
-                setIsAuthor(true);
+                const data = await retrieveAllMaterials(lessonId, materialOrder);
+                console.log('Retrieved materials:', data!.materials);
+                setMaterials(data!.materials);
+                setLessonName(data!.lessonName || '');
+
+                try {
+                    await verifyUser(data!.authorId);
+                    setIsAuthor(true);
+                } catch (error) {
+                    console.error("Error verifying user:", error);
+                }
             } catch (error) {
-                console.error("Error verifying user:", error);
+                console.error("Error retrieving materials:", error);
+            } finally {
+                setIsLoading(false);
             }
 
             const historyEntry: History = {

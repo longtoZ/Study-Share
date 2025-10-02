@@ -20,9 +20,14 @@ const LessonEditPage = () => {
   useEffect(() => {
     const fetchLesson = async () => {
       if (!lessonId) return;
-      const data = await getLesson(lessonId);
-      setLessonData(data);
-      setLoading(false);
+      try {
+        const data = await getLesson(lessonId);
+        setLessonData(data);
+      } catch (error) {
+        console.error("Error fetching lesson:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchLesson();
   }, [lessonId]);

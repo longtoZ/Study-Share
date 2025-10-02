@@ -48,12 +48,20 @@ export default function ChatPannel({
             { sender: "ai", content: `${ prev.length === 2 ? "I'm reading the material for the first time. Please wait a moment..." : "Thinking..."}` },
         ]);
 
-        const response = await generateResponse(userId, materialId, input, model);
-        setMessages((prev) => {
-            const updated = [...prev];
-            updated[updated.length - 1] = { sender: "ai", content: response };
-            return updated;
-        });
+        try {
+            const response = await generateResponse(userId, materialId, input, model);
+            setMessages((prev) => {
+                const updated = [...prev];
+                updated[updated.length - 1] = { sender: "ai", content: response };
+                return updated;
+            });
+        } catch (error) {
+            setMessages((prev) => {
+                const updated = [...prev];
+                updated[updated.length - 1] = { sender: "ai", content: "Error occurred while generating response." };
+                return updated;
+            });
+        }
         setIsThinking(false);
     };
 
