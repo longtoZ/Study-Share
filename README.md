@@ -520,3 +520,6 @@ The complete directory structure is documented in `TREE.md`.
 | Jest | 30.1.3 | Backend JavaScript testing |
 | Testing Library | Latest | React component testing |
 | Supertest | 7.1.4 | HTTP endpoint testing |
+
+## 8. License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

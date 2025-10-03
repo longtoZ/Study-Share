@@ -9,7 +9,7 @@ import StarIcon from '@mui/icons-material/Star';
 
 
 interface RatingData {
-    [key: number]: number; // star level -> number of users
+    [key: number]: number;
 }
 
 const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
@@ -114,7 +114,6 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
     return (
         <div className="bg-white rounded-3xl card-shadow p-6">
             <div className="flex gap-8">
-                {/* Left side - Average Rating */}
                 <div className="flex flex-col items-center justify-center min-w-[200px]">
                     <div className="text-6xl font-bold text-gray-800 mb-2">
                         {averageRating.toFixed(1)}
@@ -127,7 +126,6 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
                     </div>
                 </div>
 
-                {/* Right side - Rating Distribution */}
                 <div className="flex-1">
                     <h3 className="text-lg font-semibold mb-4">Rating Distribution</h3>
                     <div className="space-y-2 mb-6">
@@ -150,7 +148,6 @@ const RatingCard = ({ materialId } : { materialId: string | undefined}) => {
                         ))}
                     </div>
 
-                    {/* User Rating Section */}
                     {!hasRated && (
                         <div className="border-t pt-4">
                             <h4 className="text-md font-medium mb-3">Rate this material</h4>

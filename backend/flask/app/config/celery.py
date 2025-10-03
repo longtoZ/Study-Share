@@ -13,6 +13,5 @@ def make_celery(app_name=__name__):
 
 celery = make_celery()
 
-# To start the worker, run the following command in your terminal:
 # .\.venv\Scripts\activate
 # celery -A app.config.celery worker --loglevel=info --pool=solo

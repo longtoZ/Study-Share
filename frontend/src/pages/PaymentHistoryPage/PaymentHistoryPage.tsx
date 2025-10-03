@@ -55,7 +55,6 @@ const PaymentHistoryPage = () => {
                             className='w-54'
 						/>
 					</div>
-					{/* Keep date filters for consistency */}
 					<div className='flex gap-4'>
 						<div className="flex flex-col gap-1.5">
 							<label className="text-xs text-gray-600 flex items-center gap-1.5">

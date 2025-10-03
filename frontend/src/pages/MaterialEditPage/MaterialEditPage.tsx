@@ -101,7 +101,6 @@ const MaterialEditPage: React.FC = () => {
         setErrorMessage('');
 
         try {
-            // Save logic here
             if (materialId && materialData) {
                 const updatedMaterial = await updateMaterial(materialId, materialData.user_id, {
                     name: materialData.name,
@@ -122,7 +121,6 @@ const MaterialEditPage: React.FC = () => {
 
     const handleDeleteConfirm = async () => {
         if (confirmationText === defaultConfirmationText) {
-            // Delete logic here
             console.log('Material deleted');
             if (materialId && materialData) {
                 setIsDeleting(true);

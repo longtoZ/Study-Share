@@ -48,7 +48,7 @@ const EmailVerification = ({ email } : { email: string}) => {
                 setSuccessMessage('Email verified successfully! You are being redirected...');
                 setIsVerifying(false);
 
-                // Redirect to login after a short delay
+                // Redirect to login
                 setTimeout(() => {
                     window.location.href = '/login';
                 }, 2000);

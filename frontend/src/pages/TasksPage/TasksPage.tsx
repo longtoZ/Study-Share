@@ -20,7 +20,6 @@ const TasksPage = () => {
 
     useEffect(() => {
         fetchTasks();
-        // eslint-disable-next-line
     }, [limit]);
 
     return (

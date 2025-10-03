@@ -29,8 +29,7 @@ def convert_pdf_to_webp(self, file_info, form):
     Material.create_task_record(task_id, info["material_id"], task_record_content, "pending")
     start_time = time.time()
 
-    # If the user does not select a file, the browser submits an
-    # empty file without a filename.
+    # If the user does not select a file, the browser submits an empty file without a filename.
     if file_info['filename'] == '':
         return {'error': 'No selected file'}
 
@@ -127,8 +126,7 @@ def convert_docx_to_webp(self, file_info, form):
     Material.create_task_record(task_id, info["material_id"], task_record_content, "pending")
     start_time = time.time()
 
-    # If the user does not select a file, the browser submits an
-    # empty file without a filename.
+    # If the user does not select a file, the browser submits an empty file without a filename.
     if file_info['filename'] == '':
         return {'error': 'No selected file'}
 

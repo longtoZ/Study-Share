@@ -1,4 +1,3 @@
-
 const RedirectToHomePage = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const userId = queryParams.get('user_id');

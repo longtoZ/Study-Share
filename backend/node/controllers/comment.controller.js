@@ -23,8 +23,8 @@ class CommentController {
     }
 
     static async deleteComment(req, res) {
-        const userId = req.user.id; // Assuming AuthMiddleware sets req.user
-        const { authorId } = req.body; // Assuming authorId is sent in the body
+        const userId = req.user.id;
+        const { authorId } = req.body;
 
         if (authorId && userId !== authorId) {
             return res.status(403).json({ error: "You are not authorized to delete this comment" });

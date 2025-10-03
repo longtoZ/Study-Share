@@ -1,4 +1,3 @@
-
 import React from 'react';
 import BackgroundImage from '../images/signup_background.jpeg';
 

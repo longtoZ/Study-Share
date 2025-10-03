@@ -45,9 +45,8 @@ def get_task_status(task_id):
             'result': task.result
         }
     else:
-        # something went wrong in the background job
         response = {
             'state': task.state,
-            'status': str(task.info),  # this is the exception raised
+            'status': str(task.info),
         }
     return jsonify(response)

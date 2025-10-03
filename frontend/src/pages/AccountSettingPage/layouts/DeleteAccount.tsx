@@ -35,7 +35,6 @@ const DeleteAccount = () => {
             setIsDeleting(true);
             await deleteUserAccount(userId, confirmPassword);
 
-            // Clear local storage and redirect to homepage after successful deletion
             localStorage.clear();
             window.location.href = '/';
         } catch (error: any) {

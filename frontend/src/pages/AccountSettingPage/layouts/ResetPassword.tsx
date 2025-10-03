@@ -89,6 +89,7 @@ const ResetPassword = () => {
 		const newCode = [...verificationCode];
 		newCode[idx] = value;
 		setVerificationCode(newCode);
+
 		// Move to next input if value entered
 		if (value && idx < 5) {
 			const next = document.getElementById(`verify-digit-${idx + 1}`);
@@ -110,7 +111,7 @@ const ResetPassword = () => {
 
             setRedirectMessage('Password reset successful! You are being redirected to login page...');
 
-            // Redirect to login after a short delay
+            // Redirect to login
             setTimeout(() => {
                 window.location.href = '/login';
             }, 2000);

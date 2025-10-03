@@ -67,10 +67,3 @@ def extract_all_pages_content(file_path, mime_type):
             text=response.text,
             usage=usage_details
         )
-
-# Run the function
-# extract_all_pages_content(file_path="nhom17.pdf")
-
-# Optional: List and delete all files (uncomment if needed)
-# for f in client.files.list():
-#     client.files.delete(name=f.name)
