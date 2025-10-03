@@ -6,7 +6,7 @@ env.config();
 const router = express.Router();
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: `/auth/error` }), (req, res) => {
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: `/api/auth/error` }), (req, res) => {
     // Successful authentication, redirect home.
     res.redirect(`${process.env.FRONTEND_ORIGIN}/redirect-to-home?user_id=${req.user.user_id}&token=${req.user.token}`);
 });

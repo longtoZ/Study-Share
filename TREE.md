@@ -1,4 +1,3 @@
-
 ```
 StudyShare
 ├─ ARCHITECTURE.md
@@ -97,6 +96,7 @@ StudyShare
 │     │  ├─ ai-chat.test.js
 │     │  ├─ auth.test.js
 │     │  ├─ comment.test.js
+│     │  ├─ env.js
 │     │  ├─ history.test.js
 │     │  ├─ lesson.test.js
 │     │  ├─ material.test.js
@@ -332,30 +332,72 @@ StudyShare
 │  ├─ k8s-monitoring-model.json
 │  └─ node-monitoring-model.json
 ├─ images
+│  ├─ architecture-diagram.png
+│  ├─ database-schema.png
+│  ├─ material-upload-flow.png
+│  ├─ pages
+│  │  ├─ account-settings-page-1.png
+│  │  ├─ account-settings-page-2.png
+│  │  ├─ account-settings-page-3.png
+│  │  ├─ account-settings-page-4.png
+│  │  ├─ account-settings-page-5.png
+│  │  ├─ account-settings-page-6.png
+│  │  ├─ create-lesson-page-1.png
+│  │  ├─ history-page-1.png
+│  │  ├─ image.png
+│  │  ├─ lesson-edit-page-1.png
+│  │  ├─ lesson-view-page-1.png
+│  │  ├─ login-page-1.png
+│  │  ├─ material-edit-page-1.png
+│  │  ├─ material-edit-page-2.png
+│  │  ├─ material-view-page-1.png
+│  │  ├─ material-view-page-2.png
+│  │  ├─ material-view-page-3.png
+│  │  ├─ material-view-page-4.png
+│  │  ├─ orders-page-1.png
+│  │  ├─ payment-page-1.png
+│  │  ├─ search-page-1.png
+│  │  ├─ search-page-2.png
+│  │  ├─ signup-page-1.png
+│  │  ├─ signup-page-2.png
+│  │  ├─ signup-page-3.png
+│  │  ├─ statistics-page-1.png
+│  │  ├─ statistics-page-2.png
+│  │  ├─ tasks-page-1.png
+│  │  ├─ upload-page-1.png
+│  │  ├─ upload-page-2.png
+│  │  ├─ upload-page-3.png
+│  │  ├─ user-lessons-page-1.png
+│  │  ├─ user-materials-page-2.png
+│  │  ├─ user-materisl-page-1.png
+│  │  ├─ user-profile-page-1.png
+│  │  ├─ user-profile-page-2.png
+│  │  ├─ user-profile-page-3.png
+│  │  └─ user-profile-page-4.png
 │  ├─ stripe-dashboard.png
 │  └─ stripe-payment-flow.png
 ├─ Jenkinsfile
 ├─ k8s
-│  ├─ cluster
+│  ├─ deployments
 │  │  ├─ celery-worker-deployment.yaml
 │  │  ├─ flask-backend-deployment.yaml
-│  │  ├─ flask-backend-service.yaml
 │  │  ├─ node-backend-deployment.yaml
-│  │  ├─ node-backend-service.yaml
 │  │  ├─ react-frontend-deployment.yaml
-│  │  ├─ react-frontend-service.yaml
-│  │  ├─ redis-deployment.yaml
-│  │  └─ redis-service.yaml
+│  │  └─ redis-deployment.yaml
 │  ├─ ingress
 │  │  └─ ingress.yaml
-│  └─ prometheus
-│     ├─ flask-service-monitor.yaml
-│     ├─ node-service-monitor.yaml
-│     └─ redis-service-monitor.yaml
+│  ├─ prometheus
+│  │  ├─ flask-service-monitor.yaml
+│  │  ├─ node-service-monitor.yaml
+│  │  └─ redis-service-monitor.yaml
+│  └─ services
+│     ├─ flask-backend-service.yaml
+│     ├─ node-backend-service.yaml
+│     ├─ react-frontend-service.yaml
+│     └─ redis-service.yaml
 ├─ README.md
-├─ TREE.md
-└─ wsl
-   ├─ deploy-to-kubernetes.sh
-   └─ deploy-to-minikube.sh
-
+├─ scripts
+│  ├─ deploy-to-kubernetes.sh
+│  └─ deploy-to-minikube.sh
+└─ TREE.md
 ```

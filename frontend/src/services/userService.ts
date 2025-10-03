@@ -16,9 +16,9 @@ const VERIFY_RESET_PASSWORD_ENDPOINT = ENDPOINTS.VERIFY_RESET_PASSWORD;
 const USER_STRIPE_ACCOUNT_ENDPOINT = ENDPOINTS.USER_STRIPE_ACCOUNT;
 const GOOGLE_AUTH_ENDPOINT = ENDPOINTS.GOOGLE_AUTH;
 
-const retrieveUserData = async (userId: string, requireEmail: boolean = false): Promise<any> => {
+const retrieveUserData = async (userId: string, requireEmail: boolean = false, requireStripeAccountId: boolean = false): Promise<any> => {
 	try {
-		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}${requireEmail ? '?require-email=true' : ''}`);
+		const response = await fetch(`${USER_PROFILE_ENDPOINT}/${userId}${requireEmail ? '?require-email=true' : ''}${requireStripeAccountId ? (requireEmail ? '&' : '?') + 'require-stripe-account-id=true' : ''}`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch user data');
 		}

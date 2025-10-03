@@ -102,44 +102,117 @@ Provide a comprehensive statistics dashboard for users to view our platform's pe
 - Rankings of top 5 materials based on downloads/views
 - Rankings of top 5 users based on materials uploaded
 
-### 3. Page Structure
+## 3. Page Structure
 The application consists of the following main pages:
-- **User Profile Page**: View and manage user profile details.
-    ![User Profile Page](./images/user-profile-page.png)
-- **Signup Page**: User registration interface with options for regular and Google OAuth authentication.
-    ![Signup Page](./images/signup-page.png)
-- **Login Page**: User login interface with options for regular and Google OAuth authentication.
-    ![Login Page](./images/login-page.png)
-- **Upload Page**: Upload new educational documents with metadata.
-    ![Upload Page](./images/upload-page.png)
-- **Material View Page**: View material pages (premium materials require purchase to view all pages or download), download original file, rate and comment on materials, and interact with the AI chatbot.
-    ![Material View Page](./images/material-view-page.png)
-- **Material Edit Page**: Edit material details and manage uploads.
-    ![Material Edit Page](./images/material-edit-page.png)
-- **Lesson View Page**: View lesson details and associated materials.
-    ![Lesson View Page](./images/lesson-view-page.png)
-- **Lesson Edit Page**: Edit existing lessons.
-    ![Lesson Edit Page](./images/lesson-edit-page.png)
-- **Statistics Dashboard Page**: View platform performance metrics.
-    ![Statistics Dashboard Page](./images/statistics-dashboard-page.png)
-- **Account Settings Page**: Manage user profile, change password, and update email.
-    ![Account Settings Page](./images/account-settings-page.png)
-- **Create Lesson Page**: Create and manage lessons with associated materials.
-    ![Create Lesson Page](./images/create-lesson-page.png)
-- **History Page**: View user's viewed materials.
-    ![History Page](./images/history-page.png)
-- **User's Material Page**: View materials uploaded by a specific user.
-    ![User's Material Page](./images/user-material-page.png)
-- **User's Lesson Page**: View lessons created by a specific user.
-    ![User's Lesson Page](./images/user-lesson-page.png)
-- **Orders Page**: View user's purchase history.
-    ![Orders Page](./images/orders-page.png)
-- **Payment Page**: View payment history of owned materials as a seller.
-    ![Payment Page](./images/payment-page.png)
-- **Search Page**: Search for materials and lessons with filters.
-    ![Search Page](./images/search-page.png)
-- **Task Log Page**: View background job logs for material processing.
-    ![Task Log Page](./images/task-log-page.png)
+### 3.1. User Profile Page
+View and manage user profile details, including uploaded materials, created lessons, and account settings.
+
+![User Profile Page 1](./images/pages/user-profile-page-1.png)
+![User Profile Page 2](./images/pages/user-profile-page-2.png)
+![User Profile Page 3](./images/pages/user-profile-page-3.png)
+![User Profile Page 4](./images/pages/user-profile-page-4.png)
+
+### 3.2. Signup Page
+User registration interface with options for regular and Google OAuth authentication.
+
+![Signup Page 1](./images/pages/signup-page-1.png)
+![Signup Page 2](./images/pages/signup-page-2.png)
+![Signup Page 3](./images/pages/signup-page-3.png)
+![Signup Page 4](./images/pages/signup-page-4.png)
+
+### 3.3. Login Page
+User login interface with options for regular and Google OAuth authentication.
+
+![Login Page 1](./images/pages/login-page-1.png)
+
+### 3.4. Upload Page
+Upload new educational documents with metadata.
+
+![Upload Page 1](./images/pages/upload-page-1.png)
+![Upload Page 2](./images/pages/upload-page-2.png)
+![Upload Page 3](./images/pages/upload-page-3.png)
+
+### 3.5. Material View Page
+View material pages (premium materials require purchase to view all pages or download), download original file, rate and comment on materials, and interact with the AI chatbot.
+
+![Material View Page 1](./images/pages/material-view-page-1.png)
+![Material View Page 2](./images/pages/material-view-page-2.png)
+![Material View Page 3](./images/pages/material-view-page-3.png)
+![Material View Page 4](./images/pages/material-view-page-4.png)
+
+### 3.6. Material Edit Page
+Edit existing materials (only for the uploader).
+
+![Material Edit Page 1](./images/pages/material-edit-page-1.png)
+![Material Edit Page 2](./images/pages/material-edit-page-2.png)
+
+### 3.7. Lesson View Page
+View lesson details and associated materials.
+
+![Lesson View Page 1](./images/pages/lesson-view-page-1.png)
+
+### 3.8. Lesson Edit Page
+Edit existing lessons (only for the creator).
+
+![Lesson Edit Page 1](./images/pages/lesson-edit-page-1.png)
+
+### 3.9. Statistics Dashboard Page
+View platform performance metrics and rankings.
+
+  ![Statistics Page 1](./images/pages/statistics-page-1.png)
+  ![Statistics Page 2](./images/pages/statistics-page-2.png)
+
+### 3.10. Account Settings Page
+Manage user profile details, change password, and update email.
+
+![Account Settings Page 1](./images/pages/account-settings-page-1.png)
+![Account Settings Page 2](./images/pages/account-settings-page-2.png)
+![Account Settings Page 3](./images/pages/account-settings-page-3.png)
+![Account Settings Page 4](./images/pages/account-settings-page-4.png)
+![Account Settings Page 5](./images/pages/account-settings-page-5.png)
+![Account Settings Page 6](./images/pages/account-settings-page-6.png)
+
+### 3.11. Create Lesson Page
+Create and manage lessons, including associating materials.
+
+![Create Lesson Page 1](./images/pages/create-lesson-page-1.png)
+
+### 3.12. History Page
+View the list of materials the user has viewed.
+
+![History Page 1](./images/pages/history-page-1.png)
+
+### 3.13. User's Materials Page
+Browse materials uploaded by a specific user.
+
+![User's Materials Page 1](./images/pages/user-materials-page-1.png)
+![User's Materials Page 2](./images/pages/user-materials-page-2.png)
+
+### 3.14. User's Lessons Page
+Browse lessons created by a specific user.
+
+![User's Lessons Page 1](./images/pages/user-lessons-page-1.png)
+
+### 3.15. Orders Page
+View the user's purchase history.
+
+![Orders Page 1](./images/pages/orders-page-1.png)
+
+### 3.16. Payment Page
+View payment history for materials sold by the user.
+
+![Payment Page 1](./images/pages/payment-page-1.png)
+
+### 3.17. Search Page
+Search for materials and lessons with advanced filters.
+
+![Search Page 1](./images/pages/search-page-1.png)
+![Search Page 2](./images/pages/search-page-2.png)
+
+### 3.18. Tasks Page
+View logs and status of background jobs for material processing.
+
+![Tasks Page 1](./images/pages/tasks-page-1.png)
 
 ## 4. Database Schema
 
@@ -152,28 +225,21 @@ The database schema is designed to support the application's features and ensure
 
 ### 4.2. Content Management
 - **Material**: Stores educational documents with metadata, pricing, and access control
-
 - **MaterialPage**: Stores URLs for individual pages of processed documents for optimized loading
-
 - **MaterialSummary**: Contains AI-generated summaries for each document to enhance chatbot interactions
-  
 - **Subject**: Categorizes materials by academic subjects for better organization
 
 ### 4.3. Learning Organization
 - **Lesson**: Groups related materials into structured learning units or courses
-
+  
 ### 4.4. User Interaction
 - **Comment**: Enables user feedback and discussions on educational materials
-
 - **Rating**: Tracks user ratings for materials to build reputation and quality metrics
-
 - **RatingLog**: Prevents duplicate ratings and maintains rating integrity
-
 - **Upvote**: Tracks comment popularity through user voting system
 
 ### 4.5. Activity Tracking
 - **History**: Records user viewing history for personalized recommendations and analytics
-
 - **Task**: Monitors background job processing status for document analysis and AI tasks
 
 ### 4.6. Financial Transactions
@@ -232,9 +298,114 @@ The database schema is designed to support the application's features and ensure
 - **Health Checks**: Kubernetes liveness and readiness probes for service health monitoring
 - **Log Aggregation**: Centralized logging for debugging and audit trails
 
-## 6. Technology Stack
+## 6. Directory Structure
+The project follows a modular directory structure to separate concerns and enhance maintainability:
 
-### Frontend Technologies
+```
+StudyShare/
+├── README.md                           # Project documentation
+├── TREE.md                             # Directory detailed structure
+├── docker-compose.yml                  # Local development orchestration
+├── .gitignore                          # Git ignore rules
+├── Jenkinsfile                         # Jenkins CI/CD pipeline configuration 
+│
+├── frontend/                           # React TypeScript Frontend
+│   ├── public/                         # Static assets
+│   ├── dist/                           # Built frontend files
+│   ├── src/                            # Source code
+│   │   ├── assets/                     # Static assets (images, fonts, etc.)
+│   │   ├── components/                 # Reusable React components
+│   │   │   ├── common/                 # Shared components
+│   │   │   ├── layout/                 # Shared layout components (Header, Footer, Sidebar)
+│   │   ├── interfaces/                 # TypeScript type definitions
+│   │   ├── constants/                  # Application constants
+│   │   ├── pages/                      # Page components
+│   │   │   ├── AccountSettingsPage/
+│   │   │   │   ├── components/         # Sub-components for Account Settings
+│   │   │   │   ├── layouts/            # Layout components for Account Settings
+│   │   │   │   ├── images/             # Images used in Account Settings
+│   │   │   │   └── AccountSettingsPage.tsx # Main Account Settings Page component
+│   │   │   ├── CreateLessonPage/
+│   │   │   ├── HistoryPage/
+│   │   │   └── [Other pages...]
+│   │   ├── redux/                     # Redux state management
+│   │   ├── services/                  # API service functions
+│   │   ├── utils/                     # Utility functions
+│   │   ├── styles/                    # Global styles
+│   │   ├── App.tsx                    # Main application component
+│   │   ├── main.tsx                   # Application entry point
+│   │   └── vite-env.d.ts              # Vite environment types
+│   ├── tests/                         # Frontend test files
+│   │   ├── AccountSettingPage/        # Account Settings Page tests
+│   │   ├── [Other page tests...]
+│   │   └── setup.ts                   # Test configuration
+│   ├── .react.env                     # React environment variables
+│   ├── Dockerfile                     # Frontend container configuration
+│   ├── entrypoint.sh                  # Nginx entrypoint script
+│   ├── eslint.config.js               # ESLint configuration
+│   ├── index.html                     # HTML template
+│   ├── nginx.conf                     # Nginx configuration
+│   ├── package.json                   # Frontend dependencies
+│   ├── tailwind.config.js             # Tailwind CSS configuration
+│   ├── tsconfig.json                  # TypeScript configuration
+│   ├── vite.config.ts                 # Vite configuration
+│   └── vitest.config.ts               # Vitest configuration
+│
+├── backend/                           # Backend services
+│   ├── node/                          # Node.js Express Backend
+│   │   ├── config/                    # Configuration files for services
+│   │   ├── constants/                 # Application constants
+│   │   ├── controllers/               # Request handlers
+│   │   ├── middleware/                # Express middleware
+│   │   ├── models/                    # Database models
+│   │   ├── routes/                    # API route definitions
+│   │   ├── services/                  # Business logic
+│   │   ├── tests/                     # Node.js backend tests
+│   │   ├── uploads/                   # Temporary file storage
+│   │   ├── utils/                     # Utility functions
+│   │   ├── Dockerfile                 # Node.js container configuration
+│   │   ├── .node.env                  # Node.js environment variables
+│   │   └── server.js                  # Main server entry point
+│   │
+│   └── flask/                         # Python Flask Backend
+│       ├── app/                       # Flask application
+│       │   ├── __init__.py            # Flask app initialization
+│       │   ├── routes.py              # Flask route definitions
+│       │   ├── config/                # Flask configuration
+│       │   ├── constants/             # Flask constants
+│       │   ├── models/                # Flask data models
+│       │   └── services/              # Flask services
+│       ├── instance/                  # Flask instance folder
+│       ├── output_pdf/                # Processed PDF output
+│       ├── output_webp/               # Converted image output
+│       ├── uploads/                   # Temporary upload storage
+│       ├── .dockerignore              # Docker ignore rules
+│       ├── .flask.env                 # Flask environment variables
+│       ├── wsgi.py                    # WSGI application entry point
+│       ├── requirements.txt           # Python dependencies
+│       ├── .gitignore                 # Git ignore rules
+│       └── Dockerfile                 # Flask container configuration
+│
+├── database/                          # Database schema file
+│
+├── k8s/                               # Kubernetes deployment manifests
+│   ├── deployments/                   # Application deployments
+│   ├── services/                      # Kubernetes services
+│   └── ingress/                       # Ingress configurations
+│
+├── grafana/                           # Monitoring configurations
+│
+├── images/                            # Documentation images
+│   └── pages/                         # Page screenshots
+│
+└── scripts/                           # Utility scripts
+```
+
+The complete directory structure is documented in `TREE.md`.
+
+## 7. Technology Stack
+
+### 7.1. Frontend Technologies
 
 #### Core Framework & Language
 | Technology | Version | Purpose |
@@ -265,7 +436,7 @@ The database schema is designed to support the application's features and ensure
 | Stripe.js | 7.9.0 | Payment processing integration |
 | UUID | 11.1.0 | Unique identifier generation |
 
-### Backend Technologies
+### 7.2. Backend Technologies
 
 #### Node.js Backend Service
 | Technology | Version | Purpose |
@@ -315,7 +486,7 @@ The database schema is designed to support the application's features and ensure
 | Nodemailer | 7.0.6 | Email service integration |
 | Node-cron | 4.2.1 | Task scheduling and automation |
 
-### DevOps & Infrastructure
+### 7.3. DevOps & Infrastructure
 
 #### Containerization & Orchestration
 | Technology | Version | Purpose |

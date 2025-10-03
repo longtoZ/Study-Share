@@ -47,10 +47,10 @@ class User {
         return data;
     }
 
-    static async findByID(user_id, requireEmail = false, requireVerificationCode = false) {
+    static async findByID(user_id, requireEmail = false, requireStripeAccountId = false, requireVerificationCode = false) {
         const { data, error } = await supabase
             .from(TABLES.USER)
-            .select(`user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url${requireEmail ? ', email' : ''}${requireVerificationCode ? ', verification_code' : ''}`)
+            .select(`user_id, full_name, gender, bio, profile_picture_url, date_of_birth, address, background_image_url${requireEmail ? ', email' : ''}${requireVerificationCode ? ', verification_code' : ''}${requireStripeAccountId ? ', stripe_account_id' : ''}`)
             .eq('user_id', user_id)
             .single();
 

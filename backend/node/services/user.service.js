@@ -84,8 +84,8 @@ class UserService {
         return { user: userWithoutPasswordHash, token };
     }
 
-    async getUserById(userId, requireEmail = false) {
-        const user = await User.findByID(userId, requireEmail);
+    async getUserById(userId, requireEmail = false, requireStripeAccountId = false) {
+        const user = await User.findByID(userId, requireEmail, requireStripeAccountId);
         if (!user) {
             throw new Error('Failed to fetch user data');
         }

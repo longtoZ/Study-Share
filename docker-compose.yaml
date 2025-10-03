@@ -4,14 +4,13 @@ services:
   react-frontend:
     build: ./frontend
     env_file:
-      - ./frontend/.env
+      - ./frontend/.react.env
     ports:
       - "80:80"
     depends_on:
       - node-backend
       - flask-backend
 
-    
   node-backend:
     build: ./backend/node
     ports:
@@ -19,7 +18,7 @@ services:
     depends_on:
       - redis
     env_file:
-      - ./backend/node/.env
+      - ./backend/node/.node.env
     
   flask-backend:
     build: ./backend/flask
@@ -28,7 +27,7 @@ services:
     depends_on:
       - redis
     env_file:
-      - ./backend/flask/.env
+      - ./backend/flask/.flask.env
   
   celery-worker:
     build: ./backend/flask
@@ -36,7 +35,7 @@ services:
     depends_on:
       - redis
     env_file:
-      - ./backend/flask/.env
+      - ./backend/flask/.flask.env
   
   redis:
     image: "redis:alpine"

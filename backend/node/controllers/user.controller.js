@@ -54,9 +54,10 @@ class UserController {
     static async getUserProfile(req, res) {
         const { userId } = req.params;
         const requireEmail = req.query['require-email'];
+        const requireStripeAccountId = req.query['require-stripe-account-id'];
 
         try {
-            const user = await UserService.getUserById(userId, requireEmail === 'true');
+            const user = await UserService.getUserById(userId, requireEmail === 'true', requireStripeAccountId === 'true');
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }

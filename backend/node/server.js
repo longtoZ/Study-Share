@@ -61,7 +61,7 @@ app.use('/api/history', historyRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/statistics', statisticsRoutes);
 app.use('/api/ai-chat', aiChatRoutes);
-app.use('/auth', googleOAuthRoutes);
+app.use('/api/auth', googleOAuthRoutes);
 app.use('/api/tasks', taskRoutes);
 
 app.listen(PORT, () => {

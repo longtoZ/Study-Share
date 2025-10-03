@@ -4,7 +4,7 @@ import StripeLogo from '../images/stripe_logo.png';
 import { retrieveUserData, updateUserProfile } from '@/services/userService';
 import { ENDPOINTS } from '@/constants/endpoints';
 
-const STRIPE_CLIENT_ID = window.env?.VITE_STRIPE_CLIENT_ID || 'VITE_STRIPE_CLIENT_ID';
+const STRIPE_CLIENT_ID = window.env?.VITE_STRIPE_CLIENT_ID || import.meta.env.VITE_STRIPE_CLIENT_ID;
 const STRIPE_REDIRECT_URI = ENDPOINTS.STRIPE_REDIRECT_URI;
 
 const ConnectStripe = () => {
@@ -13,7 +13,7 @@ const ConnectStripe = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const userData = await retrieveUserData(userId);
+            const userData = await retrieveUserData(userId, false, true);
             console.log('Fetched user data:', userData);
             if (userData && userData.stripe_account_id) {
                 setStripeAccountId(userData.stripe_account_id);
