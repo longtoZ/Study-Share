@@ -2,13 +2,13 @@
 
 ## 1. Project Overview
 
-StudyShare is a modern, full-stack web application designed as an educational document sharing platform, similar to Studocu. The platform enables students to upload, share, and access academic materials while leveraging AI-powered features for enhanced learning experiences. Built with a microservices architecture, the application ensures scalability, maintainability, and high performance.
+StudyShare is a modern, full-stack web application designed as an educational document sharing platform. The platform enables students to upload, share, and access academic materials while leveraging AI-powered features for enhanced learning experiences. Built with a microservices architecture, the application ensures scalability, maintainability, and high performance.
 
 ![Architecture Diagram](./images/architecture-diagram.png)
 
 ## 2. Key Features
 ### 2.1. User Authorization
-Allow basic user registration and login or via Google OAuth 2.0 (via Passport.js). The flow process is as follows:
+Allow basic user registration and login or via **Google OAuth 2.0** (via Passport.js). The flow process is as follows:
 
 - User selects authentication method (Regular or Google OAuth).
   
@@ -16,7 +16,7 @@ Allow basic user registration and login or via Google OAuth 2.0 (via Passport.js
   
 - Upon successful authentication, user data is stored in the database, and a JWT token is generated for session management.
   
-- Protected routes use middleware to validate JWT tokens on each request.
+- Protected routes use middleware to validate **JWT tokens** on each request.
   
 - Frontend implements Google OAuth button/link, popup or redirect-based authentication, token storage and management, and automatic login state management.
   
@@ -31,18 +31,18 @@ The following table summarizes the differences between Regular Auth and Google O
 | Security | Password hashing and validation | OAuth 2.0 security protocols |
 
 ### 2.2. Material Upload with AI Summarization
-Enable users to upload educational documents (PDF, DOCX) and automatically generate AI-based summaries using Gemini 2.5 Pro API. The summarization process is handled in background jobs to ensure responsiveness. The process is as follows:
+Enable users to upload educational documents (PDF, DOCX) and automatically generate AI-based summaries using **Gemini 2.5 Pro API**. The summarization process is handled in background jobs to ensure responsiveness. The process is as follows:
 
 - User uploads a material and provides metadata (title, description, subject, etc.).
   
-- The data is added to the database using Nodejs backend, and a background job is triggered to process the document using Flask microservice.
+- The data is added to the database using **Nodejs backend**, and a background job is triggered to process the document using **Flask microservice**.
   
-- The background job is queued using Celery and Redis to handle asynchronous processing. The job can be described as follows:
+- The background job is queued using **Celery and Redis** to handle asynchronous processing. The job can be described as follows:
     - The document is splitted into pages. It's images are stored temporarily in Redis to make it easier for the AI model to process them. User can check the task log in the frontend to see the progress of the job.
   
     - All pages are sent to AI model to generate a detailed summary of the document. The summary is stored in the database so that every time a user asks for the material's content, the AI model can use the summary to generate a more accurate response and doesn't need to process the whole document again.
   
-    - The pages are then uploaded to Supbase Bucket for storage, their URLs are stored in the database, identified by the document ID. The original material file is also stored in Supbase Bucket and its URL is saved in the database.
+    - The pages are then uploaded to **Supbase Bucket** for storage, their URLs are stored in the database, identified by the document ID. The original material file is also stored in Supbase Bucket and its URL is saved in the database.
   
     - Once the job is completed, user can access the material's page to view the summary and download the original file. Whenever a user views the material's page, the backend will create a chat session with the content of the document so that user can ask questions about the document. When the user leaves the page, the chat session will be deleted to save resources.
   
@@ -51,7 +51,7 @@ Enable users to upload educational documents (PDF, DOCX) and automatically gener
         ![Material Upload Flow](./images/material-upload-flow.png)
 
 ### 2.3. Payment Integration
-Implement Stripe payment gateway for selling and purchasing premium documents. The payment flows are implemented as follows:
+Implement **Stripe payment gateway** for selling and purchasing premium documents. The payment flows are implemented as follows:
 
 - Buyer initiates purchase of a material and enters Stripe checkout page.
   
@@ -66,11 +66,11 @@ Implement Stripe payment gateway for selling and purchasing premium documents. T
     ![Stripe Dashboard](./images/stripe-dashboard.png)
     
 ### 2.5. OTP Verification
-Implement OTP verification for sensitive actions like password reset and email change. The OTP verification process is as follows:
+Implement **OTP verification** for sensitive actions like password reset and email change. The OTP verification process is as follows:
 
 - User requests OTP for a specific action (e.g., password reset).
 
-- System generates a secure OTP and sends it to the user's registered email address using an email service. This task is handled in background jobs using `node-cron` to ensure timely delivery.
+- System generates a secure OTP and sends it to the user's registered email address using **Node Mailer**. This task is handled in background jobs using **node-cron** to ensure timely delivery.
   
 - User receives the OTP and enters it on the verification page.
   
@@ -137,6 +137,8 @@ View material pages (premium materials require purchase to view all pages or dow
 
 ![Material View Page 1](./images/pages/material-view-page-1.png)
 ![Material View Page 2](./images/pages/material-view-page-2.png)
+![Material View Page 5](./images/pages/material-view-page-5.png)
+![Material View Page 6](./images/pages/material-view-page-6.png)
 ![Material View Page 3](./images/pages/material-view-page-3.png)
 ![Material View Page 4](./images/pages/material-view-page-4.png)
 
@@ -273,10 +275,8 @@ The database schema is designed to support the application's features and ensure
 - **Frontend Testing**: 
   - Unit Tests: Vitest and React Testing Library
   - Component Testing: Material-UI component integration tests
-  - State Management: Redux store and action testing
 - **Node.js Backend Testing**: 
   - Unit Tests: Jest framework with Supertest for HTTP endpoint testing
-  - Integration Tests: Database operations and external API integrations
   - Authentication Tests: JWT token validation and OAuth flow testing
 
 ### 5.5. Deployment Infrastructure
@@ -287,13 +287,12 @@ The database schema is designed to support the application's features and ensure
 - **Load Balancing**: 
   - AWS Application Load Balancer (ALB) for external traffic distribution
   - NGINX Ingress Controller for internal service routing and SSL termination
-- **Service Discovery**: Kubernetes native service discovery with DNS resolution
 
 ### 5.6. Monitoring & Observability
 - **Metrics Collection**: 
   - Prometheus for metrics aggregation from all services
-  - Node.js: prom-client for custom application metrics
-  - Flask: prometheus_flask_exporter for Python service metrics
+  - Node.js: `prom-client` for custom application metrics
+  - Flask: `prometheus_flask_exporter` for Python service metrics
 - **Visualization**: Grafana dashboards for real-time monitoring and alerting
 - **Health Checks**: Kubernetes liveness and readiness probes for service health monitoring
 - **Log Aggregation**: Centralized logging for debugging and audit trails
@@ -419,7 +418,6 @@ The complete directory structure is documented in `TREE.md`.
 |------------|---------|---------|
 | Tailwind CSS | 4.1.11 | Utility-first CSS framework |
 | Material-UI (MUI) | 7.2.0 | React component library |
-| Emotion | 11.14.0 | CSS-in-JS styling |
 
 #### State Management & Routing
 | Technology | Version | Purpose |
@@ -523,3 +521,12 @@ The complete directory structure is documented in `TREE.md`.
 
 ## 8. License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 9. Acknowledgements
+- Thanks to the open-source community for the libraries and tools that made this project possible.
+- Special thanks to Google for providing the Generative AI API.
+- Thanks to Stripe for their robust payment processing solutions.
+- Thanks to Supabase for their excellent backend-as-a-service platform.
+- Thanks to AWS free tier for providing the infrastructure to host this application.
+- Thanks to Pinterest for the inspiration on the UI design.
+- Thanks to all AI tools (Gemini, Grok, Claude) that helped in fixing bugs.

@@ -1,6 +1,6 @@
+
 ```
 StudyShare
-├─ ARCHITECTURE.md
 ├─ backend
 │  ├─ flask
 │  │  ├─ .dockerignore
@@ -90,7 +90,6 @@ StudyShare
 │     │  ├─ payment.service.js
 │     │  ├─ rating.service.js
 │     │  ├─ statistics.service.js
-│     │  ├─ subject.service.js
 │     │  └─ user.service.js
 │     ├─ tests
 │     │  ├─ ai-chat.test.js
@@ -112,6 +111,7 @@ StudyShare
 │        ├─ sendEmail.js
 │        ├─ validation.js
 │        └─ verifyPasswordReset.js
+├─ COUNTER.md
 ├─ database
 │  └─ schema.sql
 ├─ docker-compose.yaml
@@ -400,4 +400,5 @@ StudyShare
 │  ├─ deploy-to-kubernetes.sh
 │  └─ deploy-to-minikube.sh
 └─ TREE.md
+
 ```
