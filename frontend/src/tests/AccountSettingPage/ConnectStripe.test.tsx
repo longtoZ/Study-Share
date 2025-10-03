@@ -45,7 +45,7 @@ describe('ConnectStripe Component', () => {
 
       // Wait for async data loading to complete
       await waitFor(() => {
-        expect(mockRetrieveUserData).toHaveBeenCalledWith('user123');
+        expect(mockRetrieveUserData).toHaveBeenCalledWith('user123', false, true);
       });
 
       // Assertions: Check if connect button is displayed

@@ -227,7 +227,7 @@ describe('User Controller Tests', () => {
             await UserController.getUserProfile(mockReq, mockRes);
 
             // Assert
-            expect(UserService.getUserById).toHaveBeenCalledWith(userId, true);
+            expect(UserService.getUserById).toHaveBeenCalledWith(userId, true, false);
             expect(mockRes.status).toHaveBeenCalledWith(200);
             expect(mockRes.json).toHaveBeenCalledWith({
                 message: 'User profile fetched successfully',
