@@ -65,7 +65,7 @@ Implement **Stripe payment gateway** for selling and purchasing premium document
 
     ![Stripe Dashboard](./images/stripe-dashboard.png)
     
-### 2.5. OTP Verification
+### 2.4. OTP Verification
 Implement **OTP verification** for sensitive actions like password reset and email change. The OTP verification process is as follows:
 
 - User requests OTP for a specific action (e.g., password reset).
@@ -271,7 +271,7 @@ The database schema is designed to support the application's features and ensure
 - **Container Registry**: Docker images stored and versioned for deployment
 - **Environment Configuration**: Separate environment files for development, staging, and production
 
-### 5.5. Testing Strategy
+### 5.4. Testing Strategy
 - **Frontend Testing**: 
   - Unit Tests: Vitest and React Testing Library
   - Component Testing: Material-UI component integration tests
@@ -293,9 +293,17 @@ The database schema is designed to support the application's features and ensure
   - Prometheus for metrics aggregation from all services
   - Node.js: `prom-client` for custom application metrics
   - Flask: `prometheus_flask_exporter` for Python service metrics
+  
+  ![Prometheus Target Health](./images/prometheus-target-health.png)
+
 - **Visualization**: Grafana dashboards for real-time monitoring and alerting
 - **Health Checks**: Kubernetes liveness and readiness probes for service health monitoring
 - **Log Aggregation**: Centralized logging for debugging and audit trails
+  
+  ![Grafana Dashboard](./images/grafana-dashboard.png)
+  ![Grafana CoreDNS Stats](./images/grafana-coredns.png)
+  ![Grafana Node Exporter](./images/grafana-nodejs.png)
+  ![Grafana Prometheus Stats](./images/grafana-prometheus.png)
 
 ## 6. Directory Structure
 The project follows a modular directory structure to separate concerns and enhance maintainability:

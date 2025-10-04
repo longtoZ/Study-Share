@@ -334,6 +334,10 @@ StudyShare
 ├─ images
 │  ├─ architecture-diagram.png
 │  ├─ database-schema.png
+│  ├─ grafana-coredns.png
+│  ├─ grafana-dashboard.png
+│  ├─ grafana-nodejs.png
+│  ├─ grafana-prometheus.png
 │  ├─ material-upload-flow.png
 │  ├─ pages
 │  │  ├─ account-settings-page-1.png
@@ -344,7 +348,6 @@ StudyShare
 │  │  ├─ account-settings-page-6.png
 │  │  ├─ create-lesson-page-1.png
 │  │  ├─ history-page-1.png
-│  │  ├─ image.png
 │  │  ├─ lesson-edit-page-1.png
 │  │  ├─ lesson-view-page-1.png
 │  │  ├─ login-page-1.png
@@ -354,6 +357,8 @@ StudyShare
 │  │  ├─ material-view-page-2.png
 │  │  ├─ material-view-page-3.png
 │  │  ├─ material-view-page-4.png
+│  │  ├─ material-view-page-5.png
+│  │  ├─ material-view-page-6.png
 │  │  ├─ orders-page-1.png
 │  │  ├─ payment-page-1.png
 │  │  ├─ search-page-1.png
@@ -361,6 +366,7 @@ StudyShare
 │  │  ├─ signup-page-1.png
 │  │  ├─ signup-page-2.png
 │  │  ├─ signup-page-3.png
+│  │  ├─ signup-page-4.png
 │  │  ├─ statistics-page-1.png
 │  │  ├─ statistics-page-2.png
 │  │  ├─ tasks-page-1.png
@@ -368,12 +374,13 @@ StudyShare
 │  │  ├─ upload-page-2.png
 │  │  ├─ upload-page-3.png
 │  │  ├─ user-lessons-page-1.png
+│  │  ├─ user-materials-page-1.png
 │  │  ├─ user-materials-page-2.png
-│  │  ├─ user-materisl-page-1.png
 │  │  ├─ user-profile-page-1.png
 │  │  ├─ user-profile-page-2.png
 │  │  ├─ user-profile-page-3.png
 │  │  └─ user-profile-page-4.png
+│  ├─ prometheus-target-health.png
 │  ├─ stripe-dashboard.png
 │  └─ stripe-payment-flow.png
 ├─ Jenkinsfile
@@ -395,6 +402,7 @@ StudyShare
 │     ├─ node-backend-service.yaml
 │     ├─ react-frontend-service.yaml
 │     └─ redis-service.yaml
+├─ LICENSE
 ├─ README.md
 ├─ scripts
 │  ├─ deploy-to-kubernetes.sh
